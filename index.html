@@ -580,21 +580,27 @@
 			questions: [
 		   		{prompt: '"While playing the '+HiMISpan+', I felt absorbed in what I was doing."',
 		   		name: 'HiMI_Absorbed',
+                required: 'true',
 		   		labels: scale_1},
 		   		{prompt: '"While playing the '+HiMISpan+', I felt immersed in what I was doing."',
 		   		name: 'HiMI_Immersed',
+                required: 'true',
 		   		labels: scale_1},
 		   		{prompt: '"While playing the '+HiMISpan+', I felt engaged in what I was doing."',
 		   		name: 'HiMI_Engaged',
+                required: 'true',
 		   		labels: scale_1},
 		   		{prompt: '"Playing the '+HiMISpan+' was addictive."',
 		   		name: 'HiMI_Addictive',
+                required: 'true',
 		   		labels: scale_1},
-		   		{prompt: '"I felt like the '+HiMISpan+' took a long time to finish."',
+		   		{prompt: '"I felt like the '+HiMISpan+' took a long time to finish."', 
 		   		name: 'HiMI_LongTime',
+                required: 'true',
 		   		labels: scale_1},	   		
 		   		{prompt: '"I would like to play the '+HiMISpan+' again."',
 		   		name: 'HiMI_PlayAgain',
+                required: 'true',
 		   		labels: scale_1},
 		  	],
 		  	randomize_question_order: true,
@@ -610,21 +616,27 @@
 			questions: [
 		   		{prompt: '"While playing the '+LoMISpan+', I felt absorbed in what I was doing."',
 		   		name: 'LoMI_Absorbed',
+                required: 'true',
 		   		labels: scale_1},
 		   		{prompt: '"While playing the '+LoMISpan+', I felt immersed in what I was doing."',
 		   		name: 'LoMI_Focused',
+                required: 'true',
 		   		labels: scale_1},
 		   		{prompt: '"While playing the '+LoMISpan+', I felt engaged in what I was doing."',
 		   		name: 'LoMI_Engaged',
+                required: 'true',
 		   		labels: scale_1},
 		   		{prompt: '"Playing the '+LoMISpan+' was addictive."',
 		   		name: 'LoMI_Addictive',
+                required: 'true',
 		   		labels: scale_1},
 		   		{prompt: '"I felt like the '+LoMISpan+' took a long time to finish."',
 		   		name: 'LoMI_LongTime',
+                required: 'true',
 		   		labels: scale_1},		   		
 		   		{prompt: '"I would like to play the '+LoMISpan+' again."',
 		   		name: 'LoMI_PlayAgain',
+                required: 'true',
 		   		labels: scale_1},
 		  	],
 		  	randomize_question_order: true,
@@ -651,9 +663,16 @@
 
 		timeline.push(test_procedure)
 
-    	/* start the experiment */
-    	jsPsych.init({
-    		timeline: timeline
-    	});
+//    	/* start the experiment */
+//    	jsPsych.init({
+//    		timeline: timeline
+//    	});
+        
+        jsPsych.init({
+           timeline: timeline,
+           on_finish: function() {
+               jsPsych.data.displayData();
+           }
+       });
     </script>
 </html>
