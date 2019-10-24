@@ -1,7 +1,93 @@
 <!DOCTYPE html>
 <html>
     <head>
+        
+        
+// HOSTING AND STORAGE
+        
+        
         <title>My experiment</title>
+        
+
+       <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyCJxLIsRerhlA5LDIvefORPhDhi9aX5U2A",
+    authDomain: "mi-game-d915c.firebaseapp.com",
+    databaseURL: "https://mi-game-d915c.firebaseio.com",
+    projectId: "mi-game-d915c",
+    storageBucket: "mi-game-d915c.appspot.com",
+    messagingSenderId: "229626364084",
+    appId: "1:229626364084:web:f3edfb40ddee5fd29397e1"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+            
+/Updating an existing field:
+       //db.collection("tasks").doc('outrage-learning-twitter').collection('participants').doc(uid).update({
+       //total_points: number_of_points
+       //});
+    
+        // Enable persistence
+
+        firebase.firestore().enablePersistence()
+
+            .catch(function(err) {
+
+            if (err.code == 'failed-precondition') {
+
+                // If multiple tabs are open, persistence can only be enabled in one tab at a time
+
+            } else if (err.code == 'unimplemented') {
+
+                // The current browser does not support all of the features required to enable persistence
+
+            }
+
+        });
+
+            
+
+        // Sign in
+
+        firebase.auth().onAuthStateChanged(function(user) {
+
+            if (user) {
+
+                uid = user.uid;
+
+            }
+
+        });
+
+        
+
+        //Create reference to the database
+
+        var db = firebase.firestore();
+
+            
+
+        //Create a document in `db ` for the current participant
+
+        db.collection("tasks").doc('outrage-learning-twitter').collection("participants").doc(uid).set({
+
+            participantID: participantID, // Refers to the participant's ID from Prolific
+
+            date: new Date().toLocaleDateString(),
+
+            time: new Date().toLocaleTimeString()
+
+        });
+
+
+
         <script src="jspsych-6.1.0/jspsych.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-slider-response.js"></script>
@@ -13,6 +99,9 @@
     </head>
     <body></body>
     <script>
+            
+            
+// FRONT END (TASK)
 
     	// Define Stimuli
 		var balance = jsPsych.randomization.sampleWithReplacement([1, 0], 1)
@@ -417,35 +506,62 @@
     		trial_duration: 1500,
 		}
 
-		var HiMI_procedure = {
+//		var HiMI_procedure = {
+//			timeline: [Delay, TooFast, Probe, Response_HiMI, Feedback_90_10],
+//			timeline_variables: [
+//				{Duration: 250}, {Duration: 250}, {Duration: 250}, {Duration: 250}, {Duration: 250},
+//				{Duration: 750}, {Duration: 750}, {Duration: 750}, {Duration: 750},	{Duration: 750},
+//			],
+//			randomize_order: true,
+//			repetitions: 3,
+//		}
+//
+//		var LoMI1_procedure = {
+//			timeline: [Delay, TooFast, Probe, Response_LoMI, Feedback_60_40],
+//			timeline_variables: [
+//				{Duration: 250}, {Duration: 250}, {Duration: 250}, {Duration: 250}, {Duration: 250},
+//				{Duration: 750}, {Duration: 750}, {Duration: 750}, {Duration: 750},	{Duration: 750},
+//			],
+//			randomize_order: true,
+//			repetitions: 3,
+//		}
+//
+//		var LoMI2_procedure = {
+//			timeline: [Delay, TooFast, Probe, Response_LoMI, Feedback_90_10],
+//			timeline_variables: [
+//				{Duration: 250}, {Duration: 750}, {Duration: 750}, {Duration: 750}, {Duration: 750},
+//				{Duration: 750}, {Duration: 750}, {Duration: 750}, {Duration: 750},	{Duration: 750},
+//			],
+//			randomize_order: true,
+//			repetitions: 3,
+//		}
+        
+        
+ 		var HiMI_procedure = {
 			timeline: [Delay, TooFast, Probe, Response_HiMI, Feedback_90_10],
 			timeline_variables: [
-				{Duration: 250}, {Duration: 250}, {Duration: 250}, {Duration: 250}, {Duration: 250},
-				{Duration: 750}, {Duration: 750}, {Duration: 750}, {Duration: 750},	{Duration: 750},
-			],
+				{Duration: 250}],
 			randomize_order: true,
-			repetitions: 3,
+			repetitions: 2,
 		}
 
 		var LoMI1_procedure = {
 			timeline: [Delay, TooFast, Probe, Response_LoMI, Feedback_60_40],
 			timeline_variables: [
-				{Duration: 250}, {Duration: 250}, {Duration: 250}, {Duration: 250}, {Duration: 250},
-				{Duration: 750}, {Duration: 750}, {Duration: 750}, {Duration: 750},	{Duration: 750},
-			],
+				{Duration: 250}],
 			randomize_order: true,
-			repetitions: 3,
+			repetitions: 2,
 		}
 
 		var LoMI2_procedure = {
 			timeline: [Delay, TooFast, Probe, Response_LoMI, Feedback_90_10],
 			timeline_variables: [
-				{Duration: 250}, {Duration: 750}, {Duration: 750}, {Duration: 750}, {Duration: 750},
-				{Duration: 750}, {Duration: 750}, {Duration: 750}, {Duration: 750},	{Duration: 750},
-			],
+				{Duration: 250}],
 			randomize_order: true,
-			repetitions: 3,
-		}
+			repetitions: 2,
+		}       
+        
+        
 
 		var scale_1 = [
 			"-3<br>Strongly<br>Disagree",
