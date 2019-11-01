@@ -54,6 +54,14 @@
           }
         });
     
+    
+        if (uid !== null && uid !== undefined){
+            console.log(uid)
+        }else{
+            console.log("stringfailure")
+        };
+        
+            
         //Create reference to the database
         var db = firebase.firestore();
             
@@ -63,6 +71,13 @@
             date: new Date().toLocaleDateString(),
             time: new Date().toLocaleTimeString()
         });
+    
+        db.collection("tasks").doc('new_task').collection('subjects').doc(uid).set({
+            subjectID: subjectID,  // this refers to the subject's ID from prolific
+            date: new Date().toLocaleDateString(),
+            time: new Date().toLocaleTimeString()
+        })
+
     
                 
     //Updating an existing field: (an example)
