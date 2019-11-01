@@ -6,12 +6,13 @@
 
        <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-app.js"></script>
+        
+        
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
         <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-firestore.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-auth.js"></script>
         
-
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
 
 <script>
   // Your web app's Firebase configuration
@@ -28,6 +29,8 @@
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 
+    
+    
         // Enable persistence
         firebase.firestore().enablePersistence()
             .catch(function(err) {
@@ -50,27 +53,25 @@
             uid = user.uid;
           }
         });
-
-        console.log(uid);
+    
         //Create reference to the database
         var db = firebase.firestore();
             
         //Create a document in `db ` for the current participant
-        db.collection("Tasks").doc('mi-game').collection("participants").doc(uid).set({
-            participantID: participantID, // Refers to the participant's ID from Prolific
+        db.collection("Tasks").doc("mi-game").collection("participants").doc(uid).set({
+//            participantID: participantID, // Refers to the participant's ID from Prolific
             date: new Date().toLocaleDateString(),
             time: new Date().toLocaleTimeString()
         });
     
                 
     //Updating an existing field: (an example)
-       //db.collection("tasks").doc('mi-game').collection('participants').doc(uid).update({
+       //db.collection("Tasks").doc('mi-game').collection('participants').doc(uid).update({
        //total_points: number_of_points
        //});
     
-
-
     </script>
+        
         <script src="jspsych-6.1.0/jspsych.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-slider-response.js"></script>
