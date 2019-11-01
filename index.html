@@ -58,7 +58,7 @@
         var db = firebase.firestore();
             
         //Create a document in `db ` for the current participant
-        db.collection("Tasks").doc("mi-game").collection("participants").doc(uid).set({
+        db.collection("Test").doc("TestDoc").collection("TestPart").doc(uid).set({
 //            participantID: participantID, // Refers to the participant's ID from Prolific
             date: new Date().toLocaleDateString(),
             time: new Date().toLocaleTimeString()
