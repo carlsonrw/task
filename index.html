@@ -5,13 +5,13 @@
         
 
        <!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
         
         
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
-        <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-firestore.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
         
 
 <script>
@@ -25,12 +25,12 @@
     messagingSenderId: "229626364084",
     appId: "1:229626364084:web:f3edfb40ddee5fd29397e1"
   };
-    
+ 
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
-
+  
     
-    
+   
         // Enable persistence
         firebase.firestore().enablePersistence()
             .catch(function(err) {
@@ -43,30 +43,43 @@
             
         // Sign in
         firebase.auth().signInAnonymously();
-
+ 
         // User ID
-        var uid;
+        var uid = "id";
+     
+//    firebase.auth().signInAnonymously().catch(function(error) {
+//                            // Handle Errors here.
+//                            var errorCode = error.code;
+//                            var errorMessage = error.message;
+//                            console.log(errorMessage);
+//                            // ...
+//                        });
 
-    firebase.auth().signInAnonymously().catch(function(error) {
-                            // Handle Errors here.
-                            var errorCode = error.code;
-                            var errorMessage = error.message;
-                            console.log(errorMessage);
-                            // ...
-                        });
-
-//        // When signed in, get the user ID
+        // When signed in, get the user ID
+        firebase.auth().onAuthStateChanged(function(user) {
+                                if (user) {
+                                    console.log("logged in");
+                                    var uid = user.uid;
+                                    console.log('Signed in as ' + uid)
+                                    } else {
+            // No user is signed in.
+          }});
+//    
 //        firebase.auth().onAuthStateChanged(function(user) {
 //          if (user) {
-//            uid = user.uid;
+//            // User is signed in.
+//          } else {
+//            // No user is signed in.
 //          }
 //        });
-
-            firebase.auth().onAuthStateChanged(function(user) {
-                                if (user) {
-                                    console.log("logged in")
-                                    var uid = user.uid;
-                                    console.log('Signed in as ' + uid)}};
+    
+        //Updating an existing field: (an example)
+       //db.collection("Tasks").doc('mi-game').collection('participants').doc(uid).update({
+       //total_points: number_of_points
+       //});
+      
+        
+    console.log(uid)
 
     
         if (uid !== null && uid !== undefined){
@@ -75,7 +88,7 @@
             console.log("stringfailure")
         };
         
-            
+
         //Create reference to the database
         var db = firebase.firestore();
             
@@ -92,7 +105,7 @@
 //            time: new Date().toLocaleTimeString()
 //        })
 //    
-        db.collection("Test").doc("TestDoc").collection("TestPart").doc("testsubject").set({
+        db.collection("Test").doc("TestDoc").collection("TestPart").doc(uid).set({
         //            participantID: participantID, // Refers to the participant's ID from Prolific
                     date: new Date().toLocaleDateString(),
                     time: new Date().toLocaleTimeString()
@@ -106,7 +119,7 @@
        //total_points: number_of_points
        //});
     
-    </script>
+        </script>
         
         <script src="jspsych-6.1.0/jspsych.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
@@ -681,19 +694,28 @@
 			}
     	}
 
-		timeline.push(test_procedure)
+
 
 //    	/* start the experiment */
 //    	jsPsych.init({
 //    		timeline: timeline
 //    	});
         
+        function saveData(name, data){
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', 'write_data.php'); // 'write_data.php' is the path to the php file described above.
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.send(JSON.stringify({filename: name, filedata: data}));
+        }
+
+        timeline.push(test_procedure)
+        
+        // call the saveData function after the experiment is over
         jsPsych.init({
            timeline: timeline,
-           on_finish: function() {
-               jsPsych.data.displayData();
-           }
-       });
+           on_finish: function(){ 
+            saveData("experiment_data", jsPsych.data.get().csv()); }
+        });
     </script>
 </html>
 
