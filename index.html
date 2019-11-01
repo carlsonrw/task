@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        
-        
-        
+    <head>     
         <title>My experiment</title>
         
 
        <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.2.1/firebase-auth.js"></script>
 
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
@@ -24,68 +23,46 @@
     messagingSenderId: "229626364084",
     appId: "1:229626364084:web:f3edfb40ddee5fd29397e1"
   };
+    
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
+
+        // Enable persistence
+        firebase.firestore().enablePersistence()
+            .catch(function(err) {
+            if (err.code == 'failed-precondition') {
+                // If multiple tabs are open, persistence can only be enabled in one tab at a time
+            } else if (err.code == 'unimplemented') {
+                // The current browser does not support all of the features required to enable persistence
+            }
+        });
             
-//Updating an existing field:
-       //db.collection("tasks").doc('outrage-learning-twitter').collection('participants').doc(uid).update({
+        // Sign in (auth so they can't overwrite)
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                uid = user.uid;
+            }
+        });
+
+        //Create reference to the database
+        var db = firebase.firestore();
+            
+        //Create a document in `db ` for the current participant
+        db.collection("tasks").doc('mi-game').collection("participants").doc(uid).set({
+            participantID: participantID, // Refers to the participant's ID from Prolific
+            date: new Date().toLocaleDateString(),
+            time: new Date().toLocaleTimeString()
+        });
+    
+                
+    //Updating an existing field: (an example)
+       //db.collection("tasks").doc('mi-game').collection('participants').doc(uid).update({
        //total_points: number_of_points
        //});
     
-        // Enable persistence
-
-        firebase.firestore().enablePersistence()
-
-            .catch(function(err) {
-
-            if (err.code == 'failed-precondition') {
-
-                // If multiple tabs are open, persistence can only be enabled in one tab at a time
-
-            } else if (err.code == 'unimplemented') {
-
-                // The current browser does not support all of the features required to enable persistence
-
-            }
-
-        });
-
-            
-
-        // Sign in
-
-        firebase.auth().onAuthStateChanged(function(user) {
-
-            if (user) {
-
-                uid = user.uid;
-
-            }
-
-        });
-
-        
-
-        //Create reference to the database
-
-        var db = firebase.firestore();
-
-            
-
-        //Create a document in `db ` for the current participant
-
-        db.collection("tasks").doc('outrage-learning-twitter').collection("participants").doc(uid).set({
-
-            participantID: participantID, // Refers to the participant's ID from Prolific
-
-            date: new Date().toLocaleDateString(),
-
-            time: new Date().toLocaleTimeString()
-
-        });
 
 
-        </script>
+    </script>
         <script src="jspsych-6.1.0/jspsych.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-slider-response.js"></script>
@@ -96,14 +73,12 @@
         <link href="jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css"></link>
     </head>
     <body></body>
-    <script>
-            
-            
-// FRONT END (TASK)
+    
+
+    <script>         
 
     	// Define Stimuli
 		var balance = jsPsych.randomization.sampleWithReplacement([1, 0], 1)
-
 		var MI_Order = jsPsych.randomization.sampleWithoutReplacement([0, 1, 2, 3], 1)
 
     	if(balance == 1){
@@ -676,3 +651,6 @@
        });
     </script>
 </html>
+
+
+
