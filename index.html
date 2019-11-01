@@ -66,17 +66,24 @@
         var db = firebase.firestore();
             
         //Create a document in `db ` for the current participant
-        db.collection("Test").doc("TestDoc").collection("TestPart").doc(uid).set({
-//            participantID: participantID, // Refers to the participant's ID from Prolific
-            date: new Date().toLocaleDateString(),
-            time: new Date().toLocaleTimeString()
-        });
-    
-        db.collection("tasks").doc('new_task').collection('subjects').doc(uid).set({
-            subjectID: subjectID,  // this refers to the subject's ID from prolific
-            date: new Date().toLocaleDateString(),
-            time: new Date().toLocaleTimeString()
-        })
+//        db.collection("Test").doc("TestDoc").collection("TestPart").doc(uid).set({
+////            participantID: participantID, // Refers to the participant's ID from Prolific
+//            date: new Date().toLocaleDateString(),
+//            time: new Date().toLocaleTimeString()
+//        });
+//    
+//        db.collection("tasks").doc('new_task').collection('subjects').doc(uid).set({
+//            subjectID: subjectID,  // this refers to the subject's ID from prolific
+//            date: new Date().toLocaleDateString(),
+//            time: new Date().toLocaleTimeString()
+//        })
+//    
+        db.collection("Test").doc("TestDoc").collection("TestPart").doc("testsubject").set({
+        //            participantID: participantID, // Refers to the participant's ID from Prolific
+                    date: new Date().toLocaleDateString(),
+                    time: new Date().toLocaleTimeString()
+                });
+
 
     
                 
