@@ -1,122 +1,7 @@
 <!DOCTYPE html>
 <html>
-    <head>     
+    <head>
         <title>My experiment</title>
-        
-
-       <!-- The core Firebase JS SDK is always required and must be listed first -->
-        <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
-        
-        
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-        <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-database.js"></script>
-        
-
-<script>
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyCJxLIsRerhlA5LDIvefORPhDhi9aX5U2A",
-    authDomain: "mi-game-d915c.firebaseapp.com",
-    databaseURL: "https://mi-game-d915c.firebaseio.com",
-    projectId: "mi-game-d915c",
-    storageBucket: "mi-game-d915c.appspot.com",
-    messagingSenderId: "229626364084",
-    appId: "1:229626364084:web:f3edfb40ddee5fd29397e1"
-  };
- 
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-    
-var database = firebase.database();
-  
-    
-   
-//        // Enable persistence
-//        firebase.firestore().enablePersistence()
-//            .catch(function(err) {
-//            if (err.code == 'failed-precondition') {
-//                // If multiple tabs are open, persistence can only be enabled in one tab at a time
-//            } else if (err.code == 'unimplemented') {
-//                // The current browser does not support all of the features required to enable persistence
-//            }
-//        });
-            
-        var uid = "id"
-    
-            // login anonymous user
-          firebase.auth().signInAnonymously().catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-        });
-    
-            firebase.auth().onAuthStateChanged(function(user) {
-          if (user) {
-            // User is signed in.
-            var isAnonymous = user.isAnonymous;
-            var uid = user.uid;
-            // ...
-          } else {
-            // User is signed out.
-            // ...
-          }
-          // ...
-        });
- 
-//
-     
-//    firebase.auth().signInAnonymously().catch(function(error) {
-//                            // Handle Errors here.
-//                            var errorCode = error.code;
-//                            var errorMessage = error.message;
-//                            console.log(errorMessage);
-//                            // ...
-//                        });
-
-//        // When signed in, get the user ID
-//        firebase.auth().onAuthStateChanged(function(user) {
-//                                if (user) {
-//                                    console.log("logged in");
-//                                    var uid = user.uid;
-//                                    console.log('Signed in as ' + uid)
-//                                    } else {
-//            // No user is signed in.
-//          }});
-
-    
-//        if (uid !== null && uid !== undefined){
-//            console.log(uid)
-//        }else{
-//            console.log("stringfailure")
-//        };
-//        
-
-        //Create reference to the database
-//        var db = firebase.firestore();
-            
-        //Create a document in `db ` for the current participant
-//        db.collection("Test").doc("TestDoc").collection("TestPart").doc(uid).set({
-////            participantID: participantID, // Refers to the participant's ID from Prolific
-//            date: new Date().toLocaleDateString(),
-//            time: new Date().toLocaleTimeString()
-//        });
-
-//        db.collection("Tasks").doc("mi-game").collection("participants").doc(uid).set({
-//                    date: new Date().toLocaleDateString(),
-//                    time: new Date().toLocaleTimeString()
-//                });
-
-                
-    //Updating an existing field: (an example)
-       //db.collection("Tasks").doc('mi-game').collection('participants').doc(uid).update({
-       //total_points: number_of_points
-       //});
-    
-        </script>
-        
         <script src="jspsych-6.1.0/jspsych.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-slider-response.js"></script>
@@ -124,22 +9,22 @@ var database = firebase.database();
         <script src="jspsych-6.1.0/plugins/jspsych-instructions.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-survey-likert.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js"></script>
-        <link href="jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css">
-        </link>
+        <link href="jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css"></link>
     </head>
     <body></body>
-    
+    <script>
 
-    <script>         
-
-    		// Define Stimuli
+    	// Define Stimuli
 		var balance = jsPsych.randomization.sampleWithReplacement([1, 0], 1)
 
 		var MI_Order = jsPsych.randomization.sampleWithoutReplacement([0, 1, 2, 3], 1)
 
+		var turkID = jsPsych.data.getURLVariable('subject')
+
 		jsPsych.data.addProperties({
 			Color_Order: balance,
-			Condition_Order: MI_Order
+			Condition_Order: MI_Order,
+			SubjectID: turkID,
 		});
 
     	if(balance == 1){
@@ -276,7 +161,7 @@ var database = firebase.database();
     	/* define welcome message trial */
     	var welcome = {
     		type: "html-keyboard-response",
-    		stimulus: "Welcome to the experiment. Press any key to begin."
+    		stimulus: "This is where you will play the games. Press any key to begin."
     	}
 
     	var Intro = [
@@ -661,61 +546,42 @@ var database = firebase.database();
 		  	scale_width: 700
 		};
 
+		var End = ["<div class='parent' style='text-align: left'>"
+	    +'<p>The games are now complete. Your completion code is:</p>'
+	    +"<p><b>"+jsPsych.data.getURLVariable('code')+"</b></p>"
+	    +'<p>Please enter this code in the space provided, then continue.</p>']
+
+    	var T3 = {
+    		type: "instructions",
+    		pages: End,
+    		key_forward: jsPsych.NO_KEYS,
+    		key_backward: jsPsych.NO_KEYS,
+    		show_clickable_nav: false,
+    	}
+
     	if (MI_Order == 0){
     		var test_procedure = {
-				timeline: [T1, HiMI_procedure, HiMI_DVs, T2_v1, LoMI1_procedure, LoMI_DVs],
+				timeline: [T1, HiMI_procedure, HiMI_DVs, T2_v1, LoMI1_procedure, LoMI_DVs, T3],
 			}
     	} else if (MI_Order == 1){
 			var test_procedure = {
-				timeline: [T1, HiMI_procedure, HiMI_DVs, T2_v2, LoMI2_procedure, LoMI_DVs],
+				timeline: [T1, HiMI_procedure, HiMI_DVs, T2_v2, LoMI2_procedure, LoMI_DVs, T3],
 			}
     	} else if (MI_Order == 2){
 			var test_procedure = {
-				timeline: [T1, LoMI1_procedure, LoMI_DVs, T2_v1, HiMI_procedure, HiMI_DVs],
+				timeline: [T1, LoMI1_procedure, LoMI_DVs, T2_v1, HiMI_procedure, HiMI_DVs, T3],
 			}
     	} else if (MI_Order == 3){
 			var test_procedure = {
-				timeline: [T1, LoMI2_procedure, LoMI_DVs, T2_v2, HiMI_procedure, HiMI_DVs],
+				timeline: [T1, LoMI2_procedure, LoMI_DVs, T2_v2, HiMI_procedure, HiMI_DVs, T3],
 			}
     	}
 
-        
-        
-//    	/* start the experiment */
-//    	jsPsych.init({
-//    		timeline: timeline
-//    	});
-        
-//        function saveData(name, data){
-//          var xhr = new XMLHttpRequest();
-//          xhr.open('POST', 'write_data.php'); // 'write_data.php' is the path to the php file described above.
-//          xhr.setRequestHeader('Content-Type', 'application/json');
-//          xhr.send(JSON.stringify({filename: name, filedata: data}));
-//        }
+		timeline.push(test_procedure)
 
-        timeline.push(test_procedure)
-        
-        // call the saveData function after the experiment is over
-        jsPsych.init({
-           timeline: timeline,
-           on_finish: function() {
-        firebase.database().ref(firebase.auth().currentUser.uid).set({
-          data: jsPsych.data.get().values()
-        })
-        }
-});
+    	/* start the experiment */
+    	jsPsych.init({
+    		timeline: timeline
+    	});
     </script>
-
-<!--
-    <script>
-        db.collection("tasks").doc('new_task').collection('subjects').doc(uid).update({
-            date: new Date().toLocaleDateString(),
-            time: new Date().toLocaleTimeString()
-        });
-    </script>
--->
-
 </html>
-
-
-
