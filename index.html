@@ -322,7 +322,7 @@
     		data: {Trial_Type: 'Too_Fast_Message'},
 		  	stimulus: function(){
 		  		if(jsPsych.data.get().last(1).values()[0].key_press == 32){
-		  			return "<div style='font-size: 30px'><p>Too Fast!</p>"+
+		  			return "<div style='font-size: 20px'><p>Too Fast!</p>"+
 		  			"<p>Please wait for the tile to appear before pressing your SPACEBAR</p></div>"
 		  		} else {
 		  			return ""
