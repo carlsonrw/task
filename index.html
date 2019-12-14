@@ -546,10 +546,11 @@
 		  	scale_width: 700
 		};
 
-		var End = ["<div class='parent' style='text-align: left'>"
-	    +'<p>The games are now complete. Your completion code is:</p>'
-	    +"<p><b>"+jsPsych.data.getURLVariable('code')+"</b></p>"
-	    +'<p>Please enter this code in the space provided, then continue.</p>']
+		var End = ["<div class='parent'>"
+	    +'<p>The games are now complete.</p>'
+	    +'<p>Please click '
+	    +'<a href="https://yalesurvey.ca1.qualtrics.com/jfe/form/SV_8iwvxnwI89zaQWV?workerId='+turkID+'">this link</a> '
+	    +'to return to the survey.</p></div>']
 
     	var T3 = {
     		type: "instructions",
