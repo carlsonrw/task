@@ -130,7 +130,7 @@ var database = firebase.database();
     <body></body>
     
 
-<script>
+    <script>
 
         // Define Stimuli
         var balance = jsPsych.randomization.sampleWithReplacement([1, 0], 1)
@@ -680,19 +680,19 @@ var database = firebase.database();
 
         if (MI_Order == 0){
             var test_procedure = {
-                timeline: [T1, HiMI_procedure, HiMI_DVs, T2_v1, LoMI1_procedure, LoMI_DVs, T3],
+                timeline: [T1, HiMI_procedure, HiMI_DVs, T2_v1, LoMI1_procedure, LoMI_DVs], //add t3 back here
             }
         } else if (MI_Order == 1){
             var test_procedure = {
-                timeline: [T1, HiMI_procedure, HiMI_DVs, T2_v2, LoMI2_procedure, LoMI_DVs, T3],
+                timeline: [T1, HiMI_procedure, HiMI_DVs, T2_v2, LoMI2_procedure, LoMI_DVs],
             }
         } else if (MI_Order == 2){
             var test_procedure = {
-                timeline: [T1, LoMI1_procedure, LoMI_DVs, T2_v1, HiMI_procedure, HiMI_DVs, T3],
+                timeline: [T1, LoMI1_procedure, LoMI_DVs, T2_v1, HiMI_procedure, HiMI_DVs],
             }
         } else if (MI_Order == 3){
             var test_procedure = {
-                timeline: [T1, LoMI2_procedure, LoMI_DVs, T2_v2, HiMI_procedure, HiMI_DVs, T3],
+                timeline: [T1, LoMI2_procedure, LoMI_DVs, T2_v2, HiMI_procedure, HiMI_DVs],
             }
         }       
         
