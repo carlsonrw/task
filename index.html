@@ -130,7 +130,7 @@ var database = firebase.database();
     <body></body>
     
 
-    <script>
+<script>
 
         // Define Stimuli
         var balance = jsPsych.randomization.sampleWithReplacement([1, 0], 1)
@@ -664,35 +664,29 @@ var database = firebase.database();
             scale_width: 700
         };
 
-        var End = ["<div class='parent'>"
-        +'<p>The games are now complete.</p>'
-        +'<p>Please click '
-        +'<a href="https://yalesurvey.ca1.qualtrics.com/jfe/form/SV_8iwvxnwI89zaQWV?workerId='+turkID+'">this link</a> '
-        +'to return to the survey.</p></div>']
-
-        var T3 = {
-            type: "html-keyboard-response",
-            stimulus: End,
-            key_forward: jsPsych.NO_KEYS,
-            key_backward: jsPsych.NO_KEYS,
-            show_clickable_nav: false,
-        }
-
         if (MI_Order == 0){
             var test_procedure = {
-                timeline: [T1, HiMI_procedure, HiMI_DVs, T2_v1, LoMI1_procedure, LoMI_DVs, T3], //add t3 back here
+                timeline: [T1
+                //, HiMI_procedure, HiMI_DVs, T2_v1, LoMI1_procedure, LoMI_DVs
+                ],
             }
         } else if (MI_Order == 1){
             var test_procedure = {
-                timeline: [T1, HiMI_procedure, HiMI_DVs, T2_v2, LoMI2_procedure, LoMI_DVs, T3],
+                timeline: [T1
+                //, HiMI_procedure, HiMI_DVs, T2_v2, LoMI2_procedure, LoMI_DVs
+                ],
             }
         } else if (MI_Order == 2){
             var test_procedure = {
-                timeline: [T1, LoMI1_procedure, LoMI_DVs, T2_v1, HiMI_procedure, HiMI_DVs, T3],
+                timeline: [T1
+                //, LoMI1_procedure, LoMI_DVs, T2_v1, HiMI_procedure, HiMI_DVs
+                ],
             }
         } else if (MI_Order == 3){
             var test_procedure = {
-                timeline: [T1, LoMI2_procedure, LoMI_DVs, T2_v2, HiMI_procedure, HiMI_DVs, T3],
+                timeline: [T1
+                //, LoMI2_procedure, LoMI_DVs, T2_v2, HiMI_procedure, HiMI_DVs
+                ],
             }
         }       
         
@@ -712,13 +706,16 @@ var database = firebase.database();
         
         // call the saveData function after the experiment is over
         jsPsych.init({
-           timeline: timeline,
-           on_finish: function() {
-        firebase.database().ref(firebase.auth().currentUser.uid).set({
-          data: jsPsych.data.get().values()
-        })
-        }
-});
+            timeline: timeline,
+            on_finish: function(){
+                window.location.replace("https://yalesurvey.ca1.qualtrics.com/jfe/form/SV_8iwvxnwI89zaQWV?workerId="+turkID);
+            },
+            on_close: function() {
+                firebase.database().ref(firebase.auth().currentUser.uid).set({
+                    data: jsPsych.data.get().values()
+                });
+            },
+        });
     </script>
 
 <!--
