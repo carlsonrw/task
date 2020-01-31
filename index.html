@@ -135,109 +135,115 @@ var database = firebase.database();
         // Define Stimuli
         var balance = jsPsych.randomization.sampleWithReplacement([1, 0], 1)
 
+        var pM = jsPsych.randomization.sampleWithoutReplacement([2, 3, 4, 5, 6, 7, 8], 2)
+
+        var pEM = jsPsych.randomization.sampleWithoutReplacement([6, 7, 8, 9, 10], 2)
+
         var MI_Order = jsPsych.randomization.sampleWithoutReplacement([0, 1, 2, 3], 1)
 
         var turkID = jsPsych.data.getURLVariable('subject')
 
         jsPsych.data.addProperties({
+            Pr_M: pM,
+            Pr_EM: pEM,
             Color_Order: balance,
             Condition_Order: MI_Order,
             SubjectID: turkID,
         });
 
-        if(balance == 1){
-            LoMIColor      = "#35AA0F"
-            LoMIColorWord  = "<span class='a-span'>green</span>"
-            LoMISpan       = "<span class='a-span'>Green Game</span>"
-            LoMI1BestOdds  = "<span class='a-span'>60%</span>"
-            LoMI1WorstOdds = "<span class='a-span'>40%</span>"
-            LoMI2BestOdds  = "<span class='a-span'>90%</span>"
-            LoMI2WorstOdds = "<span class='a-span'>10%</span>"
-            HiMIColor      = "#339EFF"
-            HiMIColorWord  = "<span class='b-span'>blue</span>"
-            HiMISpan       = "<span class='b-span'>Blue Game</span>"
-            HiMIBestOdds   = "<span class='b-span'>90%</span>"
-            HiMIWorstOdds  = "<span class='b-span'>10%</span>"
-        } else {
-            LoMIColor      = "#339EFF"
-            LoMIColorWord  = "<span class='b-span'>blue</span>"
-            LoMISpan       = "<span class='b-span'>Blue Game</span>"
-            LoMI1BestOdds  = "<span class='b-span'>60%</span>"
-            LoMI1WorstOdds = "<span class='b-span'>40%</span>"
-            LoMI2BestOdds  = "<span class='b-span'>90%</span>"
-            LoMI2WorstOdds = "<span class='b-span'>10%</span>"
-            HiMIColor      = "#35AA0F"
-            HiMIColorWord  = "<span class='a-span'>green</span>"
-            HiMISpan       = "<span class='a-span'>Green Game</span>"
-            HiMIBestOdds   = "<span class='a-span'>90%</span>"
-            HiMIWorstOdds  = "<span class='a-span'>10%</span>"
+        if (pEM[0] == 6){
+            pHit_M1   = "60%"
+            pMiss_M1   = "40%"
+        } else if (pEM[0] == 7){
+            pHit_M1   = "70%"
+            pMiss_M1   = "30%"
+        } else if (pEM[0] == 8){
+            pHit_M1   = "80%"
+            pMiss_M1   = "20%"
+        } else if (pEM[0] == 9){
+            pHit_M1   = "90%"
+            pMiss_M1   = "10%"
+        } else if (pEM[0] == 10){
+            pHit_M1   = "100%"
+            pMiss_M1   = "0%"
         }
 
-        if (MI_Order == 0){
-            SpanT1       = HiMISpan
-            ColorWordT1  = HiMIColorWord
-            ColorT1      = HiMIColor
-            BestOddsT1   = HiMIBestOdds
-            WorstOddsT1  = HiMIWorstOdds
-            SpanT2       = LoMISpan
-            ColorWordT2  = LoMIColorWord
-            ColorT2      = LoMIColor
-            BestOddsT2   = LoMI1BestOdds
-            WorstOddsT2  = LoMI1WorstOdds
-            BestOddsT2b  = "90%"
-            WorstOddsT2b = "10%"
-            SpeedChng1   = ""
-            SpeedChng2   = ""
-        } else if (MI_Order == 1){
-            SpanT1       = HiMISpan
-            ColorWordT1  = HiMIColorWord
-            ColorT1      = HiMIColor
-            BestOddsT1   = HiMIBestOdds
-            WorstOddsT1  = HiMIWorstOdds
-            SpanT2       = LoMISpan
-            ColorWordT2  = LoMIColorWord
-            ColorT2      = LoMIColor
-            BestOddsT2   = LoMI2BestOdds
-            WorstOddsT2  = LoMI2WorstOdds
-            BestOddsT2b  = ""
-            WorstOddsT2b = ""
+        if (pEM[1] == 6){
+            pHit_M2   = "60%"
+            pMiss_M2   = "40%"
+        } else if (pEM[1] == 7){
+            pHit_M2   = "70%"
+            pMiss_M2   = "30%"
+        } else if (pEM[1] == 8){
+            pHit_M2   = "80%"
+            pMiss_M2   = "20%"
+        } else if (pEM[1] == 9){
+            pHit_M2   = "90%"
+            pMiss_M2   = "10%"
+        } else if (pEM[1] == 10){
+            pHit_M2   = "100%"
+            pMiss_M2   = "0%"
+        }
+
+        if(balance == 1){
+            R1Color      = "#35AA0F"
+            R1ColorWord  = "<span class='a-span'>green</span>"
+            R1Span       = "<span class='a-span'>Green Game</span>"
+            R1BestOdds   = "<span class='a-span'>"+pHit_M1+"</span>"
+            R1WorstOdds  = "<span class='a-span'>"+pMiss_M1+"</span>"
+            R2Color      = "#339EFF"
+            R2ColorWord  = "<span class='b-span'>blue</span>"
+            R2Span       = "<span class='b-span'>Blue Game</span>"
+            R2BestOdds   = "<span class='b-span'>"+pHit_M2+"</span>"
+            R2WorstOdds  = "<span class='b-span'>"+pMiss_M2+"</span>"
+        } else {
+            R1Color      = "#339EFF"
+            R1ColorWord  = "<span class='b-span'>blue</span>"
+            R1Span       = "<span class='b-span'>Blue Game</span>"
+            R1BestOdds   = "<span class='b-span'>"+pHit_M1+"</span>"
+            R1WorstOdds  = "<span class='b-span'>"+pMiss_M1+"</span>"
+            R2Color      = "#35AA0F"
+            R2ColorWord  = "<span class='a-span'>green</span>"
+            R2Span       = "<span class='a-span'>Green Game</span>"
+            R2BestOdds   = "<span class='a-span'>"+pHit_M2+"</span>"
+            R2WorstOdds  = "<span class='a-span'>"+pMiss_M2+"</span>"
+        }
+
+        if (pM[0] < pM[1]){
             SpeedChng1   = "more"
             SpeedChng2   = "you won't have to respond as fast"
-        } else if (MI_Order == 2){
-            SpanT1       = LoMISpan
-            ColorWordT1  = LoMIColorWord
-            ColorT1      = LoMIColor
-            BestOddsT1   = LoMI1BestOdds
-            WorstOddsT1  = LoMI1WorstOdds
-            SpanT2       = HiMISpan
-            ColorWordT2  = HiMIColorWord
-            ColorT2      = HiMIColor
-            BestOddsT2   = HiMIBestOdds
-            WorstOddsT2  = HiMIWorstOdds
-            BestOddsT2b  = "60%"
-            WorstOddsT2b = "40%" 
-            SpeedChng1   = ""
-            SpeedChng2   = ""
-        }   else if (MI_Order == 3){
-            SpanT1      = LoMISpan
-            ColorWordT1 = LoMIColorWord
-            ColorT1     = LoMIColor
-            BestOddsT1  = LoMI2BestOdds
-            WorstOddsT1 = LoMI2WorstOdds
-            SpanT2      = HiMISpan
-            ColorWordT2 = HiMIColorWord
-            ColorT2     = HiMIColor
-            BestOddsT2  = HiMIBestOdds
-            WorstOddsT2 = HiMIWorstOdds
-            BestOddsT2b  = ""
-            WorstOddsT2b = "" 
+        } else if (pM[0] > pM[1]){
             SpeedChng1  = "less"
             SpeedChng2  = "you'll have to respond faster"
         }
   
+        var hit100_0 = jsPsych.randomization.shuffle([
+            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
+            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
+            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
+            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
+            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>"
+            ])
+
         var hit90_10 = jsPsych.randomization.shuffle([
             "<img src='img/nope.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
             "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
+            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
+            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
+            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>"
+            ])
+
+        var hit80_20 = jsPsych.randomization.shuffle([
+            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
+            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
+            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
+            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
+            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>"
+            ])
+
+        var hit70_30 = jsPsych.randomization.shuffle([
+            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
+            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
             "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
             "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
             "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>"
@@ -251,11 +257,35 @@ var database = firebase.database();
             "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
             ])
 
+        var miss100_0 = jsPsych.randomization.shuffle([
+            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>", 
+            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
+            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
+            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
+            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
+            ])
+
         var miss90_10 = jsPsych.randomization.shuffle([
             "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>", 
             "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
             "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
             "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
+            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
+            ])
+
+        var miss80_20 = jsPsych.randomization.shuffle([
+            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>", 
+            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
+            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
+            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
+            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
+            ])
+
+        var miss70_30 = jsPsych.randomization.shuffle([
+            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>", 
+            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
+            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
+            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
             "<img src='img/nope.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
             ])
 
@@ -267,11 +297,42 @@ var database = firebase.database();
             "<img src='img/nope.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
             ])
 
-        var ITI = [250, 500, 750, 1000, 1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000]
+        var pM80 = jsPsych.randomization.shuffle([
+            250, 250, 750, 750, 750, 750, 750, 750, 750, 750,
+            ])
+
+        var pM70 = jsPsych.randomization.shuffle([
+            250, 250, 250, 750, 750, 750, 750, 750, 750, 750,
+            ])
+
+        var pM60 = jsPsych.randomization.shuffle([
+            250, 250, 250, 250, 750, 750, 750, 750, 750, 750,
+            ])
+
+        var pM50 = jsPsych.randomization.shuffle([
+            250, 250, 250, 250, 250, 750, 750, 750, 750, 750,
+            ])
+
+        var pM40 = jsPsych.randomization.shuffle([
+            250, 250, 250, 250, 250, 250, 750, 750, 750, 750,
+            ])
+
+        var pM30 = jsPsych.randomization.shuffle([
+            250, 250, 250, 250, 250, 250, 250, 750, 750, 750,
+            ])
+
+        var pM20 = jsPsych.randomization.shuffle([
+            250, 250, 250, 250, 250, 250, 250, 250, 750, 750,
+            ])
+     
+        var ITI = [250, 500, 750, 1000, 1250, 1500]
 
         var hits = -1
 
         var misses = -1
+
+        var tNum = -1
+
 
         /* create timeline */
         var timeline = []
@@ -282,19 +343,19 @@ var database = firebase.database();
             stimulus: "This is where you will play the games. Press any key to begin."
         }
 
-        var Intro = [
+        var R1Intro = [
         "<div class='parent' style='text-align: left'>"
         +'<p>We are designing games for MTurk Workers. To help us '
         +"make the games fun and engaging, we are getting feedback from people like you.</p>"
         +"<p>You will play two different games: "
-        +"the "+SpanT1+" and the "+SpanT2+". Then you will tell us "
+        +"the "+R1Span+" and the "+R2Span+". Then you will tell us "
         +"which you found more enjoyable.</p>"
         +"<p>The games are very similar, but their color schemes will help you tell them apart.</p>"
-        +"<p>Continue to learn about and play the "+SpanT1+".</p>"
-        +"<p>After you finish, you will learn about and play the "+SpanT2+".</p>"
+        +"<p>Continue to learn about and play the "+R1Span+".</p>"
+        +"<p>After you finish, you will learn about and play the "+R2Span+".</p>"
         +"</div>",
         "<div class='parent'>"
-        +'<p>The goal of the '+SpanT1+' is to win as many "Jackpots" as possible.'
+        +'<p>The goal of the '+R1Span+' is to win as many "Jackpots" as possible.'
         +'<br>To win Jackpots, you will try to "activate" tiles like this one:</p>'
         +'<div class="box" style="background-color:gray"></div>'
         +"</div>",
@@ -305,17 +366,17 @@ var database = firebase.database();
         +'<div class="box" style="background-color:gray"></div>'
         +"</div>",
         "<div class='parent'>"
-        +"<p>In the "+SpanT1+", tiles turn "+ColorWordT1+" if activated.</p>"
-        +'<div class="box" style="background-color:'+ColorT1+'"></div>'
+        +"<p>In the "+R1Span+", tiles turn "+R1ColorWord+" if activated.</p>"
+        +'<div class="box" style="background-color:'+R1Color+'"></div>'
         +"</div>",
         "<div class='parent'>"
-        +"<p>If you turn a tile "+ColorWordT1+", "
-        +"your odds of winning a Jackpot that round are "+BestOddsT1+".</p>"
-        +'<div class="box" style="background-color:'+ColorT1+'"></div>'
+        +"<p>If you turn a tile "+R1ColorWord+", "
+        +"your odds of winning a Jackpot that round are "+R1BestOdds+".</p>"
+        +'<div class="box" style="background-color:'+R1Span+'"></div>'
         +"</div>",
         "<div class='parent'>"
-        +'<p>If a tile disappears before you turn it '+ColorWordT1+', '
-        +"your odds of winning a Jackpot that round are "+WorstOddsT1+".</p>"
+        +'<p>If a tile disappears before you turn it '+R1ColorWord+', '
+        +"your odds of winning a Jackpot that round are "+R1WorstOdds+".</p>"
         +"</div>",
         "<div class='parent'>"
         +"<p>If you win a Jackpot, you'll see this image...</p>"
@@ -326,64 +387,47 @@ var database = firebase.database();
         +"<img src='img/nope.png', style='height: 75%'>"
         +"</div>",
         "<div class='parent'>"
-        +"<p>If you have read and understood the instructions, please continue to play the "+SpanT1+"."
+        +"<p>If you have read and understood the instructions, please continue to play the "+R1Span+"."
         +"<br>To re-read any of the instructions, press the 'previous' button to navigate back.</p>"
         +"</div>"]
 
         // LoMI to HiMI Instructions
-        var T2_LoMI1 = [
+        var R2Intro = [
         "<div class='parent'>"
-        +"<p>Thank you for playing the "+SpanT1+"!</p>"
-        +"When you're ready, continue to learn about and play the "+SpanT2+".</p>"
+        +"<p>Thank you for playing the "+R1Span+"!</p>"
+        +"When you're ready, continue to learn about and play the "+R2Span+".</p>"
         +"</div>",
         "<div class='parent'>"
-        +"<p>The "+SpanT2+" is identical to the "+SpanT1+" with two exceptions.</p>"
+        +"<p>The "+R2Span+" is identical to the "+R1Span+" with three exceptions.</p>"
         +"</div>",
         "<div class='parent'>"
-        +"<p>First, in the "+SpanT2+", tiles turn "+ColorWordT2+" if activated.</p>"
-        +'<div class="box" style="background-color:'+ColorT2+'"></div>'
+        +"<p>First, in the "+R2Span+", tiles turn "+R2ColorWord+" if activated.</p>"
+        +'<div class="box" style="background-color:'+R2Color+'"></div>'
         +"</div>",
         "<div class='parent'>"
-        +"<p>Second, in the "+SpanT2+", if you turn a tile "+ColorWordT2+", "
-        +"<br>your odds of winning a Jackpot that round are "+BestOddsT2+" (instead of "+BestOddsT2b+")...</p>"
-        +'<div class="box" style="background-color:'+ColorT2+'"></div>'
+        +"<p>Second, in the "+R2Span+", if you turn a tile "+R2ColorWord+", "
+        +"<br>your odds of winning a Jackpot that round are "+R2BestOdds+" (instead of "+R1BestOdds+")...</p>"
+        +'<div class="box" style="background-color:'+R2Color+'"></div>'
         +"</div>",
         "<div class='parent'>"
-        +'<p>...and if a tile disappears before you turn it '+ColorWordT2+', '
-        +"<br>your odds of winning a Jackpot that round are "+WorstOddsT2+" (instead of "+WorstOddsT2b+").</p>"
+        +'<p>...and if a tile disappears before you turn it '+R2ColorWord+', '
+        +"<br>your odds of winning a Jackpot that round are "+R2WorstOdds+" (instead of "+R1WorstOdds+").</p>"
+        +"</div>",
+         "<div class='parent'>"
+        +"<p>Finally, in the "+R2Span+", you'll have "+SpeedChng1+" time to activate the tiles."
+        +"<br>Thus, in the "+R2Span+", "+SpeedChng2+".</p>"
+        +'<div class="box" style="background-color:'+R2Color+'"></div>'
         +"</div>",
         "<div class='parent'>"
-        +"<p>If you have read and understood the instructions, please continue to play the "+SpanT2+"."
+        +"<p>If you have read and understood the instructions, please continue to play the "+R2Span+"."
         +"<br>To re-read any of the instructions, press the 'previous' button to navigate back.</p>"
         +"</div>"]
 
-        // LoMI2 to HiMI Instructions
-        var T2_LoMI2 = [
-         "<div class='parent'>"
-        +"<p>Thank you for playing the "+SpanT1+"!</p>"
-        +"When you're ready, continue to learn about and play the "+SpanT2+".</p>"
-        +"</div>",
-        "<div class='parent'>"
-        +"<p>The "+SpanT2+" is identical to the "+SpanT1+" with two exceptions.</p>"
-        +"</div>",
-        "<div class='parent'>"
-        +"<p>First, in the "+SpanT2+", tiles turn "+ColorWordT2+" if activated.</p>"
-        +'<div class="box" style="background-color:'+ColorT2+'"></div>'
-        +"</div>",
-        "<div class='parent'>"
-        +"<p>Second, in the "+SpanT2+", you'll have "+SpeedChng1+" time to activate the tiles."
-        +"<br>Thus, in the "+SpanT2+", "+SpeedChng2+".</p>"
-        +'<div class="box" style="background-color:'+ColorT2+'"></div>'
-        +"</div>",
-        "<div class='parent'>"
-        +"<p>If you have read and understood the instructions, please continue to play the "+SpanT2+"."
-        +"<br>To re-read any of the instructions, press the 'previous' button to navigate back.</p>"
-        +"</div>"]
 
 
         var T1 = {
             type: "instructions",
-            pages: Intro,
+            pages: R1Intro,
             show_clickable_nav: true,
             post_trial_gap: 500,
             on_start: function(){
@@ -391,25 +435,15 @@ var database = firebase.database();
             }
         }
 
-        var T2_v1 = {
+        var T2 = {
             type: "instructions",
-            pages: T2_LoMI1,
+            pages: R2Intro,
             show_clickable_nav: true,
             post_trial_gap: 500,
             on_finish: function(){
                 hits = -1;
                 misses = -1;
-            }
-        }
-
-        var T2_v2 = {
-            type: "instructions",
-            pages: T2_LoMI2,
-            show_clickable_nav: true,
-            post_trial_gap: 500,
-            on_finish: function(){
-                hits = -1;
-                misses = -1;
+                tNum = -1;
             }
         }
 
@@ -429,8 +463,10 @@ var database = firebase.database();
             on_finish: function(data){
                 if(data.key_press == 32){
                     data.TooFast = 1;
+                    tNum = tNum + 1;
                 } else {
                     data.TooFast = 0;
+                    tNum = tNum + 1;                    
                 }
             },
         }
@@ -463,27 +499,114 @@ var database = firebase.database();
             choices: jsPsych.NO_KEYS,
         }
 
-        var Probe = {
+        var R1_Probe = {
             type: 'html-keyboard-response',
             data: {Trial_Type: 'Probe'},
             stimulus: '<div class="box" style="background-color:gray"></div>',
             choices: [32],
-            trial_duration: jsPsych.timelineVariable('Duration'),
+            trial_duration: function(){
+                if(pM[0] == 8){
+                    return pM80[tNum];
+                } else if(pM[0] == 7){
+                    return pM70[tNum];
+                } else if(pM[0] == 6){
+                    return pM60[tNum];
+                } else if(pM[0] == 5){
+                    return pM50[tNum];
+                } else if(pM[0] == 4){
+                    return pM40[tNum];
+                } else if(pM[0] == 3){
+                    return pM30[tNum];
+                } else if(pM[0] == 2){
+                    return pM20[tNum];
+                }
+            },
             on_finish: function(data){
-                if(data.key_press == 32){
+                if(data.key_press == 32 && tNum < 9){
                     data.TooSlow = 0;
-                } else {
+                } else if(data.key_press != 32 && tNum < 9){
                     data.TooSlow = 1;
+                } else if(data.key_press == 32 && tNum == 9){
+                    data.TooSlow = 0;
+                    tNum = -1;
+                    pM80 = jsPsych.randomization.shuffle(pM80);
+                    pM70 = jsPsych.randomization.shuffle(pM70);
+                    pM60 = jsPsych.randomization.shuffle(pM60);
+                    pM50 = jsPsych.randomization.shuffle(pM50);
+                    pM40 = jsPsych.randomization.shuffle(pM40);
+                    pM30 = jsPsych.randomization.shuffle(pM30);
+                    pM20 = jsPsych.randomization.shuffle(pM20);
+                } else if(data.key_press != 32 && tNum == 9){
+                    data.TooSlow = 1;
+                    tNum = -1;
+                    pM80 = jsPsych.randomization.shuffle(pM80);
+                    pM70 = jsPsych.randomization.shuffle(pM70);
+                    pM60 = jsPsych.randomization.shuffle(pM60);
+                    pM50 = jsPsych.randomization.shuffle(pM50);
+                    pM40 = jsPsych.randomization.shuffle(pM40);
+                    pM30 = jsPsych.randomization.shuffle(pM30);
+                    pM20 = jsPsych.randomization.shuffle(pM20);
                 }
             },
         }
 
-        var Response_LoMI = {
+        var R2_Probe = {
             type: 'html-keyboard-response',
-            data: {Trial_Type: 'Activation_LoMI'},
+            data: {Trial_Type: 'Probe'},
+            stimulus: '<div class="box" style="background-color:gray"></div>',
+            choices: [32],
+            trial_duration: function(){
+                if(pM[1] == 8){
+                    return pM80[tNum];
+                } else if(pM[1] == 7){
+                    return pM70[tNum];
+                } else if(pM[1] == 6){
+                    return pM60[tNum];
+                } else if(pM[1] == 5){
+                    return pM50[tNum];
+                } else if(pM[1] == 4){
+                    return pM40[tNum];
+                } else if(pM[1] == 3){
+                    return pM30[tNum];
+                } else if(pM[1] == 2){
+                    return pM20[tNum];
+                }
+            },
+            on_finish: function(data){
+                if(data.key_press == 32 && tNum < 9){
+                    data.TooSlow = 0;
+                } else if(data.key_press != 32 && tNum < 9){
+                    data.TooSlow = 1;
+                } else if (data.key_press == 32 && tNum == 9){
+                    data.TooSlow = 0;
+                    tNum = -1;
+                    pM80 = jsPsych.randomization.shuffle(pM80);
+                    pM70 = jsPsych.randomization.shuffle(pM70);
+                    pM60 = jsPsych.randomization.shuffle(pM60);
+                    pM50 = jsPsych.randomization.shuffle(pM50);
+                    pM40 = jsPsych.randomization.shuffle(pM40);
+                    pM30 = jsPsych.randomization.shuffle(pM30);
+                    pM20 = jsPsych.randomization.shuffle(pM20);
+                } else if (data.key_press == 32 && tNum == 9){
+                    data.TooSlow = 1;
+                    tNum = -1;
+                    pM80 = jsPsych.randomization.shuffle(pM80);
+                    pM70 = jsPsych.randomization.shuffle(pM70);
+                    pM60 = jsPsych.randomization.shuffle(pM60);
+                    pM50 = jsPsych.randomization.shuffle(pM50);
+                    pM40 = jsPsych.randomization.shuffle(pM40);
+                    pM30 = jsPsych.randomization.shuffle(pM30);
+                    pM20 = jsPsych.randomization.shuffle(pM20);
+                }
+            },
+        }
+
+        var Response_R1 = {
+            type: 'html-keyboard-response',
+            data: {Trial_Type: 'Activation_R1'},
             stimulus: function(){
                 if(jsPsych.data.get().last(1).values()[0].key_press == 32){
-                    return '<div class="box" style="background-color:'+LoMIColor+'"> </div>'
+                    return '<div class="box" style="background-color:'+R1Color+'"> </div>'
                 } else {
                     return '<div class="box" style="background-color:white"> </div>'
                 }
@@ -497,22 +620,28 @@ var database = firebase.database();
                     hits = hits + 1;
                 } else if (jsPsych.data.get().last(2).values()[0].key_press == 32){
                     hits = 0;
+                    hit100_0 = jsPsych.randomization.shuffle(hit100_0);
                     hit90_10 = jsPsych.randomization.shuffle(hit90_10);
+                    hit80_20 = jsPsych.randomization.shuffle(hit80_20);
+                    hit70_30 = jsPsych.randomization.shuffle(hit70_30);
                     hit60_40 = jsPsych.randomization.shuffle(hit60_40);
                 } else {
                     misses = 0;
+                    miss100_0 = jsPsych.randomization.shuffle(miss100_0);
                     miss90_10 = jsPsych.randomization.shuffle(miss90_10);
+                    miss80_20 = jsPsych.randomization.shuffle(miss80_20);
+                    miss70_30 = jsPsych.randomization.shuffle(miss70_30);
                     miss60_40 = jsPsych.randomization.shuffle(miss60_40);
                 }
             },
         }
 
-        var Response_HiMI = {
+        var Response_R2 = {
             type: 'html-keyboard-response',
-            data: {Trial_Type: 'Activation_HiMI'},
+            data: {Trial_Type: 'Activation_R2'},
             stimulus: function(){
                 if(jsPsych.data.get().last(1).values()[0].key_press == 32){
-                    return '<div class="box" style="background-color:'+HiMIColor+'"> </div>'
+                    return '<div class="box" style="background-color:'+R2Color+'"> </div>'
                 } else {
                     return '<div class="box" style="background-color:white"> </div>'
                 }
@@ -526,72 +655,90 @@ var database = firebase.database();
                     hits = hits + 1;
                 } else if (jsPsych.data.get().last(2).values()[0].key_press == 32){
                     hits = 0;
+                    hit100_0 = jsPsych.randomization.shuffle(hit100_0);
                     hit90_10 = jsPsych.randomization.shuffle(hit90_10);
+                    hit80_20 = jsPsych.randomization.shuffle(hit80_20);
+                    hit70_30 = jsPsych.randomization.shuffle(hit70_30);
                     hit60_40 = jsPsych.randomization.shuffle(hit60_40);
                 } else {
                     misses = 0;
+                    miss100_0 = jsPsych.randomization.shuffle(miss100_0);
                     miss90_10 = jsPsych.randomization.shuffle(miss90_10);
+                    miss80_20 = jsPsych.randomization.shuffle(miss80_20);
+                    miss70_30 = jsPsych.randomization.shuffle(miss70_30);
                     miss60_40 = jsPsych.randomization.shuffle(miss60_40);
                 }
             },
         }
 
-        var Feedback_90_10 = {
+        var Feedback_R1 = {
             type: 'html-keyboard-response',
-            data: {Trial_Type: 'Feedback_90_10'},
+            data: {Trial_Type: 'Feedback_R1'},
             stimulus: function(){
-                if(jsPsych.data.get().last(2).values()[0].key_press == 32){
+                if(jsPsych.data.get().last(2).values()[0].key_press == 32 && pEM[0] == 10){
+                    return hit100_0[hits];
+                } else if (jsPsych.data.get().last(2).values()[0].key_press != 32 && pEM[0] == 10){
+                    return miss100_0[misses];
+                } else if (jsPsych.data.get().last(2).values()[0].key_press == 32 && pEM[0] == 9){
                     return hit90_10[hits];
-                } else {
+                } else if (jsPsych.data.get().last(2).values()[0].key_press != 32 && pEM[0] == 9){
                     return miss90_10[misses];
-                } 
-            },
-            choices: jsPsych.NO_KEYS,
-            trial_duration: 1500,
-        }
-
-        var Feedback_60_40 = {
-            type: 'html-keyboard-response',
-            data: {Trial_Type: 'Feedback_60_40'},
-            stimulus: function(){
-                if(jsPsych.data.get().last(2).values()[0].key_press == 32){
+                } else if (jsPsych.data.get().last(2).values()[0].key_press == 32 && pEM[0] == 8){
+                    return hit80_20[hits];
+                } else if (jsPsych.data.get().last(2).values()[0].key_press != 32 && pEM[0] == 8){
+                    return miss80_20[misses];
+                } else if (jsPsych.data.get().last(2).values()[0].key_press == 32 && pEM[0] == 7){
+                    return hit70_30[hits];
+                } else if (jsPsych.data.get().last(2).values()[0].key_press != 32 && pEM[0] == 7){
+                    return miss70_30[misses];
+                } else if (jsPsych.data.get().last(2).values()[0].key_press == 32 && pEM[0] == 6){
                     return hit60_40[hits];
-                } else {
+                } else if (jsPsych.data.get().last(2).values()[0].key_press != 32 && pEM[0] == 6){
                     return miss60_40[misses];
-                } 
+                }
             },
             choices: jsPsych.NO_KEYS,
             trial_duration: 1500,
         }
 
-        var HiMI_procedure = {
-            timeline: [Delay, TooFast, Probe, Response_HiMI, Feedback_90_10],
-            timeline_variables: [
-                {Duration: 250}, {Duration: 250}, {Duration: 250}, {Duration: 250}, {Duration: 250},
-                {Duration: 750}, {Duration: 750}, {Duration: 750}, {Duration: 750}, {Duration: 750},
-            ],
-            randomize_order: true,
-            repetitions: 3,
+        var Feedback_R2 = {
+            type: 'html-keyboard-response',
+            data: {Trial_Type: 'Feedback_R2'},
+            stimulus: function(){
+                if(jsPsych.data.get().last(2).values()[0].key_press == 32 && pEM[1] == 10){
+                    return hit100_0[hits];
+                } else if (jsPsych.data.get().last(2).values()[0].key_press != 32 && pEM[1] == 10){
+                    return miss100_0[misses];
+                } else if (jsPsych.data.get().last(2).values()[0].key_press == 32 && pEM[1] == 9){
+                    return hit90_10[hits];
+                } else if (jsPsych.data.get().last(2).values()[0].key_press != 32 && pEM[1] == 9){
+                    return miss90_10[misses];
+                } else if (jsPsych.data.get().last(2).values()[0].key_press == 32 && pEM[1] == 8){
+                    return hit80_20[hits];
+                } else if (jsPsych.data.get().last(2).values()[0].key_press != 32 && pEM[1] == 8){
+                    return miss80_20[misses];
+                } else if (jsPsych.data.get().last(2).values()[0].key_press == 32 && pEM[1] == 7){
+                    return hit70_30[hits];
+                } else if (jsPsych.data.get().last(2).values()[0].key_press != 32 && pEM[1] == 7){
+                    return miss70_30[misses];
+                } else if (jsPsych.data.get().last(2).values()[0].key_press == 32 && pEM[1] == 6){
+                    return hit60_40[hits];
+                } else if (jsPsych.data.get().last(2).values()[0].key_press != 32 && pEM[1] == 6){
+                    return miss60_40[misses];
+                }
+            },
+            choices: jsPsych.NO_KEYS,
+            trial_duration: 1500,
         }
 
-        var LoMI1_procedure = {
-            timeline: [Delay, TooFast, Probe, Response_LoMI, Feedback_60_40],
-            timeline_variables: [
-                {Duration: 250}, {Duration: 250}, {Duration: 250}, {Duration: 250}, {Duration: 250},
-                {Duration: 750}, {Duration: 750}, {Duration: 750}, {Duration: 750}, {Duration: 750},
-            ],
-            randomize_order: true,
-            repetitions: 3,
+        var R1_Procedure = {
+            timeline: [Delay, TooFast, R1_Probe, Response_R1, Feedback_R1],
+            repetitions: 50,
         }
 
-        var LoMI2_procedure = {
-            timeline: [Delay, TooFast, Probe, Response_LoMI, Feedback_90_10],
-            timeline_variables: [
-                {Duration: 250}, {Duration: 750}, {Duration: 750}, {Duration: 750}, {Duration: 750},
-                {Duration: 750}, {Duration: 750}, {Duration: 750}, {Duration: 750}, {Duration: 750},
-            ],
-            randomize_order: true,
-            repetitions: 3,
+        var R2_Procedure = {
+            timeline: [Delay, TooFast, R2_Probe, Response_R2, Feedback_R2],
+            repetitions: 50,
         }
 
         var scale_1 = [
@@ -604,83 +751,63 @@ var database = firebase.database();
             "3<br>Strongly<br>Agree",
         ];
 
-        var HiMI_DVs = {
+        var R1_DVs = {
             type: 'survey-likert',
             preamble:
                 '<div style="padding-top: 50px; width: 800px; font-size:16px">'
-                +'<p>Thank you for playing the '+HiMISpan+'!</p>'
+                +'<p>Thank you for playing the '+R1Span+'!</p>'
                 +'<p>Now, please indicate the extent to which you agree or disagree with the following statements.</p></div>',
             questions: [
-                {prompt: '"While playing the '+HiMISpan+', I felt absorbed in what I was doing."',
-                name: 'HiMI_Absorbed',
+                {prompt: '"While playing the '+R1Span+', I felt absorbed in what I was doing."',
+                name: 'R1_Absorbed',
                 labels: scale_1},
-                {prompt: '"While playing the '+HiMISpan+', I felt immersed in what I was doing."',
-                name: 'HiMI_Immersed',
+                {prompt: '"While playing the '+R1Span+', I felt immersed in what I was doing."',
+                name: 'R1_Immersed',
                 labels: scale_1},
-                {prompt: '"While playing the '+HiMISpan+', I felt engaged in what I was doing."',
-                name: 'HiMI_Engaged',
+                {prompt: '"While playing the '+R1Span+', I felt engaged in what I was doing."',
+                name: 'R1_Engaged',
                 labels: scale_1},
-                {prompt: '"Playing the '+HiMISpan+' was addictive."',
-                name: 'HiMI_Addictive',
+                {prompt: '"Playing the '+R1Span+' was addictive."',
+                name: 'R1_Addictive',
                 labels: scale_1},
-                {prompt: '"I felt like the '+HiMISpan+' took a long time to finish."',
-                name: 'HiMI_LongTime',
+                {prompt: '"I felt like the '+R1Span+' took a long time to finish."',
+                name: 'R1_LongTime',
                 labels: scale_1},           
-                {prompt: '"I would like to play the '+HiMISpan+' again."',
-                name: 'HiMI_PlayAgain',
-                labels: scale_1},
             ],
             randomize_question_order: true,
             scale_width: 700
         };
 
-        var LoMI_DVs = {
+        var R2_DVs = {
             type: 'survey-likert',
             preamble:
                 '<div style="padding-top: 50px; width: 800px; font-size:16px">'
-                +'<p>Thank you for playing the '+LoMISpan+'!</p>'
+                +'<p>Thank you for playing the '+R2Span+'!</p>'
                 +'<p>Now, please indicate the extent to which you agree or disagree with the following statements.</p></div>',
             questions: [
-                {prompt: '"While playing the '+LoMISpan+', I felt absorbed in what I was doing."',
-                name: 'LoMI_Absorbed',
+                {prompt: '"While playing the '+R2Span+', I felt absorbed in what I was doing."',
+                name: 'R2_Absorbed',
                 labels: scale_1},
-                {prompt: '"While playing the '+LoMISpan+', I felt immersed in what I was doing."',
-                name: 'LoMI_Focused',
+                {prompt: '"While playing the '+R2Span+', I felt immersed in what I was doing."',
+                name: 'R2_Focused',
                 labels: scale_1},
-                {prompt: '"While playing the '+LoMISpan+', I felt engaged in what I was doing."',
-                name: 'LoMI_Engaged',
+                {prompt: '"While playing the '+R2Span+', I felt engaged in what I was doing."',
+                name: 'R2_Engaged',
                 labels: scale_1},
-                {prompt: '"Playing the '+LoMISpan+' was addictive."',
-                name: 'LoMI_Addictive',
+                {prompt: '"Playing the '+R2Span+' was addictive."',
+                name: 'R2_Addictive',
                 labels: scale_1},
-                {prompt: '"I felt like the '+LoMISpan+' took a long time to finish."',
-                name: 'LoMI_LongTime',
+                {prompt: '"I felt like the '+R2Span+' took a long time to finish."',
+                name: 'R2_LongTime',
                 labels: scale_1},               
-                {prompt: '"I would like to play the '+LoMISpan+' again."',
-                name: 'LoMI_PlayAgain',
-                labels: scale_1},
             ],
             randomize_question_order: true,
             scale_width: 700
         };
 
-        if (MI_Order == 0){
-            var test_procedure = {
-                timeline: [T1, HiMI_procedure, HiMI_DVs, T2_v1, LoMI1_procedure, LoMI_DVs],
+        var test_procedure = {
+            timeline: [T1, R1_Procedure, R1_DVs, T2, R2_Procedure, R2_DVs],
             }
-        } else if (MI_Order == 1){
-            var test_procedure = {
-                timeline: [T1, HiMI_procedure, HiMI_DVs, T2_v2, LoMI2_procedure, LoMI_DVs],
-            }
-        } else if (MI_Order == 2){
-            var test_procedure = {
-                timeline: [T1, LoMI1_procedure, LoMI_DVs, T2_v1, HiMI_procedure, HiMI_DVs],
-            }
-        } else if (MI_Order == 3){
-            var test_procedure = {
-                timeline: [T1, LoMI2_procedure, LoMI_DVs, T2_v2, HiMI_procedure, HiMI_DVs],
-            }
-        }       
         
 //    	/* start the experiment */
 //    	jsPsych.init({
