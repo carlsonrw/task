@@ -612,7 +612,7 @@ var database = firebase.database();
                 }
             },
             choices: jsPsych.NO_KEYS,
-            trial_duration: 1000,
+            trial_duration: 800,
             on_finish: function(){
                 if (jsPsych.data.get().last(2).values()[0].key_press != 32 && misses < 9){
                     misses = misses + 1;
@@ -647,7 +647,7 @@ var database = firebase.database();
                 }
             },
             choices: jsPsych.NO_KEYS,
-            trial_duration: 1000,
+            trial_duration: 800,
             on_finish: function(){
                 if (jsPsych.data.get().last(2).values()[0].key_press != 32 && misses < 9){
                     misses = misses + 1;
@@ -698,7 +698,7 @@ var database = firebase.database();
                 }
             },
             choices: jsPsych.NO_KEYS,
-            trial_duration: 1000,
+            trial_duration: 800,
         }
 
         var Feedback_R2 = {
@@ -728,7 +728,7 @@ var database = firebase.database();
                 }
             },
             choices: jsPsych.NO_KEYS,
-            trial_duration: 1000,
+            trial_duration: 800,
         }
 
         var R1_Procedure = {
@@ -774,7 +774,7 @@ var database = firebase.database();
             preamble:
                 '<div style="padding-top: 50px; width: 800px; font-size:16px">'
                 +'<p>Thank you for playing the '+R1Span+'!</p>'
-                +'<p>Now, please indicate the extent to which each of the following statements are accurate or inaccurate.</p></div>',
+                +'<p>Now, please indicate the extent to which you agree or disagree with each of the following statements.</p></div>',
             questions: [
                 {prompt: '"While playing the '+R1Span+', I felt absorbed in what I was doing."',
                 name: 'R1_Absorbed',
@@ -809,7 +809,7 @@ var database = firebase.database();
                 +'<p>Thank you for playing the '+R1Span+'!</p>'
                 +'<p>Now, please answer the following questions.</p></div>',
             questions: [
-                {prompt: '"While playing the '+R1Span+', how much control did you feel like you had over your outcomes?"',
+                {prompt: '"While playing the '+R1Span+', how much control did you have over your outcomes?"',
                 name: 'R1_Control',
                 labels: scale_2},
                 {prompt: '"Was the '+R1Span+' too easy, too hard, or just the right level of difficulty?"',
@@ -825,7 +825,7 @@ var database = firebase.database();
             preamble:
                 '<div style="padding-top: 50px; width: 800px; font-size:16px">'
                 +'<p>Thank you for playing the '+R2Span+'!</p>'
-                +'<p>Now, please indicate the extent to which each of the following statements are accurate or inaccurate.</p></div>',
+                +'<p>Now, please indicate the extent to which you agree or disagree with each of the following statements.</p></div>',
             questions: [
                 {prompt: '"While playing the '+R2Span+', I felt absorbed in what I was doing."',
                 name: 'R2_Absorbed',
@@ -860,7 +860,7 @@ var database = firebase.database();
                 +'<p>Thank you for playing the '+R2Span+'!</p>'
                 +'<p>Now, please answer the following questions.</p></div>',
             questions: [
-                {prompt: '"While playing the '+R2Span+', how much control did you feel like you had over your outcomes?"',
+                {prompt: '"While playing the '+R2Span+', how much control did you have over your outcomes?"',
                 name: 'R2_Control',
                 labels: scale_2},
                 {prompt: '"Was the '+R2Span+' too easy, too hard, or just the right level of difficulty?"',
