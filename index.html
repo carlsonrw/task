@@ -755,18 +755,20 @@ var database = firebase.database();
 
         var scale_2 = [
             "0<br>Zero<br>Control",
-            "1", "2", "3", "4", "5",
-            "6<br>Complete<br>Control",
+            "1", "2", "3", "4", "5", "6", "7",
+            "8<br>Complete<br>Control",
         ];
 
         var scale_3 = [
-            "-3<br>Way<br>Too Easy",
-            "-2<br>Too Easy",
-            "-1<br>A Bit<br>Too Easy",
+            "-4<br>Way<br>Too Easy",
+            "-3",
+            "-2",
+            "-1",
             "0<br>Just Right",
-            "1<br>A Bit<br>Too Hard",
-            "2<br>Too Hard",
-            "3<br>Way<br>Too Hard",
+            "1",
+            "2",
+            "3",
+            "4<br>Way<br>Too Hard",
         ];
 
         var R1a_DVs = {
@@ -806,13 +808,12 @@ var database = firebase.database();
             type: 'survey-likert',
             preamble:
                 '<div style="padding-top: 50px; width: 800px; font-size:16px">'
-                +'<p>Thank you for playing the '+R1Span+'!</p>'
-                +'<p>Now, please answer the following questions.</p></div>',
+                +'<p>Please answer two more questions about the '+R1Span+'.</p></div>',
             questions: [
-                {prompt: '"While playing the '+R1Span+', how much control did you have over your outcomes?"',
+                {prompt: 'While playing the '+R1Span+', how much control did you feel you had over the outcome of each trial?',
                 name: 'R1_Control',
                 labels: scale_2},
-                {prompt: '"Was the '+R1Span+' too easy, too hard, or just the right level of difficulty?"',
+                {prompt: 'Was the '+R1Span+' too easy, too hard, or just the right level of difficulty?',
                 name: 'R1_Balance',
                 labels: scale_3},
             ],
@@ -857,13 +858,12 @@ var database = firebase.database();
             type: 'survey-likert',
             preamble:
                 '<div style="padding-top: 50px; width: 800px; font-size:16px">'
-                +'<p>Thank you for playing the '+R2Span+'!</p>'
-                +'<p>Now, please answer the following questions.</p></div>',
+                +'<p>Please answer two more questions about the '+R2Span+'!</p></div>',
             questions: [
-                {prompt: '"While playing the '+R2Span+', how much control did you have over your outcomes?"',
+                {prompt: 'While playing the '+R2Span+', how much control did you feel you had over the outcome of each trial?',
                 name: 'R2_Control',
                 labels: scale_2},
-                {prompt: '"Was the '+R2Span+' too easy, too hard, or just the right level of difficulty?"',
+                {prompt: 'Was the '+R2Span+' too easy, too hard, or just the right level of difficulty?',
                 name: 'R2_Balance',
                 labels: scale_3},
             ],
@@ -893,7 +893,7 @@ var database = firebase.database();
         jsPsych.init({
             timeline: timeline,
             on_finish: function(){
-                window.location.replace("https://yalesurvey.ca1.qualtrics.com/jfe/form/SV_8iwvxnwI89zaQWV?workerId="+turkID);
+                window.location.replace("https://yalesurvey.ca1.qualtrics.com/jfe/form/SV_cINZ0RNEg9J4ocd?workerId="+turkID);
             },
             on_close: function() {
                 firebase.database().ref(firebase.auth().currentUser.uid).set({
