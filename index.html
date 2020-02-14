@@ -29,10 +29,9 @@
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 </script>
-  
-    
+
    
-//        // Enable persistence
+<!-- //        // Enable persistence
 //        firebase.firestore().enablePersistence()
 //            .catch(function(err) {
 //            if (err.code == 'failed-precondition') {
@@ -111,7 +110,7 @@
     //Updating an existing field: (an example)
        //db.collection("Tasks").doc('mi-game').collection('participants').doc(uid).update({
        //total_points: number_of_points
-       //});
+       //}); -->
     
         </script>
         
@@ -482,7 +481,7 @@
             },
             trial_duration: function(){
                 if(jsPsych.data.get().last(1).values()[0].key_press == 32){
-                    return 5000
+                    return 2500
                 } else {
                     return 0
                 }
