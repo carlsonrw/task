@@ -28,7 +28,7 @@
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
-
+</script>
   
     
    
@@ -585,7 +585,7 @@
                     pM40 = jsPsych.randomization.shuffle(pM40);
                     pM30 = jsPsych.randomization.shuffle(pM30);
                     pM20 = jsPsych.randomization.shuffle(pM20);
-                } else if (data.key_press == 32 && tNum == 9){
+                } else if (data.key_press != 32 && tNum == 9){
                     data.TooSlow = 1;
                     tNum = -1;
                     pM80 = jsPsych.randomization.shuffle(pM80);
@@ -740,33 +740,33 @@
         }
 
         var scale_1 = [
-            "-4<br>Completely<br>Disagree",
-            "-3<br>Strongly<br>Disagree",
-            "-2<br>Moderately<br>Disagree",
-            "-1<br>Slightly<br>Disagree",
-            "0<br>Neither Agree Nor Disagree",
-            "1<br>Slightly<br>Agree",
-            "2<br>Moderately<br>Agree",
-            "3<br>Strongly<br>Agree",
-            "4<br>Completely<br>Agree",
+            "-4<font size='1'><br>Completely<br>Disagree</font>",
+            "-3<font size='1'><br>Strongly<br>Disagree</font>",
+            "-2<font size='1'><br>Moderately<br>Disagree</font>",
+            "-1<font size='1'><br>Slightly<br>Disagree</font>",
+            "0<font size='1'><br>Neither Agree Nor Disagree</font>",
+            "1<font size='1'><br>Slightly<br>Agree</font>",
+            "2<font size='1'><br>Moderately<br>Agree</font>",
+            "3<font size='1'><br>Strongly<br>Agree</font>",
+            "4<font size='1'><br>Completely<br>Agree</font>",
         ];
 
         var scale_2 = [
-            "0<br>Zero<br>Control",
+            "0<font size='1'><br>Zero<br>Control</font>",
             "1", "2", "3", "4", "5", "6", "7",
-            "8<br>Complete<br>Control",
+            "8<font size='1'><br>Complete<br>Control</font>",
         ];
 
         var scale_3 = [
-            "-4<br>Way<br>Too Easy",
+            "-4<font size='1'><br>Way<br>Too Easy</font>",
             "-3",
             "-2",
             "-1",
-            "0<br>Just Right",
+            "0<font size='1'><br>Just Right</font>",
             "1",
             "2",
             "3",
-            "4<br>Way<br>Too Hard",
+            "4<font size='1'><br>Way<br>Too Hard</font>",
         ];
 
         var R1a_DVs = {
