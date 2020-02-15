@@ -142,12 +142,19 @@ var database = firebase.database();
 
         var turkID = jsPsych.data.getURLVariable('subject')
 
+        var date = jsPsych.data.getURLVariable('date')
+        
+        var time = jsPsych.data.getURLVariable('time')
+
+
         jsPsych.data.addProperties({
             Pr_M: pM,
             Pr_EM: pEM,
             Color_Order: balance,
             Condition_Order: MI_Order,
             SubjectID: turkID,
+            StartDate: date,
+            StartTime: time,
         });
 
         if (pEM[0] == 6){
