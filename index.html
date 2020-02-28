@@ -118,6 +118,7 @@ var database = firebase.database();
 
         <script src="jspsych-6.1.0/jspsych.js"></script>
         <script src="jspsych-6.1.0/jquery-ui.min.js"></script>
+        <script src="jspsych-6.1.0/plugins/jspsych-reconstruction.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-slider-response.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>
@@ -751,15 +752,9 @@ var database = firebase.database();
         }
 
         var scale_1 = [
-            "-4<br>Frustrating",
-            "-3",
-            "-2",
-            "-1",
-            "0<b>Immersive",
-            "1",
-            "2",
-            "3",
-            "4<br>Boring",
+            "0<br>Not<br>at all",
+            "1", "2", "3", "4", "5", "6", "7",
+            "8<br>Extremely",
         ];
 
         var scale_2 = [
@@ -780,24 +775,90 @@ var database = firebase.database();
             "4<font size='2'><br>Way<br>Too Hard</font>",
         ];
 
-        var sorting_stimuli = ["img/Boring.png", "img/Tedious.png",
-                               "img/Frustrating.png", "img/Aggravating.png",
-                               "img/Engrossing.png", "img/Engaging.png"];
+        var fColorChngeR1 = function(param){
+            if (balance == 0){
+                var g = 103 + Math.floor(param*100);
+                var html = 
+                    "<div class='parent'>"+
+                    '<p>Press L to make the tile lighter. Press D to make the tile darker.</p>'+
+                    '<p>Adjust the color until it matches the tile from the game you just played, then click Continue.</p>'+
+                    '<div style="position: absolute; top: 50%; left: 50%; width: 200px; height: 200px; '+
+                    'margin: -100px 0 0 -100px; background-color:rgb(51,'+g+',255)"> </div></div>';
+                return html;
+            } else if (balance == 1){
+                var g = 115 + Math.floor(param*100);
+                var html = 
+                    "<div class='parent'>"+
+                    '<p>Press L to make the tile lighter. Press D to make the tile darker.</p>'+
+                    '<p>Adjust the color until it matches the tile from the game you just played, then click Continue.</p>'+
+                    '<div style="position: absolute; top: 50%; left: 50%; width: 200px; height: 200px; '+
+                    'margin: -100px 0 0 -100px; background-color:rgb(53,'+g+',15)"> </div></div>';
+                return html;
+            }
+        }
+
+        var fColorChngeR2 = function(param){
+            if (balance == 1){
+                var g = 103 + Math.floor(param*100);
+                var html = 
+                    "<div class='parent'>"+
+                    '<p>Press L to make the tile lighter. Press D to make the tile darker.</p>'+
+                    '<p>Adjust the color until it matches the tile from the game you just played, then click Continue.</p>'+
+                    '<div style="position: absolute; top: 50%; left: 50%; width: 200px; height: 200px; '+
+                    'margin: -100px 0 0 -100px; background-color:rgb(51,'+g+',255)"> </div></div>';
+                return html;
+            } else if (balance == 0){
+                var g = 115 + Math.floor(param*100);
+                var html = 
+                    "<div class='parent'>"+
+                    '<p>Press L to make the tile lighter. Press D to make the tile darker.</p>'+
+                    '<p>Adjust the color until it matches the tile from the game you just played, then click Continue.</p>'+
+                    '<div style="position: absolute; top: 50%; left: 50%; width: 200px; height: 200px; '+
+                    'margin: -100px 0 0 -100px; background-color:rgb(53,'+g+',15)"> </div></div>';
+                return html;
+            }
+        }
+
+        var ColorChngeR1 = {
+            type: 'reconstruction',
+            stim_function: fColorChngeR1,
+            starting_value: .1,
+            step_size: .05,
+            key_increase: 'l',
+            key_decrease: 'd',
+        }
+
+        var ColorChngeR2 = {
+            type: 'reconstruction',
+            stim_function: fColorChngeR2,
+            starting_value: .1,
+            step_size: .05,
+            key_increase: 'l',
+            key_decrease: 'd',
+        }
 
         var R1a_DVs = {
-            type: 'free-sort',
-            stimuli: sorting_stimuli,
-            stim_height: 38,
-            stim_width: 700,
-            sort_area_height: 400,
-            sort_area_width: 700,
-            prompt: 
-                '<div style="padding-top: 50px; width: 700px; font-size:16px">'
-                +"<p>Thank you for playing the "+R1Span+"!</p>"
-                +"<p>Now, please sort the words below in terms of how accurately you think they describe the "+R1Span+". "
-                +"Drag and drop the words so that the most accurate description is highest, the 2nd most accurate description is "
-                +"2nd-highest, the 3rd most accurate description is 3rd-highest, etc.</p>"
-                +"<p>Please be as honest and accurate as possible.</p></div>"
+            type: 'survey-likert',
+            preamble:
+                '<div style="padding-top: 50px; width: 800px; font-size:16px">'
+                +'<p>Thank you for playing the '+R1Span+'!</p>'
+                +'<p>Now, please provide your honest assessment of the '+R1Span+' by answering each of the following questions.</div>',
+            questions: [
+                {prompt: 'How engaging was the '+R1Span+'?',
+                name: 'R1_Engaging',
+                labels: scale_1},
+                {prompt: 'How addictive was the '+R1Span+'?',
+                name: 'R1_Addictive',
+                labels: scale_1},
+                {prompt: 'How immersive was the '+R1Span+'?',
+                name: 'R1_Immersive',
+                labels: scale_1},
+                {prompt: 'How engrossing was the '+R1Span+'?',
+                name: 'R1_Engrossing',
+                labels: scale_1},
+            ],
+            randomize_question_order: true,
+            scale_width: 500
         };
 
         var R1b_DVs = {
@@ -814,23 +875,31 @@ var database = firebase.database();
                 labels: scale_3},
             ],
             randomize_question_order: true,
-            scale_width: 600
+            scale_width: 500
         };
 
         var R2a_DVs = {
-            type: 'free-sort',
-            stimuli: sorting_stimuli,
-            stim_height: 38,
-            stim_width: 700,
-            sort_area_height: 400,
-            sort_area_width: 700,
-            prompt: 
-                '<div style="padding-top: 50px; width: 700px; font-size:16px">'
-                +"<p>Thank you for playing the "+R2Span+"!</p>"
-                +"<p>Now, please sort the words below in terms of how accurately you think they describe the "+R2Span+". "
-                +"Drag and drop the words so that the most accurate description is highest, the 2nd most accurate description is "
-                +"2nd-highest, the 3rd most accurate description is 3rd-highest, etc.</p>"
-                +"<p>Please be as honest and accurate as possible.</p></div>"
+            type: 'survey-likert',
+            preamble:
+                '<div style="padding-top: 50px; width: 800px; font-size:16px">'
+                +'<p>Thank you for playing the '+R2Span+'!</p>'
+                +'<p>Now, please provide your honest assessment of the '+R2Span+' by answering each of the following questions.</div>',
+            questions: [
+                {prompt: 'How engaging was the '+R2Span+'?',
+                name: 'R2_Engaging',
+                labels: scale_1},
+                {prompt: 'How addictive was the '+R2Span+'?',
+                name: 'R2_Addictive',
+                labels: scale_1},
+                {prompt: 'How immersive was the '+R2Span+'?',
+                name: 'R2_Immersive',
+                labels: scale_1},
+                {prompt: 'How engrossing was the '+R2Span+'?',
+                name: 'R2_Engrossing',
+                labels: scale_1},
+            ],
+            randomize_question_order: true,
+            scale_width: 500
         };
 
         var R2b_DVs = {
@@ -847,11 +916,11 @@ var database = firebase.database();
                 labels: scale_3},
             ],
             randomize_question_order: true,
-            scale_width: 600
+            scale_width: 500
         };
 
         var test_procedure = {
-            timeline: [T1, R1_Procedure, R1a_DVs, R1b_DVs, T2, R2_Procedure, R2a_DVs, R2b_DVs],
+            timeline: [T1, R1_Procedure, ColorChngeR1, R1a_DVs, R1b_DVs, T2, R2_Procedure, ColorChngeR2, R2a_DVs, R2b_DVs],
             }
 
 //    	/* start the experiment */
