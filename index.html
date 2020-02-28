@@ -117,14 +117,17 @@ var database = firebase.database();
         </script>
 
         <script src="jspsych-6.1.0/jspsych.js"></script>
+        <script src="jspsych-6.1.0/jquery-ui.min.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-slider-response.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-instructions.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-survey-likert.js"></script>
+        <script src="jspsych-6.1.0/plugins/jspsych-survey-multi-choice.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js"></script>
-        <link href="jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css">
-        </link>
+        <script src="jspsych-6.1.0/plugins/jspsych-free-sort.js"></script>
+        <link href="jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+        <link href="jspsych-6.1.0/css/jquery-ui.min.css" rel="stylesheet" type="text/css"></link>
     </head>
     <body></body>
 
@@ -304,34 +307,34 @@ var database = firebase.database();
             ])
 
         var pM80 = jsPsych.randomization.shuffle([
-            250, 250, 750, 750, 750, 750, 750, 750, 750, 750,
+            225, 225, 750, 750, 750, 750, 750, 750, 750, 750,
             ])
 
         var pM70 = jsPsych.randomization.shuffle([
-            250, 250, 250, 750, 750, 750, 750, 750, 750, 750,
+            225, 225, 225, 750, 750, 750, 750, 750, 750, 750,
             ])
 
         var pM60 = jsPsych.randomization.shuffle([
-            250, 250, 250, 250, 750, 750, 750, 750, 750, 750,
+            225, 252, 225, 225, 750, 750, 750, 750, 750, 750,
             ])
 
         var pM50 = jsPsych.randomization.shuffle([
-            250, 250, 250, 250, 250, 750, 750, 750, 750, 750,
+            225, 225, 225, 225, 225, 750, 750, 750, 750, 750,
             ])
 
         var pM40 = jsPsych.randomization.shuffle([
-            250, 250, 250, 250, 250, 250, 750, 750, 750, 750,
+            225, 225, 225, 225, 225, 225, 750, 750, 750, 750,
             ])
 
         var pM30 = jsPsych.randomization.shuffle([
-            250, 250, 250, 250, 250, 250, 250, 750, 750, 750,
+            225, 225, 225, 225, 225, 225, 225, 750, 750, 750,
             ])
 
         var pM20 = jsPsych.randomization.shuffle([
-            250, 250, 250, 250, 250, 250, 250, 250, 750, 750,
+            225, 225, 225, 225, 225, 225, 225, 225, 750, 750,
             ])
 
-        var ITI = [250, 500, 750, 1000, 1250, 1500]
+        var ITI = [250, 500, 750, 1000, 1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000]
 
         var hits = -1
 
@@ -618,7 +621,7 @@ var database = firebase.database();
                 }
             },
             choices: jsPsych.NO_KEYS,
-            trial_duration: 800,
+            trial_duration: 1000,
             on_finish: function(){
                 if (jsPsych.data.get().last(2).values()[0].key_press != 32 && misses < 9){
                     misses = misses + 1;
@@ -653,7 +656,7 @@ var database = firebase.database();
                 }
             },
             choices: jsPsych.NO_KEYS,
-            trial_duration: 800,
+            trial_duration: 1000,
             on_finish: function(){
                 if (jsPsych.data.get().last(2).values()[0].key_press != 32 && misses < 9){
                     misses = misses + 1;
@@ -704,7 +707,7 @@ var database = firebase.database();
                 }
             },
             choices: jsPsych.NO_KEYS,
-            trial_duration: 800,
+            trial_duration: 1500,
         }
 
         var Feedback_R2 = {
@@ -734,7 +737,7 @@ var database = firebase.database();
                 }
             },
             choices: jsPsych.NO_KEYS,
-            trial_duration: 800,
+            trial_duration: 1500,
         }
 
         var R1_Procedure = {
@@ -748,15 +751,15 @@ var database = firebase.database();
         }
 
         var scale_1 = [
-            "-4<font size='2'><br>Completely<br>Disagree</font>",
-            "-3<font size='2'><br>Strongly<br>Disagree</font>",
-            "-2<font size='2'><br>Moderately<br>Disagree</font>",
-            "-1<font size='2'><br>Slightly<br>Disagree</font>",
-            "0<font size='2'><br>Neither Agree Nor Disagree</font>",
-            "1<font size='2'><br>Slightly<br>Agree</font>",
-            "2<font size='2'><br>Moderately<br>Agree</font>",
-            "3<font size='2'><br>Strongly<br>Agree</font>",
-            "4<font size='2'><br>Completely<br>Agree</font>",
+            "-4<br>Frustrating",
+            "-3",
+            "-2",
+            "-1",
+            "0<b>Immersive",
+            "1",
+            "2",
+            "3",
+            "4<br>Boring",
         ];
 
         var scale_2 = [
@@ -777,37 +780,24 @@ var database = firebase.database();
             "4<font size='2'><br>Way<br>Too Hard</font>",
         ];
 
+        var sorting_stimuli = ["img/Boring.png", "img/Tedious.png",
+                               "img/Frustrating.png", "img/Aggravating.png",
+                               "img/Engrossing.png", "img/Engaging.png"];
+
         var R1a_DVs = {
-            type: 'survey-likert',
-            preamble:
-                '<div style="padding-top: 50px; width: 800px; font-size:16px">'
-                +'<p>Thank you for playing the '+R1Span+'!</p>'
-                +'<p>Now, please indicate the extent to which you agree or disagree with each of the following statements.</p></div>',
-            questions: [
-                {prompt: '"While playing the '+R1Span+', I felt absorbed in what I was doing."',
-                name: 'R1_Absorbed',
-                labels: scale_1},
-                {prompt: '"While playing the '+R1Span+', I felt immersed in what I was doing."',
-                name: 'R1_Immersed',
-                labels: scale_1},
-                {prompt: '"While playing the '+R1Span+', I felt engaged in what I was doing."',
-                name: 'R1_Engaged',
-                labels: scale_1},
-                {prompt: '"I found it hard to stay focused on the '+R1Span+'."',
-                name: 'R1_HardToFocus',
-                labels: scale_1},
-                {prompt: '"I kept wondering when the '+R1Span+' would end."',
-                name: 'R1_WhenEnd',
-                labels: scale_1},
-                {prompt: '"Playing the '+R1Span+' was addictive."',
-                name: 'R1_Addictive',
-                labels: scale_1},
-                {prompt: '"I felt like the '+R1Span+' took a long time to finish."',
-                name: 'R1_LongTime',
-                labels: scale_1},
-            ],
-            randomize_question_order: true,
-            scale_width: 750
+            type: 'free-sort',
+            stimuli: sorting_stimuli,
+            stim_height: 38,
+            stim_width: 700,
+            sort_area_height: 400,
+            sort_area_width: 700,
+            prompt: 
+                '<div style="padding-top: 50px; width: 700px; font-size:16px">'
+                +"<p>Thank you for playing the "+R1Span+"!</p>"
+                +"<p>Now, please sort the words below in terms of how accurately you think they describe the "+R1Span+". "
+                +"Drag and drop the words so that the most accurate word is highest, the 2nd most accurate word is "
+                +"2nd-highest, the 3rd most accurate word is 3rd-highest, etc.</p>"
+                +"<p>Please be as honest and accurate as possible.</p></div>"
         };
 
         var R1b_DVs = {
@@ -824,40 +814,23 @@ var database = firebase.database();
                 labels: scale_3},
             ],
             randomize_question_order: true,
-            scale_width: 750
+            scale_width: 600
         };
 
         var R2a_DVs = {
-            type: 'survey-likert',
-            preamble:
-                '<div style="padding-top: 50px; width: 800px; font-size:16px">'
-                +'<p>Thank you for playing the '+R2Span+'!</p>'
-                +'<p>Now, please indicate the extent to which you agree or disagree with each of the following statements.</p></div>',
-            questions: [
-                {prompt: '"While playing the '+R2Span+', I felt absorbed in what I was doing."',
-                name: 'R2_Absorbed',
-                labels: scale_1},
-                {prompt: '"While playing the '+R2Span+', I felt immersed in what I was doing."',
-                name: 'R2_Immersed',
-                labels: scale_1},
-                {prompt: '"While playing the '+R2Span+', I felt engaged in what I was doing."',
-                name: 'R2_Engaged',
-                labels: scale_1},
-                {prompt: '"I found it hard to stay focused on the '+R2Span+'."',
-                name: 'R2_HardToFocus',
-                labels: scale_1},
-                {prompt: '"I kept wondering when the '+R2Span+' would end."',
-                name: 'R2_WhenEnd',
-                labels: scale_1},
-                {prompt: '"Playing the '+R2Span+' was addictive."',
-                name: 'R2_Addictive',
-                labels: scale_1},
-                {prompt: '"I felt like the '+R2Span+' took a long time to finish."',
-                name: 'R2_LongTime',
-                labels: scale_1},
-            ],
-            randomize_question_order: true,
-            scale_width: 750
+            type: 'free-sort',
+            stimuli: sorting_stimuli,
+            stim_height: 38,
+            stim_width: 700,
+            sort_area_height: 400,
+            sort_area_width: 700,
+            prompt: 
+                '<div style="padding-top: 50px; width: 700px; font-size:16px">'
+                +"<p>Thank you for playing the "+R2Span+"!</p>"
+                +"<p>Now, please sort the words below in terms of how accurately you think they describe the "+R2Span+". "
+                +"Drag and drop the words so that the most accurate word is highest, the 2nd most accurate word is "
+                +"2nd-highest, the 3rd most accurate word is 3rd-highest, etc.</p>"
+                +"<p>Please be as honest and accurate as possible.</p></div>"
         };
 
         var R2b_DVs = {
@@ -874,7 +847,7 @@ var database = firebase.database();
                 labels: scale_3},
             ],
             randomize_question_order: true,
-            scale_width: 750
+            scale_width: 600
         };
 
         var test_procedure = {
