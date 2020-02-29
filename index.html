@@ -150,6 +150,9 @@ var database = firebase.database();
 
         var GetTime = jsPsych.data.getURLVariable('time')
 
+        var b1 = jsPsych.randomization.sampleWithReplacement([63, 68, 73, 78, 83, 133, 138, 143, 148, 153], 1)
+
+        var b2 = jsPsych.randomization.sampleWithReplacement([75, 80, 85, 90, 95, 145, 150, 155, 160, 165], 1)
 
         jsPsych.data.addProperties({
             Pr_M: pM,
@@ -783,9 +786,11 @@ var database = firebase.database();
             "60%", "70%", "80%", "90%", "100%",
         ];
 
+
+
         var fColorChngeR1 = function(param){
             if (balance == 0){
-                var g = 103 + Math.floor(param*100);
+                var g = b1[0] + Math.floor(param*100);
                 var html = 
                     "<div class='parent'>"+
                     '<p>Press L to make the tile lighter. Press D to make the tile darker.</p>'+
@@ -794,7 +799,7 @@ var database = firebase.database();
                     'margin: -100px 0 0 -100px; background-color:rgb(51,'+g+',255)"> </div></div>';
                 return html;
             } else if (balance == 1){
-                var g = 115 + Math.floor(param*100);
+                var g = b2[0] + Math.floor(param*100);
                 var html = 
                     "<div class='parent'>"+
                     '<p>Press L to make the tile lighter. Press D to make the tile darker.</p>'+
@@ -807,7 +812,7 @@ var database = firebase.database();
 
         var fColorChngeR2 = function(param){
             if (balance == 1){
-                var g = 103 + Math.floor(param*100);
+                var g = b2[0] + Math.floor(param*100);
                 var html = 
                     "<div class='parent'>"+
                     '<p>Press L to make the tile lighter. Press D to make the tile darker.</p>'+
@@ -816,7 +821,7 @@ var database = firebase.database();
                     'margin: -100px 0 0 -100px; background-color:rgb(51,'+g+',255)"> </div></div>';
                 return html;
             } else if (balance == 0){
-                var g = 115 + Math.floor(param*100);
+                var g = b1[0] + Math.floor(param*100);
                 var html = 
                     "<div class='parent'>"+
                     '<p>Press L to make the tile lighter. Press D to make the tile darker.</p>'+
@@ -830,7 +835,7 @@ var database = firebase.database();
         var ColorChngeR1 = {
             type: 'reconstruction',
             stim_function: fColorChngeR1,
-            starting_value: .1,
+            starting_value: .5,
             step_size: .05,
             key_increase: 'l',
             key_decrease: 'd',
@@ -839,7 +844,7 @@ var database = firebase.database();
         var ColorChngeR2 = {
             type: 'reconstruction',
             stim_function: fColorChngeR2,
-            starting_value: .1,
+            starting_value: .5,
             step_size: .05,
             key_increase: 'l',
             key_decrease: 'd',
@@ -892,7 +897,7 @@ var database = firebase.database();
                 '<div style="padding-top: 50px; width: 800px; font-size:16px">'
                 +'<p>Please complete the following sentence so that it accurately describes rules of the '+R1Span+'.</p></div>',
             questions: [
-                {prompt: 'In the '+R1Span+', activating a tile gives you a %___ chance of winning a 10-cent Jackpot.',
+                {prompt: 'In the '+R1Span+', if you turn a tile '+R1ColorWord+', your odds of winning a 10-cent Jackpot that round are %____.',
                 name: 'R1_PrcntChk',
                 labels: scale_4},
             ],
@@ -947,8 +952,8 @@ var database = firebase.database();
                 '<div style="padding-top: 50px; width: 800px; font-size:16px">'
                 +'<p>Please complete the following sentence so that it accurately describes rules of the '+R2Span+'.</p></div>',
             questions: [
-                {prompt: 'In the '+R2Span+', activating a tile gives you a %___ chance of winning a 10-cent Jackpot.',
-                name: 'R1_PrcntChk',
+                {prompt: 'In the '+R2Span+', if you turn a tile '+R2ColorWord+', your odds of winning a 10-cent Jackpot that round are %____.',
+                name: 'R2_PrcntChk',
                 labels: scale_4},
             ],
             randomize_question_order: true,
