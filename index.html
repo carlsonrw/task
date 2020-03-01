@@ -984,7 +984,7 @@ var database = firebase.database();
         jsPsych.init({
             timeline: timeline,
             on_finish: function(){
-                window.location.replace("https://yalesurvey.ca1.qualtrics.com/jfe/form/SV_cINZ0RNEg9J4ocd?workerId="+turkID);
+                window.location.replace("https://yalesurvey.ca1.qualtrics.com/jfe/form/SV_cINZ0RNEg9J4ocd?SecretKey="+turkID);
             },
             on_close: function() {
                 firebase.database().ref(firebase.auth().currentUser.uid).set({
