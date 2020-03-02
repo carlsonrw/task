@@ -365,9 +365,9 @@ var database = firebase.database();
         +"<p>After you finish, you will learn about and play the "+R2Span+".</p>"
         +"</div>",
         "<div class='parent'>"
-        +'<p>The goal of the '+R1Span+' is to win as many "10-cent Jackpots" as possible.<br>'
-        +'For every 10-cent Jackpot you win, you will receive an extra 10 cents.</p>'
-        +'<p>At the end of the study, you will receive $7 for your participation, plus an additional 10 cents for each '
+        +'<p>The goal of the '+R1Span+' is to win as many "10-cent Jackpots" as possible.</p>'
+        +'<p>For every 10-cent Jackpot you win, you will receive an extra 10 cents. '
+        +'Thus, at the end of the study, you will receive $7 for your participation, plus an additional 10 cents for each '
         +'10-cent Jackpot you win.</p></div>',
         "<div class='parent'>"
         +'<br>To win 10-cent Jackpots, you will try to "activate" tiles like this one:</p>'
@@ -800,25 +800,25 @@ var database = firebase.database();
 
         var fColorChngeR1 = function(param){
             if (balance == 0){
-                var g1 = b1[0] + Math.ceil(param*100);
+                var g1 = b1[0] + Math.floor(param*100);
                 var html = 
                     "<div class='parent'>"
                     +'<p>Please adjust the color of the tile below to match the color of the tile from '
                     +'the game you just played. '
-                    +'Press L to make the color lighter, and press D to make the color darker.</p>'
-                    +'<p>Once you think the color of the tile below matches the color of the tile from '
+                    +'<br>Press L to make the color lighter, and press D to make the color darker.</p>'
+                    +'<p>Once you think the color matches the color of the tile from '
                     +'the game you just played, press CONTINUE.</p>'+
                     '<div style="position: absolute; top: 60%; left: 50%; width: 200px; height: 200px; '+
                     'margin: -100px 0 0 -100px; background-color:rgb(51,'+g1+',255)"> </div></div>';
                 return html;
             } else if (balance == 1){
-                var g1 = b2[0] + Math.ceil(param*100);
+                var g1 = b2[0] + Math.floor(param*100);
                 var html = 
                     "<div class='parent'>"
                     +'<p>Please adjust the color of the tile below to match the color of the tile from '
                     +'the game you just played. '
-                    +'Press L to make the color lighter, and press D to make the color darker.</p>'
-                    +'<p>Once you think the color of the tile below matches the color of the tile from '
+                    +'<br>Press L to make the color lighter, and press D to make the color darker.</p>'
+                    +'<p>Once you think the color matches the color of the tile from '
                     +'the game you just played, press CONTINUE.</p>'+
                     '<div style="position: absolute; top: 60%; left: 50%; width: 200px; height: 200px; '+
                     'margin: -100px 0 0 -100px; background-color:rgb(53,'+g1+',15)"> </div></div>';
@@ -828,25 +828,25 @@ var database = firebase.database();
 
         var fColorChngeR2 = function(param){
             if (balance == 0){
-                var g2 = b2[0] + Math.ceil(param*100);
+                var g2 = b2[0] + Math.floor(param*100);
                 var html = 
                     "<div class='parent'>"
                     +'<p>Please adjust the color of the tile below to match the color of the tile from '
                     +'the game you just played.'
-                    +' Press L to make the color lighter, and press D to make the color darker.</p>'
-                    +'<p>Once you think the color of the tile below matches the color of the tile from '
+                    +'<br>Press L to make the color lighter, and press D to make the color darker.</p>'
+                    +'<p>Once you think the color matches the color of the tile from '
                     +'the game you just played, press CONTINUE.</p>'+
                     '<div style="position: absolute; top: 60%; left: 50%; width: 200px; height: 200px; '+
                     'margin: -100px 0 0 -100px; background-color:rgb(53,'+g2+',15)"> </div></div>';
                 return html;
             } else if (balance == 1){
-                var g2 = b1[0] + Math.ceil(param*100);
+                var g2 = b1[0] + Math.floor(param*100);
                 var html = 
                     "<div class='parent'>"
                     +'<p>Please adjust the color of the tile below to match the color of the tile from '
                     +'the game you just played.'
-                    +' Press L to make the color lighter, and press D to make the color darker.</p>'
-                    +'<p>Once you think the color of the tile below matches the color of the tile from '
+                    +'<br>Press L to make the color lighter, and press D to make the color darker.</p>'
+                    +'<p>Once you think the color matches the color of the tile from '
                     +'the game you just played, press CONTINUE.</p>'+
                     '<div style="position: absolute; top: 60%; left: 50%; width: 200px; height: 200px; '+
                     'margin: -100px 0 0 -100px; background-color:rgb(51,'+g2+',255)"> </div></div>';
@@ -883,17 +883,17 @@ var database = firebase.database();
                 {prompt: 'How engaging was the '+R1Span+'?',
                 name: 'R1_Engaging',
                 labels: scale_1},
-                {prompt: 'How addictive was the '+R1Span+'?',
-                name: 'R1_Addictive',
+                {prompt: 'How engrossing was the '+R1Span+'?',
+                name: 'R1_Engrossing',
                 labels: scale_1},
                 {prompt: 'How immersive was the '+R1Span+'?',
                 name: 'R1_Immersive',
                 labels: scale_1},
-                {prompt: 'How engrossing was the '+R1Span+'?',
-                name: 'R1_Engrossing',
+                {prompt: 'How addictive was the '+R1Span+'?',
+                name: 'R1_Addictive',
                 labels: scale_1},
             ],
-            randomize_question_order: true,
+            randomize_question_order: false,
             scale_width: 500
         };
 
@@ -910,7 +910,7 @@ var database = firebase.database();
                 name: 'R1_Balance',
                 labels: scale_3},
             ],
-            randomize_question_order: true,
+            randomize_question_order: false,
             scale_width: 500
         };
 
@@ -938,17 +938,17 @@ var database = firebase.database();
                 {prompt: 'How engaging was the '+R2Span+'?',
                 name: 'R2_Engaging',
                 labels: scale_1},
-                {prompt: 'How addictive was the '+R2Span+'?',
-                name: 'R2_Addictive',
+                {prompt: 'How engrossing was the '+R2Span+'?',
+                name: 'R2_Engrossing',
                 labels: scale_1},
                 {prompt: 'How immersive was the '+R2Span+'?',
                 name: 'R2_Immersive',
                 labels: scale_1},
-                {prompt: 'How engrossing was the '+R2Span+'?',
-                name: 'R2_Engrossing',
+                {prompt: 'How addictive was the '+R2Span+'?',
+                name: 'R2_Addictive',
                 labels: scale_1},
             ],
-            randomize_question_order: true,
+            randomize_question_order: false,
             scale_width: 500
         };
 
@@ -965,7 +965,7 @@ var database = firebase.database();
                 name: 'R2_Balance',
                 labels: scale_3},
             ],
-            randomize_question_order: true,
+            randomize_question_order: false,
             scale_width: 500
         };
 
@@ -1042,7 +1042,7 @@ var database = firebase.database();
             var R2_JackPotTrials = jsPsych.data.get().filter({Trial_Type: 'Feedback_R2', Jackpot: true});
             var R1_TotalJackpots = R1_JackPotTrials.count();
             var R2_TotalJackpots = R2_JackPotTrials.count();
-            var totaljackpots = Math.floor((10*R1_TotalJackpots + 10*R2_TotalJackpots)/25);         
+            var totaljackpots = Math.ceil((10*R1_TotalJackpots + 10*R2_TotalJackpots)/25);         
            
             return '<p>Thank you for participanting!</p><p>Your completion code is 99-'+totaljackpots+'. Please give this code to the research assistant at the front desk to receive your cash payment.</p><p>Press the FINISH button below to complete the study</b>.</p>'
         },
