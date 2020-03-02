@@ -117,18 +117,16 @@ var database = firebase.database();
         </script>
 
         <script src="jspsych-6.1.0/jspsych.js"></script>
-        <script src="jspsych-6.1.0/jquery-ui.min.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-reconstruction.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-slider-response.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-instructions.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-survey-likert.js"></script>
+        <script src="jspsych-6.1.0/plugins/jspsych-survey-text.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-survey-multi-choice.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js"></script>
-        <script src="jspsych-6.1.0/plugins/jspsych-free-sort.js"></script>
         <link href="jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css"></link>
-        <link href="jspsych-6.1.0/css/jquery-ui.min.css" rel="stylesheet" type="text/css"></link>
     </head>
     <body></body>
 
@@ -345,7 +343,6 @@ var database = firebase.database();
         var misses = -1
 
         var tNum = -1
-
 
         /* create timeline */
         var timeline = []
@@ -713,6 +710,13 @@ var database = firebase.database();
                     return miss60_40[misses];
                 }
             },
+            on_finish: function(data){
+                if(data.stimulus == "<img src='img/jackpot.png' class='rewardimg'>"){
+                    data.Jackpot = true;
+                } else if (data.stimulus == "<img src='img/nope.png' class='rewardimg'>"){
+                    data.Jackpot = false;
+                }
+            },
             choices: jsPsych.NO_KEYS,
             trial_duration: 1500,
         }
@@ -741,6 +745,13 @@ var database = firebase.database();
                     return hit60_40[hits];
                 } else if (jsPsych.data.get().last(2).values()[0].key_press != 32 && pEM[1] == 6){
                     return miss60_40[misses];
+                }
+            },
+            on_finish: function(data){
+                if(data.stimulus == "<img src='img/jackpot.png' class='rewardimg'>"){
+                    data.Jackpot = true;
+                } else if (data.stimulus == "<img src='img/nope.png' class='rewardimg'>"){
+                    data.Jackpot = false;
                 }
             },
             choices: jsPsych.NO_KEYS,
@@ -785,8 +796,6 @@ var database = firebase.database();
             "0%", "10%", "20%", "30%", "40%", "50%",
             "60%", "70%", "80%", "90%", "100%",
         ];
-
-
 
         var fColorChngeR1 = function(param){
             if (balance == 0){
@@ -852,10 +861,11 @@ var database = firebase.database();
 
         var R1a_DVs = {
             type: 'survey-likert',
-            preamble:
+            preamble: 
                 '<div style="padding-top: 50px; width: 850px; font-size:16px">'
                 +'<p>Thank you for playing the '+R1Span+'!</p>'
-                +'<p>Now, please provide your honest assessment of the '+R1Span+' by answering each of the following questions.</div>',
+                +'<p>Now, please provide your honest assessment of the '+R1Span
+                +' by answering each of the following questions.</div>',
             questions: [
                 {prompt: 'How engaging was the '+R1Span+'?',
                 name: 'R1_Engaging',
@@ -966,32 +976,90 @@ var database = firebase.database();
             T2, R2_Procedure, ColorChngeR2, R2a_DVs, R2b_DVs, R2c_DVs],
             }
 
-//    	/* start the experiment */
-//    	jsPsych.init({
-//    		timeline: timeline
-//    	});
-
-//        function saveData(name, data){
-//          var xhr = new XMLHttpRequest();
-//          xhr.open('POST', 'write_data.php'); // 'write_data.php' is the path to the php file described above.
-//          xhr.setRequestHeader('Content-Type', 'application/json');
-//          xhr.send(JSON.stringify({filename: name, filedata: data}));
-//        }
-
         timeline.push(test_procedure)
-
-        // call the saveData function after the experiment is over
+    
+    
+    
+////////////////// Ryan's edits for in-lab study //////////////////
+    
+    var gen = {
+        type: 'html-button-response',
+        stimulus: 'Gender:<br>',
+        choices: ['Male', 'Female','Other'],
+    };
+    timeline.push(gen);  
+      
+      
+    var age = {
+          type: 'survey-text',
+          questions: [
+            {prompt: "Age:"}
+          ],
+        }; 
+    timeline.push(age);
+    
+    var ethnicity = {
+        type: 'html-button-response',
+        stimulus: 'Gender:<br>',
+        choices: ['White / Caucasian', 'Black / African American','Asian / Pacific Islander', 'Hispanic', 'Native American', 'Other'],
+    };
+    timeline.push(ethnicity);  
+    
+    var lang = {
+        type: 'html-button-response',
+        stimulus: 'Is English your native language?:<br>',
+        choices: ['Yes', 'No'],
+    };
+    timeline.push(lang);  
+    
+    
+    var finalWord = {
+          type: 'survey-text',
+          questions: [
+            {prompt: "Questions? Comments? Complains? Provide your feedback here!",rows: 10, columns: 100}
+          ],
+        }; 
+    timeline.push(finalWord);
+    
+     
+    var conclusion = {
+        type: 'html-button-response',
+        stimulus: function(){
+            var R1_JackPotTrials = jsPsych.data.get().filter({Trial_Type: 'Feedback_R1', Jackpot: true});
+            var R2_JackPotTrials = jsPsych.data.get().filter({Trial_Type: 'Feedback_R2', Jackpot: true});
+            var R1_TotalJackpots = R1_JackPotTrials.count();
+            var R2_TotalJackpots = R2_JackPotTrials.count();
+            var totaljackpots = Math.floor((10*R1_TotalJackpots + 10*R2_TotalJackpots)/25);         
+           
+            return '<p>Thank you for participanting!</p><p>Your completion code is 99-'+totaljackpots+'. Please give this code to the research assistant at the front desk to receive your cash payment.</p><p>Press the FINISH button below to complete the study</b>.</p>'
+        },
+        choices: ['CLICK HERE TO FINISH']
+    };
+    timeline.push(conclusion);
+    
+    
+    
+  // WRITE TO DATABASE
         jsPsych.init({
-            timeline: timeline,
-            on_finish: function(){
-                window.location.replace("https://yalesurvey.ca1.qualtrics.com/jfe/form/SV_cINZ0RNEg9J4ocd?SecretKey="+turkID);
-            },
-            on_close: function() {
+            timeline: timeline, 
+            on_finish: function() {
                 firebase.database().ref(firebase.auth().currentUser.uid).set({
                     data: jsPsych.data.get().values()
-                });
-            },
+                })
+            }
         });
+    
+    
+                
+/////////////////////////////////////////////////
+        
+        
+        
+    
+    
+    
+
+    
     </script>
 
 <!--
