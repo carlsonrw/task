@@ -117,17 +117,16 @@ var database = firebase.database();
         </script>
 
         <script src="jspsych-6.1.0/jspsych.js"></script>
-        <script src="jspsych-6.1.0/plugins/jspsych-reconstruction.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
-        <script src="jspsych-6.1.0/plugins/jspsych-html-slider-response.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-instructions.js"></script>
+        <script src="jspsych-6.1.0/plugins/jspsych-html-slider-response.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-survey-likert.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-survey-text.js"></script>
-        <script src="jspsych-6.1.0/plugins/jspsych-survey-multi-choice.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
         <link href="jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css"></link>
-    </head>
+-->    </head>
     <body></body>
 
 
@@ -140,23 +139,16 @@ var database = firebase.database();
 
         var pEM = jsPsych.randomization.sampleWithoutReplacement([6, 7, 8, 9, 10], 2)
 
-        var MI_Order = jsPsych.randomization.sampleWithoutReplacement([0, 1, 2, 3], 1)
-
         var turkID = jsPsych.data.getURLVariable('subject')
 
         var GetDate = jsPsych.data.getURLVariable('date')
 
         var GetTime = jsPsych.data.getURLVariable('time')
 
-        var b1 = jsPsych.randomization.sampleWithReplacement([68, 148], 1)
-
-        var b2 = jsPsych.randomization.sampleWithReplacement([80, 160], 1)
-
         jsPsych.data.addProperties({
             Pr_M: pM,
             Pr_EM: pEM,
             Color_Order: balance,
-            Condition_Order: MI_Order,
             SubjectID: turkID,
             StartDate: GetDate,
             StartTime: GetTime,
@@ -625,7 +617,8 @@ var database = firebase.database();
                     return '<div class="box" style="background-color:white"> </div>'
                 }
             },
-            choices: jsPsych.NO_KEYS,
+            choices: [32],
+            response_ends_trial: false,
             trial_duration: 1000,
             on_finish: function(){
                 if (jsPsych.data.get().last(2).values()[0].key_press != 32 && misses < 9){
@@ -660,7 +653,8 @@ var database = firebase.database();
                     return '<div class="box" style="background-color:white"> </div>'
                 }
             },
-            choices: jsPsych.NO_KEYS,
+            choices: [32],
+            response_ends_trial: false,
             trial_duration: 1000,
             on_finish: function(){
                 if (jsPsych.data.get().last(2).values()[0].key_press != 32 && misses < 9){
@@ -776,21 +770,21 @@ var database = firebase.database();
         ];
 
         var scale_2 = [
-            "0<font size='2'><br>Zero<br>Control</font>",
+            '0<br><div style="font-size:12px">Zero<br>Control</div>',
             "1", "2", "3", "4", "5", "6", "7",
-            "8<font size='2'><br>Complete<br>Control</font>",
+            '8<br><div style="font-size:12px">Complete<br>Control</div>',
         ];
 
         var scale_3 = [
-            "-4<font size='2'><br>Way<br>Too<br>Easy</font>",
+            '-4<br><div style="font-size:12px">Way<br>Too<br>Easy</div>',
             "-3",
             "-2",
             "-1",
-            "0<font size='2'><br>Just Right</font>",
+            '0<br><div style="font-size:12px">Just<br>Right</div>',
             "1",
             "2",
             "3",
-            "4<font size='2'><br>Way<br>Too<br>Hard</font>",
+            '4<br><div style="font-size:12px">Way<br>Too<br>Hard</div>',
         ];
 
         var scale_4 = [
@@ -798,81 +792,19 @@ var database = firebase.database();
             "60%", "70%", "80%", "90%", "100%",
         ];
 
-        var fColorChngeR1 = function(param){
-            if (balance == 0){
-                var g1 = b1[0] + Math.floor(param*100);
-                var html = 
-                    "<div class='parent'>"
-                    +'<p>Please adjust the color of the tile below to match the color of the tile from '
-                    +'the game you just played. '
-                    +'<br>Press L to make the color lighter, and press D to make the color darker.</p>'
-                    +'<p>Once you think the color matches the color of the tile from '
-                    +'the game you just played, press CONTINUE.</p>'+
-                    '<div style="position: absolute; top: 60%; left: 50%; width: 200px; height: 200px; '+
-                    'margin: -100px 0 0 -100px; background-color:rgb(51,'+g1+',255)"> </div></div>';
-                return html;
-            } else if (balance == 1){
-                var g1 = b2[0] + Math.floor(param*100);
-                var html = 
-                    "<div class='parent'>"
-                    +'<p>Please adjust the color of the tile below to match the color of the tile from '
-                    +'the game you just played. '
-                    +'<br>Press L to make the color lighter, and press D to make the color darker.</p>'
-                    +'<p>Once you think the color matches the color of the tile from '
-                    +'the game you just played, press CONTINUE.</p>'+
-                    '<div style="position: absolute; top: 60%; left: 50%; width: 200px; height: 200px; '+
-                    'margin: -100px 0 0 -100px; background-color:rgb(53,'+g1+',15)"> </div></div>';
-                return html;
-            }
-        }
+        var scale_5 = [
+            "0<br>Not<br>at all",
+            "1", "2", "3", "4", "5", "6", "7",
+            "8<br>A lot",
+        ];
 
-        var fColorChngeR2 = function(param){
-            if (balance == 0){
-                var g2 = b2[0] + Math.floor(param*100);
-                var html = 
-                    "<div class='parent'>"
-                    +'<p>Please adjust the color of the tile below to match the color of the tile from '
-                    +'the game you just played.'
-                    +'<br>Press L to make the color lighter, and press D to make the color darker.</p>'
-                    +'<p>Once you think the color matches the color of the tile from '
-                    +'the game you just played, press CONTINUE.</p>'+
-                    '<div style="position: absolute; top: 60%; left: 50%; width: 200px; height: 200px; '+
-                    'margin: -100px 0 0 -100px; background-color:rgb(53,'+g2+',15)"> </div></div>';
-                return html;
-            } else if (balance == 1){
-                var g2 = b1[0] + Math.floor(param*100);
-                var html = 
-                    "<div class='parent'>"
-                    +'<p>Please adjust the color of the tile below to match the color of the tile from '
-                    +'the game you just played.'
-                    +'<br>Press L to make the color lighter, and press D to make the color darker.</p>'
-                    +'<p>Once you think the color matches the color of the tile from '
-                    +'the game you just played, press CONTINUE.</p>'+
-                    '<div style="position: absolute; top: 60%; left: 50%; width: 200px; height: 200px; '+
-                    'margin: -100px 0 0 -100px; background-color:rgb(51,'+g2+',255)"> </div></div>';
-                return html;
-            }
-        }
+        var scale_NFC = [
+            '1<br><div style="font-size:12px">Extremely Uncharacteristic of Me</div>',
+            "2", "3", "4",
+            '5<br><div style="font-size:12px">Extremely Characteristic of Me</div>',
+        ];
 
-        var ColorChngeR1 = {
-            type: 'reconstruction',
-            stim_function: fColorChngeR1,
-            starting_value: .5,
-            step_size: .05,
-            key_increase: 'l',
-            key_decrease: 'd',
-        }
-
-        var ColorChngeR2 = {
-            type: 'reconstruction',
-            stim_function: fColorChngeR2,
-            starting_value: .5,
-            step_size: .05,
-            key_increase: 'l',
-            key_decrease: 'd',
-        }
-
-        var R1a_DVs = {
+        var R1_Attention = {
             type: 'survey-likert',
             preamble: 
                 '<div style="padding-top: 50px; width: 850px; font-size:16px">'
@@ -897,7 +829,49 @@ var database = firebase.database();
             scale_width: 500
         };
 
-        var R1b_DVs = {
+        var R1_Time = {
+            type: 'html-slider-response',
+            stimulus: 
+                '<p>How long did the '+R1Span+' seem to last?</p>'
+                +'<p>Use the slider to indicate how long it felt like the '+R1Span+' lasted (in minutes).</p>',
+            labels: ['0<br>min.', '3<br>min.', '6<br>min.', '9<br>min.', '12<br>min.'],
+            min: 0,
+            max: 72,
+            start: 0,
+            step: 1,
+            slider_width: 500,
+            require_movement: true,
+        };
+
+        var R1_Valence = {
+            type: 'survey-likert',
+            preamble: 
+                '<div style="padding-top: 50px; width: 850px; font-size:16px">'
+                +'<p>Thank you for playing the '+R1Span+'!</p>'
+                +'<p>Now, please provide your honest assessment of the '+R1Span
+                +' by answering each of the following questions.</div>',
+            questions: [
+                {prompt: 'How enjoyable was the '+R1Span+'?',
+                name: 'R1_Enjoyable',
+                labels: scale_1},
+                {prompt: 'How fun was the '+R1Span+'?',
+                name: 'R1_Fun',
+                labels: scale_1},
+                {prompt: 'How entertaining was the '+R1Span+'?',
+                name: 'R1_Entertaining',
+                labels: scale_1},
+                {prompt: 'How much did you like the '+R1Span+'?',
+                name: 'R1_Like',
+                labels: scale_5},
+                {prompt: 'How much did you dislike the '+R1Span+'?',
+                name: 'R1_Dislike',
+                labels: scale_5},
+            ],
+            randomize_question_order: false,
+            scale_width: 500
+        };
+
+        var R1_CtrlBal = {
             type: 'survey-likert',
             preamble:
                 '<div style="padding-top: 50px; width: 800px; font-size:16px">'
@@ -914,7 +888,7 @@ var database = firebase.database();
             scale_width: 500
         };
 
-        var R1c_DVs = {
+        var R1_CompChk = {
             type: 'survey-likert',
             preamble:
                 '<div style="padding-top: 50px; width: 800px; font-size:16px">'
@@ -927,8 +901,8 @@ var database = firebase.database();
             randomize_question_order: true,
             scale_width: 500
         };
-
-        var R2a_DVs = {
+     
+        var R2_Attention = {
             type: 'survey-likert',
             preamble:
                 '<div style="padding-top: 50px; width: 850px; font-size:16px">'
@@ -952,7 +926,50 @@ var database = firebase.database();
             scale_width: 500
         };
 
-        var R2b_DVs = {
+        var R2_Time = {
+            type: 'html-slider-response',
+            stimulus: 
+                '<div style="padding-top: 50px; width: 700px; font-size:16px">'
+                +'<p>How long did the '+R2Span+' seem to last?</p>'
+                +'<p>Use the slider to indicate how long (in minutes) it felt like the '+R2Span+' lasted.</div>',
+            labels: ['0<br>min.', '3<br>min.', '6<br>min.', '9<br>min.', '12<br>min.'],
+            min: 0,
+            max: 72,
+            start: 0,
+            step: 1,
+            slider_width: 500,
+            require_movement: true,
+        };
+
+        var R2_Valence = {
+            type: 'survey-likert',
+            preamble: 
+                '<div style="padding-top: 50px; width: 850px; font-size:16px">'
+                +'<p>Thank you for playing the '+R2Span+'!</p>'
+                +'<p>Now, please provide your honest assessment of the '+R2Span
+                +' by answering each of the following questions.</div>',
+            questions: [
+                {prompt: 'How enjoyable was the '+R2Span+'?',
+                name: 'R2_Enjoyable',
+                labels: scale_1},
+                {prompt: 'How fun was the '+R2Span+'?',
+                name: 'R2_Fun',
+                labels: scale_1},
+                {prompt: 'How entertaining was the '+R2Span+'?',
+                name: 'R2_Entertaining',
+                labels: scale_1},
+                {prompt: 'How much did you like the '+R2Span+'?',
+                name: 'R2_Like',
+                labels: scale_5},
+                {prompt: 'How much did you dislike the '+R2Span+'?',
+                name: 'R2_Dislike',
+                labels: scale_5},
+            ],
+            randomize_question_order: false,
+            scale_width: 500
+        };
+
+        var R2_CtrlBal = {
             type: 'survey-likert',
             preamble:
                 '<div style="padding-top: 50px; width: 800px; font-size:16px">'
@@ -969,7 +986,7 @@ var database = firebase.database();
             scale_width: 500
         };
 
-        var R2c_DVs = {
+        var R2_CompChk = {
             type: 'survey-likert',
             preamble:
                 '<div style="padding-top: 50px; width: 800px; font-size:16px">'
@@ -983,11 +1000,82 @@ var database = firebase.database();
             scale_width: 500
         };
 
+        var ChooseGame = {
+            type: 'html-button-response',
+            stimulus: '<p>If you had to play one game a second time, which would you choose?</p>',
+            choices: [''+R1Span+'', ''+R2Span+''],
+        };
+
+        var NFC = {
+            type: 'survey-likert',
+            preamble: 
+                '<div style="padding-top: 50px; width: 850px; font-size:16px">'
+                +'<p>Please indicate how well each of the following statements describes your personality.</p>' 
+                +'<p>Specifically, use the scales to indiciate the degree to which each statement is characteristic of you.</p></div>',
+            questions: [
+                {prompt: '"I like complex problems more than simple problems."',
+                name: 'NFC1',
+                labels: scale_NFC},
+                {prompt: '"I like to have the responsibility of handling a situation that requires a lot of thinking."',
+                name: 'NFC2',
+                labels: scale_NFC},
+                {prompt: '"Thinking is not my idea of fun."',
+                name: 'NFC3r',
+                labels: scale_NFC},
+                {prompt: '"I would rather do something that requires little thought<br>than something that is sure to challenge my thinking abilities."',
+                name: 'NFC4r',
+                labels: scale_NFC},
+                {prompt: '"I try to anticipate and avoid situations where there is a likely chance<br>I will have to think in depth about something."',
+                name: 'NFC5r',
+                labels: scale_NFC},
+                {prompt: '"I find satisfaction in deliberating hard and for long hours."',
+                name: 'NFC6',
+                labels: scale_NFC},
+                {prompt: '"I only think as hard as I have to."',
+                name: 'NFC7r',
+                labels: scale_NFC},
+                {prompt: '"I prefer to think about small, daily projects to long-term ones."',
+                name: 'NFC8r',
+                labels: scale_NFC},
+                {prompt: '"I like tasks that require little thought once'+" I've "+'learned them."',
+                name: 'NFC9r',
+                labels: scale_NFC},
+                {prompt: '"The idea of relying on thought to make my way to the top appeals to me."',
+                name: 'NFC10',
+                labels: scale_NFC},
+                {prompt: '"I really enjoy a task that involves coming up with new solutions to problems."',
+                name: 'NFC11',
+                labels: scale_NFC},
+                {prompt: '"Learning new ways to think'+" doesn't "+'excite me very much."',
+                name: 'NFC12r',
+                labels: scale_NFC},
+                {prompt: '"I prefer my life to be filled with puzzles that I must solve."',
+                name: 'NFC13',
+                labels: scale_NFC},
+                {prompt: '"The notion of thinking abstractly is appealing to me."',
+                name: 'NFC14',
+                labels: scale_NFC},
+                {prompt: '"I would prefer a task that is intellectual, difficult, and important</br>to one that is somewhat important but does not require much thought."',
+                name: 'NFC15',
+                labels: scale_NFC},
+                {prompt: '"I feel relief rather than satisfaction after completing<br>a task that required a lot of mental effort."',
+                name: 'NFC16r',
+                labels: scale_NFC},
+                {prompt: '"'+"It's "+'enough for me that something gets the job done; I '+"don't "+'care how or why it works."',
+                name: 'NFC17r',
+                labels: scale_NFC},
+                {prompt: '"I usually end up deliberating about issues even when they do not affect me personally."',
+                name: 'NFC18',
+                labels: scale_NFC},
+            ],
+            scale_width: 400
+        };
+
         var test_procedure = {
             timeline: [
-            T1, R1_Procedure, ColorChngeR1, R1a_DVs, R1b_DVs, R1c_DVs,
-            T2, R2_Procedure, ColorChngeR2, R2a_DVs, R2b_DVs, R2c_DVs],
-            }
+            T1, R1_Procedure, R1_Attention, R1_Time, R1_Valence, R1_CtrlBal, R1_CompChk, 
+            T2, R2_Procedure, R2_Attention, R2_Time, R2_Valence, R2_CtrlBal, R2_CompChk],
+            ChooseGame, NFC}
 
         timeline.push(test_procedure)
     
