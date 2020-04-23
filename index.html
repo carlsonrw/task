@@ -135,7 +135,7 @@ var database = firebase.database();
         // Define Stimuli
         var balance = jsPsych.randomization.sampleWithReplacement([1, 0], 1)
         var pM = jsPsych.randomization.sampleWithoutReplacement([2, 3, 4, 5, 6, 7, 8], 2)
-        var pEM = jsPsych.randomization.sampleWithoutReplacement([6, 7, 8, 9, 10], 2)
+        var pEM = jsPsych.randomization.sampleWithoutReplacement([10, 10], 2)
         var turkID = jsPsych.data.getURLVariable('subject')
         var GetDate = jsPsych.data.getURLVariable('date')
         var GetTime = jsPsych.data.getURLVariable('time')
@@ -331,6 +331,8 @@ var database = firebase.database();
 
         var tNum = -1
 
+        var compchk1 = 0
+
         /* create timeline */
         var timeline = []
 
@@ -362,7 +364,7 @@ var database = firebase.database();
             stimulus: "This is where you will play the games. Press any key to begin."
         }
 
-        var R1Intro = [
+        var R1Intro_A = [
         "<div class='parent' style='text-align: left'>"
         +'<p>We are designing games that can be used by behavioral scientists to study motivation and decision making. To '
         +"make the games as engaging as possible, we are getting feedback from people like you.</p>"
@@ -372,7 +374,9 @@ var database = firebase.database();
         +"<p>The games are very similar, but their color schemes will help you tell them apart.</p>"
         +"<p>Continue to learn about and play the "+R1Span+".</p>"
         +"<p>After you finish, you will learn about and play the "+R2Span+".</p>"
-        +"</div>",
+        +"</div>"]
+
+        var R1Intro_B = [
         "<div class='parent'>"
         +'<p>The goal of the '+R1Span+' is to win as many "10-cent Jackpots" as possible.</p>'
         +'<p>For every 10-cent Jackpot you win, you will receive an extra 10 cents. '
@@ -408,18 +412,16 @@ var database = firebase.database();
         "<div class='parent'>"
         +"<p>...and if you don't win a 10-cent Jackpot, you'll see this image.</p>"
         +"<img src='img/nope.png', style='height: 75%'>"
-        +"</div>",
-        "<div class='parent'>"
-        +"<p>If you have read and understood the instructions, please continue to play the "+R1Span+"."
-        +"<br>To re-read any of the instructions, press the 'previous' button to navigate back.</p>"
         +"</div>"]
 
         // LoMI to HiMI Instructions
-        var R2Intro = [
+        var R2Intro_A = [
         "<div class='parent'>"
         +"<p>Thank you for playing the "+R1Span+"!</p>"
         +"When you're ready, continue to learn about and play the "+R2Span+".</p>"
-        +"</div>",
+        +"</div>"]
+
+        var R2Intro_B = [
         "<div class='parent'>"
         +"<p>The "+R2Span+" is identical to the "+R1Span+" with three exceptions.</p>"
         +"</div>",
@@ -446,28 +448,198 @@ var database = firebase.database();
         +"<br>To re-read any of the instructions, press the 'previous' button to navigate back.</p>"
         +"</div>"]
 
+        var scale_4 = [
+            "0%", "10%", "20%", "30%", "40%", "50%",
+            "60%", "70%", "80%", "90%", "100%",
+        ];
 
+        var R1_CompChk1 = {
+            type: 'survey-likert',
+            preamble:
+                '<div style="padding-top: 50px; width: 800px; font-size:16px">'
+                +'<p>To make sure you understand the rules of the '+R1Span+', '
+                +'please answer the following question.</p></div>',
+            questions: [
+                {prompt: 'If you turn a tile '+R1ColorWord+', what are your chances '
+                +'of winning a 10-cent Jackpot on that trial?',
+                name: 'R1_PrcntChk1',
+                labels: scale_4},
+            ],
+            randomize_question_order: true,
+            scale_width: 500,
+            on_finish: function(data){
+                compchk1 = data.responses;
+            },
+        };
 
-        var T1 = {
+        var R1_CompChk2 = {
+            type: 'survey-likert',
+            preamble:
+                '<div style="padding-top: 50px; width: 800px; font-size:16px">'
+                +'<p>To make sure you understand the rules of the '+R1Span+', '
+                +'please answer the following question.</p></div>',
+            questions: [
+                {prompt: 'If the tile disappears before you turn it '+R1ColorWord+', what are your chances '
+                +'of winning a 10-cent Jackpot on that trial?',
+                name: 'R1_PrcntChk2',
+                labels: scale_4},
+            ],
+            randomize_question_order: true,
+            scale_width: 500,
+            on_finish: function(data){
+                compchk2 = data.responses;
+            },
+        };
+
+        var R2_CompChk1 = {
+            type: 'survey-likert',
+            preamble:
+                '<div style="padding-top: 50px; width: 800px; font-size:16px">'
+                +'<p>To make sure you understand the rules of the '+R2Span+', '
+                +'please answer the following question.</p></div>',
+            questions: [
+                {prompt: 'If you turn a tile '+R2ColorWord+', what are your chances '
+                +'of winning a 10-cent Jackpot on that trial?',
+                name: 'R1_PrcntChk1',
+                labels: scale_4},
+            ],
+            randomize_question_order: true,
+            scale_width: 500,
+            on_finish: function(data){
+                compchk1 = data.responses;
+            },
+        };
+
+        var R2_CompChk2 = {
+            type: 'survey-likert',
+            preamble:
+                '<div style="padding-top: 50px; width: 800px; font-size:16px">'
+                +'<p>To make sure you understand the rules of the '+R2Span+', '
+                +'please answer the following question.</p></div>',
+            questions: [
+                {prompt: 'If the tile disappears before you turn it '+R2ColorWord+', what are your chances '
+                +'of winning a 10-cent Jackpot on that trial?',
+                name: 'R1_PrcntChk2',
+                labels: scale_4},
+            ],
+            randomize_question_order: true,
+            scale_width: 500,
+            on_finish: function(data){
+                compchk2 = data.responses;
+            },
+        };
+
+        var T1a = {
             type: "instructions",
-            pages: R1Intro,
-            show_clickable_nav: true,
-            post_trial_gap: 500,
-            on_start: function(){
+            pages: R1Intro_A,
+            key_forward: 32,
+        }
 
+        var T1b = {
+            type: "instructions",
+            pages: R1Intro_B,
+            key_forward: 32,
+        }
+
+        var ErrorMessage = {
+            type: "instructions",
+            pages: ["<div class='parent'>"
+            +"<p>You provided the wrong answer.<br>To make sure you understand how to play, please continue to re-read the instructions.</p>"
+            +"</div>"],
+            key_forward: 32,
+        }
+
+        var R1_ConditionalNode = {
+            timeline: [ErrorMessage],
+            conditional_function: function(){
+                pFM = 10 - pEM[0];
+                if(compchk1[16] == pEM[0] && compchk2[16] == pFM ||
+                    compchk1[17] == 0 && pEM[0] == 10 && compchk2[16] == pFM){
+                    return false;
+                } else {
+                    return true;
+                }
             }
         }
 
-        var T2 = {
+        var R1_LoopNode = {
+            timeline: [T1b, R1_CompChk1, R1_CompChk2, R1_ConditionalNode],
+            loop_function: function(){
+                pFM = 10 - pEM[0];
+                if(compchk1[16] == pEM[0] && compchk2[16] == pFM ||
+                    compchk1[17] == 0 && pEM[0] == 10 && compchk2[16] == pFM){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        var T1c = {
             type: "instructions",
-            pages: R2Intro,
-            show_clickable_nav: true,
+            pages: ["<div class='parent'>"
+            +"<p>You are now ready to play the "+R1Span+".</p>"
+            +"<p>Once you proceed, the "+R1Span+" will start immediately, "
+            +"so get ready to press your SPACEBAR.</p>"
+            +"<p>Continue to the next screen to begin.</p>"
+            +"</div>"],
+            key_forward: 32,
+            post_trial_gap: 500,
+        }
+
+        var T2a = {
+            type: "instructions",
+            pages: R2Intro_A,
+            key_forward: 32,
+        }
+
+        var T2b = {
+            type: "instructions",
+            pages: R2Intro_B,
+            key_forward: 32,
+        }
+
+        var R2_ConditionalNode = {
+            timeline: [ErrorMessage],
+            conditional_function: function(){
+                pFM = 10 - pEM[0];
+                if(compchk1[16] == pEM[0] && compchk2[16] == pFM ||
+                    compchk1[17] == 0 && pEM[0] == 10 && compchk2[16] == pFM){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        var R2_LoopNode = {
+            timeline: [T2b, R2_CompChk1, R2_CompChk2, R2_ConditionalNode],
+            loop_function: function(){
+                pFM = 10 - pEM[0];
+                if(compchk1[16] == pEM[0] && compchk2[16] == pFM ||
+                    compchk1[17] == 0 && pEM[0] == 10 && compchk2[16] == pFM){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        var T2c = {
+            type: "instructions",
+            pages: ["<div class='parent'>"
+            +"<p>You are now ready to play the "+R2Span+".</p>"
+            +"<p>Once you proceed, the "+R2Span+" will start immediately, "
+            +"so get ready to press your SPACEBAR.</p>"
+            +"<p>Continue to the next screen to begin.</p>"
+            +"</div>"],
+            key_forward: 32,
             post_trial_gap: 500,
             on_finish: function(){
                 hits = -1;
                 misses = -1;
                 tNum = -1;
-            }
+            },
         }
 
         timeline.push(welcome)
@@ -804,10 +976,7 @@ var database = firebase.database();
             '4<br><div style="font-size:12px">Way<br>Too<br>Hard</div>',
         ];
 
-        var scale_4 = [
-            "0%", "10%", "20%", "30%", "40%", "50%",
-            "60%", "70%", "80%", "90%", "100%",
-        ];
+
 
         var scale_5 = [
             "0<br>Not<br>at all",
@@ -906,20 +1075,8 @@ var database = firebase.database();
             scale_width: 500
         };
 
-        var R1_CompChk = {
-            type: 'survey-likert',
-            preamble:
-                '<div style="padding-top: 50px; width: 800px; font-size:16px">'
-                +'<p>Please complete the following sentence so that it accurately describes rules of the '+R1Span+'.</p></div>',
-            questions: [
-                {prompt: 'In the '+R1Span+', if a tile is turned '+R1ColorWord+', the odds of winning a 10-cent Jackpot that trial are %____.',
-                name: 'R1_PrcntChk',
-                labels: scale_4},
-            ],
-            randomize_question_order: true,
-            scale_width: 500
-        };
-     
+
+
         var R2_Attention = {
             type: 'survey-likert',
             preamble:
@@ -1092,8 +1249,8 @@ var database = firebase.database();
 
         var test_procedure = {
             timeline: [
-            T1, R1_Procedure, R1_Attention, R1_Time, R1_Valence, R1_CtrlBal, R1_CompChk, 
-            T2, R2_Procedure, R2_Attention, R2_Time, R2_Valence, R2_CtrlBal, R2_CompChk,
+            T1a, R1_LoopNode, T1c, R1_Procedure, R1_Attention, R1_Time, R1_Valence, R1_CtrlBal, 
+            T2a, R2_LoopNode, T2c, R2_Procedure, R2_Attention, R2_Time, R2_Valence, R2_CtrlBal,
             ChooseGame, NFC],
         }
 
