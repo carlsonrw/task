@@ -1034,6 +1034,12 @@ var database = firebase.database();
             preamble: 
                 '<div style="padding-top: 50px; width: 850px; font-size:16px"><p></p></div>',
             questions: [
+                {prompt: 'How much did you like the '+R1Span+'?',
+                name: 'R1_Like',
+                labels: scale_5},
+                {prompt: 'How much did you dislike the '+R1Span+'?',
+                name: 'R1_Dislike',
+                labels: scale_5},
                 {prompt: 'How enjoyable was the '+R1Span+'?',
                 name: 'R1_Enjoyable',
                 labels: scale_1},
@@ -1043,12 +1049,6 @@ var database = firebase.database();
                 {prompt: 'How entertaining was the '+R1Span+'?',
                 name: 'R1_Entertaining',
                 labels: scale_1},
-                {prompt: 'How much did you like the '+R1Span+'?',
-                name: 'R1_Like',
-                labels: scale_5},
-                {prompt: 'How much did you dislike the '+R1Span+'?',
-                name: 'R1_Dislike',
-                labels: scale_5},
             ],
             randomize_question_order: false,
             scale_width: 500
@@ -1117,6 +1117,12 @@ var database = firebase.database();
             preamble: 
                 '<div style="padding-top: 50px; width: 850px; font-size:16px"><p></p></div>',
             questions: [
+                {prompt: 'How much did you like the '+R2Span+'?',
+                name: 'R2_Like',
+                labels: scale_5},
+                {prompt: 'How much did you dislike the '+R2Span+'?',
+                name: 'R2_Dislike',
+                labels: scale_5},
                 {prompt: 'How enjoyable was the '+R2Span+'?',
                 name: 'R2_Enjoyable',
                 labels: scale_1},
@@ -1126,12 +1132,6 @@ var database = firebase.database();
                 {prompt: 'How entertaining was the '+R2Span+'?',
                 name: 'R2_Entertaining',
                 labels: scale_1},
-                {prompt: 'How much did you like the '+R2Span+'?',
-                name: 'R2_Like',
-                labels: scale_5},
-                {prompt: 'How much did you dislike the '+R2Span+'?',
-                name: 'R2_Dislike',
-                labels: scale_5},
             ],
             randomize_question_order: false,
             scale_width: 500
@@ -1239,7 +1239,7 @@ var database = firebase.database();
     
     var gen = {
         type: 'html-button-response',
-        stimulus: 'Gender:<br>',
+        stimulus: '<p>Gender:</p>',
         choices: ['Male', 'Female','Other'],
     };
     timeline.push(gen);  
@@ -1255,14 +1255,14 @@ var database = firebase.database();
     
     var ethnicity = {
         type: 'html-button-response',
-        stimulus: 'Gender:<br>',
+        stimulus: '<p>Ethnicity:</p>',
         choices: ['White / Caucasian', 'Black / African American','Asian / Pacific Islander', 'Hispanic', 'Native American', 'Other'],
     };
     timeline.push(ethnicity);  
     
     var lang = {
         type: 'html-button-response',
-        stimulus: 'Is English your native language?:<br>',
+        stimulus: '<p>Is English your native language?:</p>',
         choices: ['Yes', 'No'],
     };
     timeline.push(lang);  
@@ -1291,9 +1291,9 @@ var database = firebase.database();
             var R1_TotalJackpots = R1_JackPotTrials.count();
             var R2_TotalJackpots = R2_JackPotTrials.count();
             var totaljackpots = R1_TotalJackpots + R2_TotalJackpots;         
-            var totalbonus = 10*totaljackpots;         
+            var totalbonus = totaljackpots/10;         
 
-            return '<p>Thank you for participating!</p><p>In total, you got <b>'+totaljackpots+' Jackpots</b>, which is worth <b>'+totalbonus+' cents</b> in bonus money!<br>Within one week, you will receive your bonus money, plus $4 for your participation.</p><p>To receive payment, enter your email address in the space below.</p>'
+            return '<p>Thank you for participating!</p><p>In total, you got <b>'+totaljackpots+' Jackpots</b>, which is worth <b>$'+totalbonus+'</b> in bonus money!<br>Within one week, you will receive your bonus money, plus $4 for your participation.</p><p>To receive payment, enter your email address in the space below.</p>'
         },
         button_label: ['CLICK HERE TO FINISH']
     };
