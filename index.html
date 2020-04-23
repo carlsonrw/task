@@ -1291,9 +1291,10 @@ var database = firebase.database();
             var R1_TotalJackpots = R1_JackPotTrials.count();
             var R2_TotalJackpots = R2_JackPotTrials.count();
             var totaljackpots = R1_TotalJackpots + R2_TotalJackpots;         
-            var totalbonus = totaljackpots/10;         
+            var totalbonus = totaljackpots/10;
+            var totaldollars = (Math.round(totalbonus * 100) / 100).toFixed(2)         
 
-            return '<p>Thank you for participating!</p><p>In total, you got <b>'+totaljackpots+' Jackpots</b>, which is worth <b>$'+totalbonus+'</b> in bonus money!<br>Within one week, you will receive your bonus money, plus $4 for your participation.</p><p>To receive payment, enter your email address in the space below.</p>'
+            return '<p>Thank you for participating!</p><p>In total, you got <b>'+totaljackpots+' Jackpots</b>, which is worth <b>$'+totaldollars+'</b> in bonus money!<br>Within one week, you will receive your bonus money, plus $4 for your participation.</p><p>To receive payment, enter your email address in the space below.</p>'
         },
         button_label: ['CLICK HERE TO FINISH']
     };
