@@ -627,7 +627,7 @@ var database = firebase.database();
 
         var T2c = {
             type: "instructions",
-            pages: ["<div class='parent'>"
+            pages: ["<div class='parent'>" 
             +"<p>You are now ready to play the "+R2Span+".</p>"
             +"<p>Once you proceed, the "+R2Span+" will start immediately, "
             +"so get ready to press your SPACEBAR.</p>"
@@ -1298,20 +1298,27 @@ var database = firebase.database();
           ],
         }; 
     timeline.push(finalWord);
-    
-     
+        
     var conclusion = {
-        type: 'html-button-response',
-        stimulus: function(){
+        type: 'survey-text',
+        questions: [
+            {prompt: "",
+            placeholder: "Email Address", 
+            name: "Email", 
+            columns: 50,
+            required: true}
+        ],
+        preamble: function(){
             var R1_JackPotTrials = jsPsych.data.get().filter({Trial_Type: 'Feedback_R1', Jackpot: true});
             var R2_JackPotTrials = jsPsych.data.get().filter({Trial_Type: 'Feedback_R2', Jackpot: true});
             var R1_TotalJackpots = R1_JackPotTrials.count();
             var R2_TotalJackpots = R2_JackPotTrials.count();
-            var totaljackpots = Math.ceil((10*R1_TotalJackpots + 10*R2_TotalJackpots)/25);         
-           
-            return '<p>Thank you for participating!</p><p><b>Your completion code is 99-'+totaljackpots+'. Please give this code to the research assistant at the front desk to receive your cash payment.</b></p><p>Press the FINISH button below to complete the study.</p>'
+            var totaljackpots = R1_TotalJackpots + R2_TotalJackpots;         
+            var totalbonus = 10*totaljackpots;         
+
+            return '<p>Thank you for participating!</p><p>In total, you got <b>'+totaljackpots+' Jackpots</b>, which is worth <b>'+totalbonus+' cents</b> in bonus money!<br>Within one week, you will receive your bonus money, plus $4 for your participation.</p><p>To receive payment, enter your email address in the space below.</p>'
         },
-        choices: ['CLICK HERE TO FINISH']
+        button_label: ['CLICK HERE TO FINISH']
     };
     timeline.push(conclusion);
     
