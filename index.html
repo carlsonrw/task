@@ -138,11 +138,14 @@ var database = firebase.database();
         var balance = jsPsych.randomization.sampleWithReplacement([1, 0], 1)
         var pM = jsPsych.randomization.sampleWithoutReplacement([2, 3, 4, 5, 6, 7, 8], 2)
         var pEM = jsPsych.randomization.sampleWithoutReplacement([6, 7, 8, 9, 10], 2)
-
+        var GetDate = jsPsych.data.getURLVariable('date')
+        var GetTime = jsPsych.data.getURLVariable('time')
         jsPsych.data.addProperties({
             Pr_M: pM,
             Pr_EM: pEM,
             Color_Order: balance,
+            StartDate: GetDate,
+            StartTime: GetTime,
         });
 
         if (pEM[0] == 6){
@@ -360,12 +363,7 @@ var database = firebase.database();
             stimulus: "<div class='parent'>"
         +"<p>Welcome!</p>"
         +"<p>In this survey, you will play games and answer questions about them.<br>"
-        +"When you're ready to begin, press your SPACEBAR to proceed to the next screen.</p></div>",
-            on_finish: function(){
-                jsPsych.data.addProperties({
-                    STime: jsPsych.startTime()
-                });           
-            }
+        +"When you're ready to begin, press your SPACEBAR to proceed to the next screen.</p></div>"
         }
 
         var R1Intro_A = [
@@ -1231,8 +1229,8 @@ var database = firebase.database();
 
         var test_procedure = {
             timeline: [
-            // T1a, R1_LoopNode, T1c, R1_Procedure, R1_Attention, R1_Time, R1_Valence, R1_CtrlBal, 
-            // T2a, R2_LoopNode, T2c, R2_Procedure, R2_Attention, R2_Time, R2_Valence, R2_CtrlBal,
+            T1a, R1_LoopNode, T1c, R1_Procedure, R1_Attention, R1_Time, R1_Valence, R1_CtrlBal, 
+            T2a, R2_LoopNode, T2c, R2_Procedure, R2_Attention, R2_Time, R2_Valence, R2_CtrlBal,
             ChooseGame, NFC],
         }
 
