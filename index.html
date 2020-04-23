@@ -138,13 +138,12 @@ var database = firebase.database();
         var balance = jsPsych.randomization.sampleWithReplacement([1, 0], 1)
         var pM = jsPsych.randomization.sampleWithoutReplacement([2, 3, 4, 5, 6, 7, 8], 2)
         var pEM = jsPsych.randomization.sampleWithoutReplacement([6, 7, 8, 9, 10], 2)
-        var GetTime = jsPsych.startTime();
 
         jsPsych.data.addProperties({
             Pr_M: pM,
             Pr_EM: pEM,
             Color_Order: balance,
-            StartTime: GetTime,
+            STime: jsPsych.startTime(),
         });
 
         if (pEM[0] == 6){
