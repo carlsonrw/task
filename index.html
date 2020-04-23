@@ -135,7 +135,7 @@ var database = firebase.database();
         // Define Stimuli
         var balance = jsPsych.randomization.sampleWithReplacement([1, 0], 1)
         var pM = jsPsych.randomization.sampleWithoutReplacement([2, 3, 4, 5, 6, 7, 8], 2)
-        var pEM = jsPsych.randomization.sampleWithoutReplacement([10, 10], 2)
+        var pEM = jsPsych.randomization.sampleWithoutReplacement([6, 7, 8, 9, 10], 2)
         var GetTime = jsPsych.startTime()
 
         jsPsych.data.addProperties({
@@ -357,7 +357,10 @@ var database = firebase.database();
         /* define welcome message trial */
         var welcome = {
             type: "html-keyboard-response",
-            stimulus: "This is where you will play the games. Press any key to begin."
+            stimulus: "<div class='parent'>"
+        +"<p>Welcome!</p>"
+        +"<p>In this survey, you will play games and answer questions about them.<br>"
+        +"When you're ready to begin, press your SPACEBAR to proceed to the next screen.</p></div>"
         }
 
         var R1Intro_A = [
