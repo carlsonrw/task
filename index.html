@@ -1165,7 +1165,7 @@ var database = firebase.database();
             type: 'survey-likert',
             preamble: 
                 '<div style="padding-top: 50px; width: 850px; font-size:16px">'
-                +'<p>Please indicate how well each of the following statements describes your personality.</p>' 
+                +'<p>Please'+GetTime+' indicate how well each of the following statements describes your personality.</p>' 
                 +'<p>Specifically, use the scales to indiciate the degree to which each statement is characteristic of you.</p></div>',
             questions: [
                 {prompt: '"I like complex problems more than simple problems."',
@@ -1228,8 +1228,8 @@ var database = firebase.database();
 
         var test_procedure = {
             timeline: [
-            T1a, R1_LoopNode, T1c, R1_Procedure, R1_Attention, R1_Time, R1_Valence, R1_CtrlBal, 
-            T2a, R2_LoopNode, T2c, R2_Procedure, R2_Attention, R2_Time, R2_Valence, R2_CtrlBal,
+            // T1a, R1_LoopNode, T1c, R1_Procedure, R1_Attention, R1_Time, R1_Valence, R1_CtrlBal, 
+            // T2a, R2_LoopNode, T2c, R2_Procedure, R2_Attention, R2_Time, R2_Valence, R2_CtrlBal,
             ChooseGame, NFC],
         }
 
