@@ -143,7 +143,6 @@ var database = firebase.database();
             Pr_M: pM,
             Pr_EM: pEM,
             Color_Order: balance,
-            STime: jsPsych.startTime(),
         });
 
         if (pEM[0] == 6){
@@ -361,7 +360,12 @@ var database = firebase.database();
             stimulus: "<div class='parent'>"
         +"<p>Welcome!</p>"
         +"<p>In this survey, you will play games and answer questions about them.<br>"
-        +"When you're ready to begin, press your SPACEBAR to proceed to the next screen.</p></div>"
+        +"When you're ready to begin, press your SPACEBAR to proceed to the next screen.</p></div>",
+            on_finish: function(){
+                jsPsych.data.addProperties({
+                    STime: jsPsych.startTime()
+                });           
+            }
         }
 
         var R1Intro_A = [
