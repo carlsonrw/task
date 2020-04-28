@@ -382,7 +382,7 @@ var database = firebase.database();
         "<div class='parent'>"
         +'<p>The goal of the '+R1Span+' is to win as many "10-cent Jackpots" as possible.</p>'
         +'<p>For every 10-cent Jackpot you win, you will receive an extra 10 cents. '
-        +'Thus, at the end of the study, you will receive $7 for your participation, plus an additional 10 cents for each '
+        +'Thus, at the end of the study, you will receive $4 for your participation, plus an additional 10 cents for each '
         +'10-cent Jackpot you win.</p></div>',
         "<div class='parent'>"
         +'<br>To win 10-cent Jackpots, you will try to "activate" tiles like this one:</p>'
@@ -1020,7 +1020,7 @@ var database = firebase.database();
         var R1_Time = {
             type: 'html-slider-response',
             stimulus: 
-                '<p>Think about how long it felt like the '+R1Span+' lasted.</p>'
+                '<p>How long did it feel like the '+R1Span+' lasted?</p>'
                 +'<p>Use the slider to indicate how long the '+R1Span+' seemed to last (in minutes).</p>',
             labels: ['0<br>min.', '1<br>min.', '2<br>min.', '3<br>min.', '4<br>min.', 
             '5<br>min.', '6<br>min.', '7<br>min.', '8<br>min.'],
@@ -1103,7 +1103,7 @@ var database = firebase.database();
             type: 'html-slider-response',
             stimulus: 
                 '<div style="padding-top: 50px; width: 700px; font-size:16px">'
-                +'<p>Think about how long it felt like the '+R2Span+' lasted.</p>'
+                +'<p>How long did it feel like the '+R2Span+' lasted?</p>'
                 +'<p>Use the slider to indicate how long the '+R2Span+' seemed to last (in minutes).</div>',
             labels: ['0<br>min.', '1<br>min.', '2<br>min.', '3<br>min.', '4<br>min.', 
             '5<br>min.', '6<br>min.', '7<br>min.', '8<br>min.'],
@@ -1156,13 +1156,13 @@ var database = firebase.database();
             scale_width: 500
         };
 
-        var ChooseGame = {
+        var E_ChooseGame = {
             type: 'html-button-response',
             stimulus: '<p>If you had to play one game a second time, which would you choose?</p>',
             choices: [''+R1Span+'', ''+R2Span+''],
         };
 
-        var NFC = {
+        var E_NFC = {
             type: 'survey-likert',
             preamble: 
                 '<div style="padding-top: 50px; width: 850px; font-size:16px">'
@@ -1170,58 +1170,58 @@ var database = firebase.database();
                 +'<p>Specifically, use the scales to indiciate the degree to which each statement is characteristic of you.</p></div>',
             questions: [
                 {prompt: '"I like complex problems more than simple problems."',
-                name: 'NFC1',
+                name: 'E_NFC1',
                 labels: scale_NFC},
                 {prompt: '"I like to have the responsibility of handling a situation that requires a lot of thinking."',
-                name: 'NFC2',
+                name: 'E_NFC2',
                 labels: scale_NFC},
                 {prompt: '"Thinking is not my idea of fun."',
-                name: 'NFC3r',
+                name: 'E_NFC3reverse',
                 labels: scale_NFC},
                 {prompt: '"I would rather do something that requires little thought<br>than something that is sure to challenge my thinking abilities."',
-                name: 'NFC4r',
+                name: 'E_NFC4reverse',
                 labels: scale_NFC},
                 {prompt: '"I try to anticipate and avoid situations where there is a likely chance<br>I will have to think in depth about something."',
-                name: 'NFC5r',
+                name: 'E_NFC5reverse',
                 labels: scale_NFC},
                 {prompt: '"I find satisfaction in deliberating hard and for long hours."',
-                name: 'NFC6',
+                name: 'E_NFC6',
                 labels: scale_NFC},
                 {prompt: '"I only think as hard as I have to."',
-                name: 'NFC7r',
+                name: 'E_NFC7reverse',
                 labels: scale_NFC},
                 {prompt: '"I prefer to think about small, daily projects to long-term ones."',
-                name: 'NFC8r',
+                name: 'E_NFC8reverse',
                 labels: scale_NFC},
                 {prompt: '"I like tasks that require little thought once'+" I've "+'learned them."',
-                name: 'NFC9r',
+                name: 'E_NFC9reverse',
                 labels: scale_NFC},
                 {prompt: '"The idea of relying on thought to make my way to the top appeals to me."',
-                name: 'NFC10',
+                name: 'E_NFC10',
                 labels: scale_NFC},
                 {prompt: '"I really enjoy a task that involves coming up with new solutions to problems."',
-                name: 'NFC11',
+                name: 'E_NFC11',
                 labels: scale_NFC},
                 {prompt: '"Learning new ways to think'+" doesn't "+'excite me very much."',
-                name: 'NFC12r',
+                name: 'E_NFC12reverse',
                 labels: scale_NFC},
                 {prompt: '"I prefer my life to be filled with puzzles that I must solve."',
-                name: 'NFC13',
+                name: 'E_NFC13',
                 labels: scale_NFC},
                 {prompt: '"The notion of thinking abstractly is appealing to me."',
-                name: 'NFC14',
+                name: 'E_NFC14',
                 labels: scale_NFC},
                 {prompt: '"I would prefer a task that is intellectual, difficult, and important</br>to one that is somewhat important but does not require much thought."',
-                name: 'NFC15',
+                name: 'E_NFC15',
                 labels: scale_NFC},
                 {prompt: '"I feel relief rather than satisfaction after completing<br>a task that required a lot of mental effort."',
-                name: 'NFC16r',
+                name: 'E_NFC16reverse',
                 labels: scale_NFC},
                 {prompt: '"'+"It's "+'enough for me that something gets the job done; I '+"don't "+'care how or why it works."',
-                name: 'NFC17r',
+                name: 'E_NFC17reverse',
                 labels: scale_NFC},
                 {prompt: '"I usually end up deliberating about issues even when they do not affect me personally."',
-                name: 'NFC18',
+                name: 'E_NFC18',
                 labels: scale_NFC},
             ],
             scale_width: 400
@@ -1231,7 +1231,7 @@ var database = firebase.database();
             timeline: [
             T1a, R1_LoopNode, T1c, R1_Procedure, R1_Attention, R1_Time, R1_Valence, R1_CtrlBal, 
             T2a, R2_LoopNode, T2c, R2_Procedure, R2_Attention, R2_Time, R2_Valence, R2_CtrlBal,
-            ChooseGame, NFC],
+            E_ChooseGame, E_NFC],
         }
 
         timeline.push(test_procedure)
@@ -1240,51 +1240,55 @@ var database = firebase.database();
     
 ////////////////// Ryan's edits for in-lab study //////////////////
     
-    var gen = {
+    var E_gender = {
         type: 'html-button-response',
         stimulus: '<p>Gender:</p>',
         choices: ['Male', 'Female','Other'],
     };
-    timeline.push(gen);  
+    timeline.push(E_gender);  
       
       
-    var age = {
+    var E_age = {
           type: 'survey-text',
           questions: [
-            {prompt: "Age:"}
+            {prompt: "Age:",
+            name: "E_age"},
           ],
         }; 
-    timeline.push(age);
+    timeline.push(E_age);
     
-    var ethnicity = {
+    var E_ethnicity = {
         type: 'html-button-response',
         stimulus: '<p>Ethnicity:</p>',
         choices: ['White / Caucasian', 'Black / African American','Asian / Pacific Islander', 'Hispanic', 'Native American', 'Other'],
     };
-    timeline.push(ethnicity);  
+    timeline.push(E_ethnicity);  
     
-    var lang = {
+    var E_english = {
         type: 'html-button-response',
         stimulus: '<p>Is English your native language?:</p>',
         choices: ['Yes', 'No'],
     };
-    timeline.push(lang);  
+    timeline.push(E_english);  
     
     
-    var finalWord = {
+    var E_finalword = {
           type: 'survey-text',
           questions: [
-            {prompt: "Questions? Comments? Complains? Provide your feedback here!",rows: 10, columns: 100}
+            {prompt: "Questions? Comments? Complains? Provide your feedback here!",
+            rows: 10,
+            columns: 100,
+            name: "E_finalword"},
           ],
         }; 
-    timeline.push(finalWord);
+    timeline.push(E_finalword);
         
-    var conclusion = {
+    var E_email = {
         type: 'survey-text',
         questions: [
             {prompt: "",
             placeholder: "Email Address", 
-            name: "Email", 
+            name: "E_email", 
             columns: 50,
             required: true}
         ],
@@ -1301,7 +1305,7 @@ var database = firebase.database();
         },
         button_label: ['CLICK HERE TO FINISH']
     };
-    timeline.push(conclusion);
+    timeline.push(E_email);
     
     
     
