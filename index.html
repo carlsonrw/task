@@ -295,31 +295,31 @@ var database = firebase.database();
             ])
 
         var pM80 = jsPsych.randomization.shuffle([
-            225, 225, 750, 750, 750, 750, 750, 750, 750, 750,
+            200, 200, 750, 750, 750, 750, 750, 750, 750, 750,
             ])
 
         var pM70 = jsPsych.randomization.shuffle([
-            225, 225, 225, 750, 750, 750, 750, 750, 750, 750,
+            200, 200, 200, 750, 750, 750, 750, 750, 750, 750,
             ])
 
         var pM60 = jsPsych.randomization.shuffle([
-            225, 252, 225, 225, 750, 750, 750, 750, 750, 750,
+            200, 252, 200, 200, 750, 750, 750, 750, 750, 750,
             ])
 
         var pM50 = jsPsych.randomization.shuffle([
-            225, 225, 225, 225, 225, 750, 750, 750, 750, 750,
+            200, 200, 200, 200, 200, 750, 750, 750, 750, 750,
             ])
 
         var pM40 = jsPsych.randomization.shuffle([
-            225, 225, 225, 225, 225, 225, 750, 750, 750, 750,
+            200, 200, 200, 200, 200, 200, 750, 750, 750, 750,
             ])
 
         var pM30 = jsPsych.randomization.shuffle([
-            225, 225, 225, 225, 225, 225, 225, 750, 750, 750,
+            200, 200, 200, 200, 200, 200, 200, 750, 750, 750,
             ])
 
         var pM20 = jsPsych.randomization.shuffle([
-            225, 225, 225, 225, 225, 225, 225, 225, 750, 750,
+            200, 200, 200, 200, 200, 200, 200, 200, 750, 750,
             ])
 
         var ITI = [250, 500, 750, 1000, 1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000]
@@ -986,6 +986,18 @@ var database = firebase.database();
             "8<br>A lot",
         ];
 
+        var scale_6 = [
+            "Activating<br>Tiles",
+            "", "", "", "", "",
+            "Winning<br>Jackpots",
+        ];
+
+        var scale_7 = [
+            "Pressing My<br>SPACEBAR",
+            "", "", "", "", "",
+            "Earning<br>Money",
+        ];
+
         var scale_NFC = [
             '1<br><div style="font-size:12px">Extremely Uncharacteristic of Me</div>',
             "2", "3", "4",
@@ -1068,6 +1080,22 @@ var database = firebase.database();
                 {prompt: 'Was the '+R1Span+' too easy, too hard, or just the right level of difficulty?',
                 name: 'R1_Balance',
                 labels: scale_3},
+            ],
+            randomize_question_order: false,
+            scale_width: 500
+        };
+
+        var R1_Construal = {
+            type: 'survey-likert',
+            preamble:
+                '<div style="padding-top: 50px; width: 800px; font-size:16px"><p>Any activity can be described in many ways. We are interested in how you would describe the activity of playing the '+R1Span+'. Below, you will see pairs of descriptions. For each pair, please report the degree to which one description better describes the activity of playing the '+R1Span+'.</p></div>',
+            questions: [
+                {prompt: 'Which of the following better describes the activity of playing the '+R1Span+'.',
+                name: 'R1_Construal1',
+                labels: scale_6},
+                {prompt: 'Which of the following better describes the activity of playing the '+R1Span+'.',
+                name: 'R1_Construal2',
+                labels: scale_7},
             ],
             randomize_question_order: false,
             scale_width: 500
@@ -1156,6 +1184,22 @@ var database = firebase.database();
             scale_width: 500
         };
 
+        var R2_Construal = {
+            type: 'survey-likert',
+            preamble:
+                '<div style="padding-top: 50px; width: 800px; font-size:16px"><p>Any activity can be described in many ways. We are interested in how you would describe the activity of playing the '+R2Span+'. Below, you will see pairs of descriptions. For each pair, please report the degree to which one description better describes the activity of playing the '+R2Span+'.</p></div>',
+            questions: [
+                {prompt: 'Which of the following better describes the activity of playing the '+R2Span+'.',
+                name: 'R2_Construal1',
+                labels: scale_6},
+                {prompt: 'Which of the following better describes the activity of playing the '+R2Span+'.',
+                name: 'R2_Construal2',
+                labels: scale_7},
+            ],
+            randomize_question_order: false,
+            scale_width: 500
+        };
+
         var E_ChooseGame = {
             type: 'html-button-response',
             stimulus: '<p>If you had to play one game a second time, which would you choose?</p>',
@@ -1229,8 +1273,8 @@ var database = firebase.database();
 
         var test_procedure = {
             timeline: [
-            T1a, R1_LoopNode, T1c, R1_Procedure, R1_Attention, R1_Time, R1_Valence, R1_CtrlBal, 
-            T2a, R2_LoopNode, T2c, R2_Procedure, R2_Attention, R2_Time, R2_Valence, R2_CtrlBal,
+            T1a, R1_LoopNode, T1c, R1_Procedure, R1_Attention, R1_Time, R1_Valence, R1_CtrlBal, R1_Construal,
+            T2a, R2_LoopNode, T2c, R2_Procedure, R2_Attention, R2_Time, R2_Valence, R2_CtrlBal, R2_Construal,
             E_ChooseGame, E_NFC],
         }
 
