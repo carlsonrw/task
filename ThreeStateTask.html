@@ -636,7 +636,7 @@ var database = firebase.database();
             data: {Trial_Type: 'Activation_R1'},
             stimulus: function(){
                 if(jsPsych.data.get().last(1).values()[0].key_press == 32){
-                    return '<div class="box" style="background-color:'+R1Color+'"></div>';
+                    return '<div class="box" style="background-color:'+R1Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>';
                 } else {
                     return jsPsych.randomization.sampleWithReplacement([
                         '<div class="box" style="background-color:red"></div>', 
@@ -680,7 +680,7 @@ var database = firebase.database();
             type: 'html-keyboard-response',
             data: {Trial_Type: 'Feedback_R1'},
             stimulus: function(){
-                if(jsPsych.data.get().last(1).values()[0].stimulus == '<div class="box" style="background-color:'+R1Color+'"></div>'){
+                if(jsPsych.data.get().last(1).values()[0].stimulus == '<div class="box" style="background-color:'+R1Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'){
                     return "<img src='img/jackpot.png' class='rewardimg'>";
                 } else if (jsPsych.data.get().last(1).values()[0].stimulus == '<div class="box" style="background-color:blue"></div>'){
                     return "<img src='img/nope.png' class='rewardimg'>";
