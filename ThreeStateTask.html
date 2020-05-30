@@ -584,7 +584,7 @@ var database = firebase.database();
         var R1_Probe = {
             type: 'html-keyboard-response',
             data: {Trial_Type: 'Probe'},
-            stimulus: '<div class="box" style="background-color:'+R1Color+'"></div>',
+            stimulus: '<div class="box" style="background-color:#00aa00"></div>',
             choices: [32],
             trial_duration: function(){
                 return pM50[tNum];
@@ -636,11 +636,11 @@ var database = firebase.database();
             data: {Trial_Type: 'Activation_R1'},
             stimulus: function(){
                 if(jsPsych.data.get().last(1).values()[0].key_press == 32){
-                    return '<div class="box" style="background-color:'+R1Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>';
+                    return '<div class="box" style="background-color:#00aa00; box-shadow: 0px 0px 40px 20px #FFDF00"></div>';
                 } else {
                     return jsPsych.randomization.sampleWithReplacement([
-                        '<div class="box" style="background-color:red"></div>', 
-                        '<div class="box" style="background-color:blue"></div>'], 1);
+                        '<div class="box" style="background-color:#cf0000"></div>', 
+                        '<div class="box" style="background-color:#1067e8"></div>'], 1);
                 }
             },
             choices: [32],
@@ -680,11 +680,11 @@ var database = firebase.database();
             type: 'html-keyboard-response',
             data: {Trial_Type: 'Feedback_R1'},
             stimulus: function(){
-                if(jsPsych.data.get().last(1).values()[0].stimulus == '<div class="box" style="background-color:'+R1Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'){
+                if(jsPsych.data.get().last(1).values()[0].stimulus == '<div class="box" style="background-color:#00aa00; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'){
                     return "<img src='img/jackpot.png' class='rewardimg'>";
-                } else if (jsPsych.data.get().last(1).values()[0].stimulus == '<div class="box" style="background-color:blue"></div>'){
+                } else if (jsPsych.data.get().last(1).values()[0].stimulus == '<div class="box" style="background-color:#1067e8"></div>'){
                     return "<img src='img/nope.png' class='rewardimg'>";
-                } else if (jsPsych.data.get().last(1).values()[0].stimulus == '<div class="box" style="background-color:red"></div>'){
+                } else if (jsPsych.data.get().last(1).values()[0].stimulus == '<div class="box" style="background-color:#cf0000"></div>'){
                     return "<img src='img/lose.png' class='rewardimg'>";
                 }
             },
