@@ -120,6 +120,7 @@ var database = firebase.database();
         <script src="jspsych-6.1.0/jspsych.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>
+        <script src="jspsych-6.1.0/plugins/jspsych-survey-multi-choice.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-external-html.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-instructions.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-slider-response.js"></script>
@@ -136,6 +137,7 @@ var database = firebase.database();
 
         // Define Stimuli
         var balance = jsPsych.randomization.sampleWithReplacement([1, 0], 1)
+        var GameType = jsPsych.randomization.sampleWithReplacement([2], 1)
         var pM = [5, 5]
         var pEM = [10, 10]
         var pHit_M1   = "100%"
@@ -189,6 +191,11 @@ var database = firebase.database();
             200, 200, 200, 200, 200, 750, 750, 750, 750, 750,
             ])
 
+        var missoutcome = jsPsych.randomization.shuffle([
+            "#cf0000", "#cf0000", "#cf0000", "#cf0000", "#cf0000", 
+            "#1067e8", "#1067e8", "#1067e8", "#1067e8", "#1067e8",
+            ])
+
         var ITI = [1000, 1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000]
 
         var hits = -1
@@ -228,60 +235,129 @@ var database = firebase.database();
         var welcome = {
             type: "html-keyboard-response",
             stimulus: "<div class='parent'>"
-        +"<p>Welcome!</p>"
-        +"<p>In this survey, you will play games and answer questions about them.<br>"
-        +"When you're ready to begin, press your SPACEBAR to proceed to the next screen.</p></div>"
+            +"<p>Welcome!</p>"
+            +"<p>In this survey, you will play a game and answer questions about it.<br>"
+            +"When you're ready to begin, press your SPACEBAR to proceed to the next screen.</p></div>"
         }
 
-        var R1Intro_A = [
+        var Intro1 = [
         "<div class='parent' style='text-align: left'>"
-        +'<p>We are designing games that can be used by behavioral scientists to study motivation and decision making. To '
-        +"make the games as engaging as possible, we are getting feedback from people like you.</p>"
-        +"<p>You will play two different games: "
-        +"the "+R1Span+" and the "+R2Span+". Then you will tell us "
-        +"which you found more engaging.</p>"
-        +"<p>The games are very similar, but their color schemes will help you tell them apart.</p>"
+        +'<p>We are designing games that can be used by behavioral scientists to study motivation and decision making. '
+        +"To make the games as engaging as possible, we are getting feedback from people like you.</p>"
+        +"<p>You will play a game called the "+R1Span+". Then you will tell us how engaging it was.</p>"
         +"<p>Continue to learn about and play the "+R1Span+".</p>"
-        +"<p>After you finish, you will learn about and play the "+R2Span+".</p>"
         +"<p>Press your SPACEBAR to progress through each screen.</p></div>"]
 
-        var R1Intro_B = [
+        var Intro2 = [
         "<div class='parent'>"
-        +'<p>The goal of the '+R1Span+' is to win as many "10-cent Jackpots" as possible.</p>'
+        +'<p>The goal of the <span class="green-span">Green Game</span> is to win as many "10-cent Jackpots" as possible.</p>'
         +'<p>For every 10-cent Jackpot you win, you will receive an extra 10 cents. '
-        +'Thus, at the end of the study, you will receive a $5 eGiftcard for your participation, plus an additional 10 cents for each '
-        +'10-cent Jackpot you win.</p></div>',
+        +'At the end of the study, you will receive a $5 eGiftcard for your participation, '
+        +'plus an additional 10 cents for each 10-cent Jackpot you won.</p></div>',
         "<div class='parent'>"
-        +'<br>To win 10-cent Jackpots, you will try to "activate" tiles like this one:</p>'
-        +'<div class="box" style="background-color:gray"></div>'
+        +'<p>To win 10-cent Jackpots, you must stop <span class="green-span">green</span> tiles from changing color.</p>'
+        +'<div class="box" style="background-color:#00aa00"></div>'
         +"</div>",
         "<div class='parent'>"
-        +"<p>The tiles will appear and disappear very quickly. "
-        +"To activate a tile, you must press your SPACE BAR before it disappears. "
-        +"Thus, whenever you see a tile, you should press your SPACE BAR as fast as possible.</p>"
-        +'<div class="box" style="background-color:gray"></div>'
+        +"<p>To stop a <span class='green-span'>green</span> tile from changing color, you must press your SPACEBAR as soon as it appears on your screen. "
+        +"Thus, whenever you see a <span class='green-span'>green</span> tile (like this one), you should press your SPACEBAR as fast as possible.</p>"
+        +'<div class="box" style="background-color:#00aa00"></div>'
         +"</div>",
         "<div class='parent'>"
-        +"<p>In the "+R1Span+", tiles turn "+R1ColorWord+" if activated.</p>"
-        +'<div class="box" style="background-color:'+R1Color+'"></div>'
+        +"<p>Each time you stop a <span class='green-span'>green</span> tile from changing color, it will glow, signalling that you won a 10-cent Jackpot.</p>"
+        +'<div class="box" style="background-color:#00aa00; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'
         +"</div>",
         "<div class='parent'>"
-        +"<p>If you turn a tile "+R1ColorWord+", "
-        +"your odds of winning a 10-cent Jackpot that trial are "+R1BestOdds+".</p>"
-        +'<div class="box" style="background-color:'+R1Color+'"></div>'
-        +"</div>",
-        "<div class='parent'>"
-        +'<p>If a tile disappears before you turn it '+R1ColorWord+', '
-        +"your odds of winning a 10-cent Jackpot that trial are "+R1WorstOdds+".</p>"
-        +"</div>",
-        "<div class='parent'>"
-        +"<p>If you win a 10-cent Jackpot, you'll see this image...</p>"
+        +"<p>Each time you win a 10-cent Jackpot, you will see this image.</p>"
         +"<img src='img/jackpot.png', style='height: 75%'>"
         +"</div>",
         "<div class='parent'>"
-        +"<p>...and if you don't win a 10-cent Jackpot, you'll see this image.</p>"
-        +"<img src='img/nope.png', style='height: 75%'>"
+        +"<p>Please keep in mind that the <span class='green-span'>green</span> tiles change color very quickly...</p>"
+        +'<div class="box" style="background-color:#00aa00"></div>'
         +"</div>"]
+
+        var punishIntro = [
+        "<div class='parent'>"
+        +"<p>Specifically, they very quickly turn <span class='red-span'>red</span>...</p>"
+        +'<div class="box" style="background-color:#cf0000"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>If a tile turns <span class='red-span'>red</span> before you activate it, you will lose two cents...</p>"
+        +'<div class="box" style="background-color:#cf0000"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...and you will see this image.</p>"
+        +"<img src='img/lose.png', style='height: 75%'>"
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>In summary, you will win a 10-cent Jackpot each time you stop a <span class='green-span'>green</span> tile from changing color...</p>"
+        +'<div class="box" style="background-color:#00aa00; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...but each time a tile turns <span class='red-span'>red</span> before you activate it, you will lose two cents.</p>"
+        +'<div class="box" style="background-color:#cf0000"></div>'
+        +"</div>"]
+
+        var neutralIntro = [
+        "<div class='parent'>"
+        +"<p>Specifically, they very quickly turn <span class='blue-span'>blue</span>...</p>"
+        +'<div class="box" style="background-color:#1067e8"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>If a tile turns <span class='blue-span'>blue</span> before you activate it, you will earn zero cents...</p>"
+        +'<div class="box" style="background-color:#1067e8"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...and you will see this image.</p>"
+        +"<img src='img/none.png', style='height: 75%'>"
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>In summary, you will win a 10-cent Jackpot each time you stop a <span class='green-span'>green</span> tile from changing color...</p>"
+        +'<div class="box" style="background-color:#00aa00; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...but each time a tile turns <span class='blue-span'>blue</span> before you activate it, you will earn zero cents.</p>"
+        +'<div class="box" style="background-color:#1067e8"></div>'
+        +"</div>"]
+
+        var threeStateIntro = [
+        "<div class='parent'>"
+        +"<p>Half the time they turn <span class='red-span'>red</span>...</p>"
+        +'<div class="box" style="background-color:#cf0000"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...and half the time they turn <span class='blue-span'>blue</span>.</p>"
+        +'<div class="box" style="background-color:#1067e8"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>If a tile turns <span class='blue-span'>blue</span> before you activate it, you will gain zero cents...</p>"
+        +'<div class="box" style="background-color:#1067e8"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...and you will see this image.</p>"
+        +"<img src='img/nope.png', style='height: 75%'>"
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>If a tile turns <span class='red-span'>red</span> before you activate it, you will lose two cents...</p>"
+        +'<div class="box" style="background-color:#cf0000"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...and you will see this image.</p>"
+        +"<img src='img/lose.png', style='height: 75%'>"
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>In summary, you will win a 10-cent Jackpot each time you stop a <span class='green-span'>green</span> tile from changing color...</p>"
+        +'<div class="box" style="background-color:#00aa00; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...but each time a tile turns <span class='blue-span'>blue</span> before you activate it, you will earn zero cents...</p>"
+        +'<div class="box" style="background-color:#1067e8"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...and each time a tile turns <span class='red-span'>red</span> before you activate it, you will lose two cents.</p>"
+        +'<div class="box" style="background-color:#cf0000"></div>'
+        +"</div>"]
+
 
         // LoMI to HiMI Instructions
         var R2Intro_A = [
@@ -317,96 +393,82 @@ var database = firebase.database();
         +"<br>To re-read any of the instructions, press the 'previous' button to navigate back.</p>"
         +"</div>"]
 
-        var scale_4 = [
-            "0%", "10%", "20%", "30%", "40%", "50%",
-            "60%", "70%", "80%", "90%", "100%",
-        ];
+        var scale_4 = ["blah"]
 
-        var R1_CompChk1 = {
-            type: 'survey-likert',
-            preamble:
-                '<div style="padding-top: 50px; width: 800px; font-size:16px">'
-                +'<p>To make sure you understand the rules of the '+R1Span+', '
-                +'please answer the following question.</p></div>',
-            questions: [
-                {prompt: 'If you turn a tile '+R1ColorWord+', what are your chances '
-                +'of winning a 10-cent Jackpot on that trial?',
-                name: 'R1_PrcntChk1',
-                labels: scale_4},
-            ],
-            randomize_question_order: true,
-            scale_width: 500,
+        var CompChk_Green = {
+            type: 'html-button-response',
+            stimulus:'<p>To make sure you understand the rules of the <span class="green-span">Green Game</span>, '
+            +'please answer the following question:</p>'
+            +'<p>What happens each time you stop a <span class="green-span">green</span> tile from changing color?</p>',
+            choices: ["I win a 10-cent Jackpot", "I gain zero cents", "I lose two cents"],
             on_finish: function(data){
-                compchk1 = data.responses;
+                compchk_g = data.button_pressed;
+                console.log(compchk_g);
             },
         };
 
-        var R1_CompChk2 = {
-            type: 'survey-likert',
-            preamble:
-                '<div style="padding-top: 50px; width: 800px; font-size:16px">'
-                +'<p>To make sure you understand the rules of the '+R1Span+', '
-                +'please answer the following question.</p></div>',
-            questions: [
-                {prompt: 'If the tile disappears before you turn it '+R1ColorWord+', what are your chances '
-                +'of winning a 10-cent Jackpot on that trial?',
-                name: 'R1_PrcntChk2',
-                labels: scale_4},
-            ],
-            randomize_question_order: true,
-            scale_width: 500,
+        var CompChk_Blue = {
+            type: 'html-button-response',
+            stimulus:'<p>To make sure you understand the rules of the <span class="green-span">Green Game</span>, '
+            +'please answer the following question:</p>'
+            +'<p>What happens each time a tile turns <span class="blue-span">blue</span> before you activate it?</p>',
+            choices: ["I win a 10-cent Jackpot", "I gain zero cents", "I lose two cents"],
             on_finish: function(data){
-                compchk2 = data.responses;
+                compchk_b = data.button_pressed;
+                console.log(compchk_b);
             },
         };
 
-        var R2_CompChk1 = {
-            type: 'survey-likert',
-            preamble:
-                '<div style="padding-top: 50px; width: 800px; font-size:16px">'
-                +'<p>To make sure you understand the rules of the '+R2Span+', '
-                +'please answer the following question.</p></div>',
-            questions: [
-                {prompt: 'If you turn a tile '+R2ColorWord+', what are your chances '
-                +'of winning a 10-cent Jackpot on that trial?',
-                name: 'R2_PrcntChk1',
-                labels: scale_4},
-            ],
-            randomize_question_order: true,
-            scale_width: 500,
+        var CompChk_Red = {
+            type: 'html-button-response',
+            stimulus:'<p>To make sure you understand the rules of the <span class="green-span">Green Game</span>, '
+            +'please answer the following question:</p>'
+            +'<p>What happens each time a tile turns <span class="red-span">red</span> before you activate it?</p>',
+            choices: ["I win a 10-cent Jackpot", "I gain zero cents", "I lose two cents"],
             on_finish: function(data){
-                compchk3 = data.responses;
+                compchk_r = data.button_pressed;
+                console.log(compchk_r);
             },
         };
 
-        var R2_CompChk2 = {
-            type: 'survey-likert',
-            preamble:
-                '<div style="padding-top: 50px; width: 800px; font-size:16px">'
-                +'<p>To make sure you understand the rules of the '+R2Span+', '
-                +'please answer the following question.</p></div>',
-            questions: [
-                {prompt: 'If the tile disappears before you turn it '+R2ColorWord+', what are your chances '
-                +'of winning a 10-cent Jackpot on that trial?',
-                name: 'R2_PrcntChk2',
-                labels: scale_4},
-            ],
-            randomize_question_order: true,
-            scale_width: 500,
+        var CompChk_Button = {
+            type: 'html-button-response',
+            stimulus:'<p>To make sure you understand the rules of the <span class="green-span">Green Game</span>, '
+            +'please answer the following question:</p>'
+            +'<p>What button must you press to stop <span class="green-span">green</span> tiles from changing color?</p>',
+            choices: ["ENTER", "SPACEBAR", "TAB"],
             on_finish: function(data){
-                compchk4 = data.responses;
+                compchk_button = data.button_pressed;
+                console.log(compchk_button);
             },
         };
 
         var T1a = {
             type: "instructions",
-            pages: R1Intro_A,
+            pages: Intro1,
             key_forward: 32,
         }
 
         var T1b = {
             type: "instructions",
-            pages: R1Intro_B,
+            pages: Intro2,
+            key_forward: 32,
+        }
+        var T1_3State = {
+            type: "instructions",
+            pages: threeStateIntro,
+            key_forward: 32,
+        }
+
+        var T1_Punish = {
+            type: "instructions",
+            pages: punishIntro,
+            key_forward: 32,
+        }
+
+        var T1_Neutral = {
+            type: "instructions",
+            pages: neutralIntro,
             key_forward: 32,
         }
 
@@ -418,12 +480,10 @@ var database = firebase.database();
             key_forward: 32,
         }
 
-        var R1_ConditionalNode = {
+        var threeStateConditionalNode = {
             timeline: [ErrorMessage],
             conditional_function: function(){
-                pFM = 10 - pEM[0];
-                if(compchk1[16] == pEM[0] && compchk2[16] == pFM ||
-                    compchk1[17] == 0 && pEM[0] == 10 && compchk2[16] == pFM){
+                if(compchk_g == 0 && compchk_b == 1 && compchk_r == 2 && compchk_button == 1){
                     return false;
                 } else {
                     return true;
@@ -431,12 +491,54 @@ var database = firebase.database();
             }
         }
 
-        var R1_LoopNode = {
-            timeline: [T1b, R1_CompChk1, R1_CompChk2, R1_ConditionalNode],
+        var neutralConditionalNode = {
+            timeline: [ErrorMessage],
+            conditional_function: function(){
+                if(compchk_g == 0 && compchk_b == 1 && compchk_button == 1){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        var punishConditionalNode = {
+            timeline: [ErrorMessage],
+            conditional_function: function(){
+                if(compchk_g == 0 && compchk_r == 1 && compchk_button == 1){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        var threeStateLoopNode = {
+            timeline: [T1b, T1_3State, CompChk_Green, CompChk_Blue, CompChk_Red, CompChk_Button, threeStateConditionalNode],
             loop_function: function(){
-                pFM = 10 - pEM[0];
-                if(compchk1[16] == pEM[0] && compchk2[16] == pFM ||
-                    compchk1[17] == 0 && pEM[0] == 10 && compchk2[16] == pFM){
+                if(compchk_g == 0 && compchk_b == 1 && compchk_r == 2 && compchk_button == 1){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        var neutralLoopNode = {
+            timeline: [T1b, T1_Neutral, CompChk_Green, CompChk_Blue, CompChk_Button, neutralConditionalNode],
+            loop_function: function(){
+                if(compchk_g == 0 && compchk_b == 1 && compchk_button == 1){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        var punishLoopNode = {
+            timeline: [T1b, T1_Punish, CompChk_Green, CompChk_Red, CompChk_Button, punishConditionalNode],
+            loop_function: function(){
+                if(compchk_g == 0 && compchk_r == 2 && compchk_button == 1){
                     return false;
                 } else {
                     return true;
@@ -450,65 +552,10 @@ var database = firebase.database();
             +"<p>You are now ready to play the "+R1Span+".</p>"
             +"<p>Once you proceed, the "+R1Span+" will start immediately, "
             +"so get ready to press your SPACEBAR.</p>"
-            +"<p>Continue to the next screen to begin.</p>"
+            +"<p>Continue to to begin.</p>"
             +"</div>"],
             key_forward: 32,
             post_trial_gap: 500,
-        }
-
-        var T2a = {
-            type: "instructions",
-            pages: R2Intro_A,
-            key_forward: 32,
-        }
-
-        var T2b = {
-            type: "instructions",
-            pages: R2Intro_B,
-            key_forward: 32,
-        }
-
-        var R2_ConditionalNode = {
-            timeline: [ErrorMessage],
-            conditional_function: function(){
-                pFM = 10 - pEM[1];
-                if(compchk3[16] == pEM[1] && compchk4[16] == pFM ||
-                    compchk3[17] == 0 && pEM[1] == 10 && compchk4[16] == pFM){
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-
-        var R2_LoopNode = {
-            timeline: [T2b, R2_CompChk1, R2_CompChk2, R2_ConditionalNode],
-            loop_function: function(){
-                pFM = 10 - pEM[1];
-                if(compchk3[16] == pEM[1] && compchk4[16] == pFM ||
-                    compchk3[17] == 0 && pEM[1] == 10 && compchk4[16] == pFM){
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        }
-
-        var T2c = {
-            type: "instructions",
-            pages: ["<div class='parent'>" 
-            +"<p>You are now ready to play the "+R2Span+".</p>"
-            +"<p>Once you proceed, the "+R2Span+" will start immediately, "
-            +"so get ready to press your SPACEBAR.</p>"
-            +"<p>Continue to the next screen to begin.</p>"
-            +"</div>"],
-            key_forward: 32,
-            post_trial_gap: 500,
-            on_finish: function(){
-                hits = -1;
-                misses = -1;
-                tNum = -1;
-            },
         }
 
         timeline.push(welcome)
@@ -519,24 +566,22 @@ var database = firebase.database();
         var Delay = {
             type: 'html-keyboard-response',
             data: {Trial_Type: 'ITI'},
-            stimulus: '<div class="box" style="background-color:gray"></div>',
+            stimulus: '<div class="box" style="background-color:white"></div>',
             choices: [32],
             trial_duration: function(){
                 return jsPsych.randomization.sampleWithoutReplacement(ITI, 1)[0];
             },
             on_finish: function(data){
-                if(data.key_press == 32 && tNum < 9){
+                if(data.key_press == 32){
                     data.TooFast = 1;
-                    tNum = tNum + 1;
-                } else if (data.key_press != 32 && tNum < 9){
+                } else if(data.key_press != 32 && tNum < 9){
                     data.TooFast = 0;
                     tNum = tNum + 1;
-                } else if(data.key_press == 32){
-                    data.TooFast = 1;
-                    pM50 = jsPsych.randomization.shuffle(pM50);
-                } else {
+                } else if(data.key_press != 32 && tNum == 9){
                     data.TooFast = 0;
+                    tNum = 0;
                     pM50 = jsPsych.randomization.shuffle(pM50);
+                    missoutcome = jsPsych.randomization.shuffle(missoutcome);
                 }
             },
         }
@@ -547,7 +592,7 @@ var database = firebase.database();
             stimulus: function(){
                 if(jsPsych.data.get().last(1).values()[0].key_press == 32){
                     return "<div style='font-size: 20px'><p>Too Fast!</p>"+
-                    "<p>Please wait for the tile to appear before pressing your SPACEBAR</p></div>"
+                    "<p>Please wait for the tile to turn green before pressing your SPACEBAR</p></div>"
                 } else {
                     return ""
                 }
@@ -580,8 +625,7 @@ var database = firebase.database();
             }
         }
 
-
-        var R1_Probe = {
+        var Probe = {
             type: 'html-keyboard-response',
             data: {Trial_Type: 'Probe'},
             stimulus: '<div class="box" style="background-color:#00aa00"></div>',
@@ -596,51 +640,25 @@ var database = firebase.database();
                     data.TooSlow = 1;
                 } else if(data.key_press == 32 && tNum == 9){
                     data.TooSlow = 0;
-                    tNum = -1;
-                    pM50 = jsPsych.randomization.shuffle(pM50);
+//                    tNum = -1;
+//                    pM50 = jsPsych.randomization.shuffle(pM50);
+//                    missoutcome = jsPsych.randomization.shuffle(missoutcome);
                 } else if(data.key_press != 32 && tNum == 9){
                     data.TooSlow = 1;
-                    tNum = -1;
-                    pM50 = jsPsych.randomization.shuffle(pM50);
+//                    tNum = -1;
+//                    missoutcome = jsPsych.randomization.shuffle(missoutcome);
                 }
             },
         }
 
-        var R2_Probe = {
+        var Response_3State = {
             type: 'html-keyboard-response',
-            data: {Trial_Type: 'Probe'},
-            stimulus: '<div class="box" style="background-color:gray"></div>',
-            choices: [32],
-            trial_duration: function(){
-                return pM50[tNum];
-            },
-            on_finish: function(data){
-                if(data.key_press == 32 && tNum < 9){
-                    data.TooSlow = 0;
-                } else if(data.key_press != 32 && tNum < 9){
-                    data.TooSlow = 1;
-                } else if (data.key_press == 32 && tNum == 9){
-                    data.TooSlow = 0;
-                    tNum = -1;
-                    pM50 = jsPsych.randomization.shuffle(pM50);
-                } else if (data.key_press != 32 && tNum == 9){
-                    data.TooSlow = 1;
-                    tNum = -1;
-                    pM50 = jsPsych.randomization.shuffle(pM50);
-                }
-            },
-        }
-
-        var Response_R1 = {
-            type: 'html-keyboard-response',
-            data: {Trial_Type: 'Activation_R1'},
+            data: {Trial_Type: 'Response_3State'},
             stimulus: function(){
                 if(jsPsych.data.get().last(1).values()[0].key_press == 32){
                     return '<div class="box" style="background-color:#00aa00; box-shadow: 0px 0px 40px 20px #FFDF00"></div>';
                 } else {
-                    return jsPsych.randomization.sampleWithReplacement([
-                        '<div class="box" style="background-color:#cf0000"></div>', 
-                        '<div class="box" style="background-color:#1067e8"></div>'], 1);
+                    return '<div class="box" style="background-color:'+missoutcome[tNum]+'"></div>';
                 }
             },
             choices: [32],
@@ -648,37 +666,39 @@ var database = firebase.database();
             trial_duration: 1000,
         }
 
-        var Response_R2 = {
+        var Response_Neutral = {
             type: 'html-keyboard-response',
-            data: {Trial_Type: 'Activation_R2'},
+            data: {Trial_Type: 'Response_Neutral'},
             stimulus: function(){
                 if(jsPsych.data.get().last(1).values()[0].key_press == 32){
-                    return '<div class="box" style="background-color:'+R2Color+'"> </div>'
+                    return '<div class="box" style="background-color:#00aa00; box-shadow: 0px 0px 40px 20px #FFDF00"></div>';
                 } else {
-                    return '<div class="box" style="background-color:white"> </div>'
+                    return '<div class="box" style="background-color:#1067e8"></div>';
                 }
             },
             choices: [32],
             response_ends_trial: false,
             trial_duration: 1000,
-            on_finish: function(){
-                if (jsPsych.data.get().last(2).values()[0].key_press != 32 && misses < 9){
-                    misses = misses + 1;
-                } else if (jsPsych.data.get().last(2).values()[0].key_press == 32 && hits < 9){
-                    hits = hits + 1;
-                } else if (jsPsych.data.get().last(2).values()[0].key_press == 32){
-                    hits = 0;
-                    hit100_0 = jsPsych.randomization.shuffle(hit100_0);
-                } else {
-                    misses = 0;
-                    miss100_0 = jsPsych.randomization.shuffle(miss100_0);
-                }
-            },
         }
 
-        var Feedback_R1 = {
+        var Response_Punish = {
             type: 'html-keyboard-response',
-            data: {Trial_Type: 'Feedback_R1'},
+            data: {Trial_Type: 'Response_Punish'},
+            stimulus: function(){
+                if(jsPsych.data.get().last(1).values()[0].key_press == 32){
+                    return '<div class="box" style="background-color:#00aa00; box-shadow: 0px 0px 40px 20px #FFDF00"></div>';
+                } else {
+                    return '<div class="box" style="background-color:#cf0000"></div>';
+                }
+            },
+            choices: [32],
+            response_ends_trial: false,
+            trial_duration: 1000,
+        }
+
+        var Feedback = {
+            type: 'html-keyboard-response',
+            data: {Trial_Type: 'Feedback'},
             stimulus: function(){
                 if(jsPsych.data.get().last(1).values()[0].stimulus == '<div class="box" style="background-color:#00aa00; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'){
                     return "<img src='img/jackpot.png' class='rewardimg'>";
@@ -690,43 +710,29 @@ var database = firebase.database();
             },
             on_finish: function(data){
                 if(data.stimulus == "<img src='img/jackpot.png' class='rewardimg'>"){
-                    data.Jackpot = true;
+                    data.Jackpot = "jackpot";
                 } else if (data.stimulus == "<img src='img/nope.png' class='rewardimg'>"){
-                    data.Jackpot = false;
+                    data.Jackpot = "nothing";
+                } else if (data.stimulus == "<img src='img/lose.png' class='rewardimg'>"){
+                    data.Jackpot = "punish";
                 }
             },
             choices: jsPsych.NO_KEYS,
             trial_duration: 1500,
         }
 
-        var Feedback_R2 = {
-            type: 'html-keyboard-response',
-            data: {Trial_Type: 'Feedback_R2'},
-            stimulus: function(){
-                if(jsPsych.data.get().last(2).values()[0].key_press == 32){
-                    return hit100_0[hits];
-                } else if (jsPsych.data.get().last(2).values()[0].key_press != 32){
-                    return miss100_0[misses];
-                }
-            },
-            on_finish: function(data){
-                if(data.stimulus == "<img src='img/jackpot.png' class='rewardimg'>"){
-                    data.Jackpot = true;
-                } else if (data.stimulus == "<img src='img/nope.png' class='rewardimg'>"){
-                    data.Jackpot = false;
-                }
-            },
-            choices: jsPsych.NO_KEYS,
-            trial_duration: 1500,
-        }
-
-        var R1_Procedure = {
-            timeline: [TaskLoop, R1_Probe, Response_R1, Feedback_R1],
+        var Procedure_3State = {
+            timeline: [TaskLoop, Probe, Response_3State, Feedback],
             repetitions: 50,
         }
 
-        var R2_Procedure = {
-            timeline: [TaskLoop, R2_Probe, Response_R2, Feedback_R2],
+        var Procedure_Neutral = {
+            timeline: [TaskLoop, Probe, Response_Neutral, Feedback],
+            repetitions: 50,
+        }
+
+        var Procedure_Punish = {
+            timeline: [TaskLoop, Probe, Procedure_Punish, Feedback],
             repetitions: 50,
         }
 
@@ -754,33 +760,13 @@ var database = firebase.database();
             '4<br><div style="font-size:12px">Way<br>Too<br>Hard</div>',
         ];
 
-
-
         var scale_5 = [
             "0<br>Not<br>at all",
             "1", "2", "3", "4", "5", "6", "7",
             "8<br>A lot",
         ];
 
-        var scale_6 = [
-            "Activating<br>Tiles",
-            "", "", "", "", "",
-            "Winning<br>Jackpots",
-        ];
-
-        var scale_7 = [
-            "Pressing My<br>SPACEBAR",
-            "", "", "", "", "",
-            "Earning<br>Money",
-        ];
-
-        var scale_NFC = [
-            '1<br><div style="font-size:12px">Extremely Uncharacteristic of Me</div>',
-            "2", "3", "4",
-            '5<br><div style="font-size:12px">Extremely Characteristic of Me</div>',
-        ];
-
-        var R1_Attention = {
+        var Attention = {
             type: 'survey-likert',
             preamble: 
                 '<div style="padding-top: 50px; width: 850px; font-size:16px">'
@@ -805,22 +791,7 @@ var database = firebase.database();
             scale_width: 500
         };
 
-        var R1_Time = {
-            type: 'html-slider-response',
-            stimulus: 
-                '<p>How long did it feel like the '+R1Span+' lasted?</p>'
-                +'<p>Use the slider to indicate how long the '+R1Span+' seemed to last (in minutes).</p>',
-            labels: ['0<br>min.', '1<br>min.', '2<br>min.', '3<br>min.', '4<br>min.', 
-            '5<br>min.', '6<br>min.', '7<br>min.', '8<br>min.'],
-            min: 0,
-            max: 48,
-            start: 0,
-            step: 1,
-            slider_width: 500,
-            require_movement: true,
-        };
-
-        var R1_Valence = {
+        var Valence = {
             type: 'survey-likert',
             preamble: 
                 '<div style="padding-top: 50px; width: 850px; font-size:16px"><p></p></div>',
@@ -845,7 +816,7 @@ var database = firebase.database();
             scale_width: 500
         };
 
-        var R1_CtrlBal = {
+        var CtrlBal = {
             type: 'survey-likert',
             preamble:
                 '<div style="padding-top: 50px; width: 800px; font-size:16px"><p></p></div>',
@@ -861,197 +832,18 @@ var database = firebase.database();
             scale_width: 500
         };
 
-        var R1_Construal = {
-            type: 'survey-likert',
-            preamble:
-                '<div style="padding-top: 50px; width: 800px; font-size:16px"><p>Any activity can be described in many ways. We are interested in how you would describe the activity of playing the '+R1Span+'. Below, you will see pairs of descriptions. For each pair, please report the degree to which one description better describes the activity of playing the '+R1Span+'.</p></div>',
-            questions: [
-                {prompt: 'Which of the following better describes the activity of playing the '+R1Span+'.',
-                name: 'R1_Construal1',
-                labels: scale_6},
-                {prompt: 'Which of the following better describes the activity of playing the '+R1Span+'.',
-                name: 'R1_Construal2',
-                labels: scale_7},
-            ],
-            randomize_question_order: false,
-            scale_width: 500
-        };
-
-
-
-        var R2_Attention = {
-            type: 'survey-likert',
-            preamble:
-                '<div style="padding-top: 50px; width: 850px; font-size:16px">'
-                +'<p>Thank you for playing the '+R2Span+'!</p>'
-                +'<p>Now, please provide your honest assessment of the '+R2Span+' by answering each of the following questions.</div>',
-            questions: [
-                {prompt: 'How engaging was the '+R2Span+'?',
-                name: 'R2_Engaging',
-                labels: scale_1},
-                {prompt: 'How engrossing was the '+R2Span+'?',
-                name: 'R2_Engrossing',
-                labels: scale_1},
-                {prompt: 'How immersive was the '+R2Span+'?',
-                name: 'R2_Immersive',
-                labels: scale_1},
-                {prompt: 'How addictive was the '+R2Span+'?',
-                name: 'R2_Addictive',
-                labels: scale_1},
-            ],
-            randomize_question_order: false,
-            scale_width: 500
-        };
-
-        var R2_Time = {
-            type: 'html-slider-response',
-            stimulus: 
-                '<div style="padding-top: 50px; width: 700px; font-size:16px">'
-                +'<p>How long did it feel like the '+R2Span+' lasted?</p>'
-                +'<p>Use the slider to indicate how long the '+R2Span+' seemed to last (in minutes).</div>',
-            labels: ['0<br>min.', '1<br>min.', '2<br>min.', '3<br>min.', '4<br>min.', 
-            '5<br>min.', '6<br>min.', '7<br>min.', '8<br>min.'],
-            min: 0,
-            max: 48,
-            start: 0,
-            step: 1,
-            slider_width: 500,
-            require_movement: true,
-        };
-
-        var R2_Valence = {
-            type: 'survey-likert',
-            preamble: 
-                '<div style="padding-top: 50px; width: 850px; font-size:16px"><p></p></div>',
-            questions: [
-                {prompt: 'How much did you like the '+R2Span+'?',
-                name: 'R2_Like',
-                labels: scale_5},
-                {prompt: 'How much did you dislike the '+R2Span+'?',
-                name: 'R2_Dislike',
-                labels: scale_5},
-                {prompt: 'How enjoyable was the '+R2Span+'?',
-                name: 'R2_Enjoyable',
-                labels: scale_1},
-                {prompt: 'How fun was the '+R2Span+'?',
-                name: 'R2_Fun',
-                labels: scale_1},
-                {prompt: 'How entertaining was the '+R2Span+'?',
-                name: 'R2_Entertaining',
-                labels: scale_1},
-            ],
-            randomize_question_order: false,
-            scale_width: 500
-        };
-
-        var R2_CtrlBal = {
-            type: 'survey-likert',
-            preamble:
-                '<div style="padding-top: 50px; width: 800px; font-size:16px"><p></p></div>',
-            questions: [
-                {prompt: 'While playing the '+R2Span+', how much control did you feel you had over the outcome of each trial?',
-                name: 'R2_Control',
-                labels: scale_2},
-                {prompt: 'Was the '+R2Span+' too easy, too hard, or just the right level of difficulty?',
-                name: 'R2_Balance',
-                labels: scale_3},
-            ],
-            randomize_question_order: false,
-            scale_width: 500
-        };
-
-        var R2_Construal = {
-            type: 'survey-likert',
-            preamble:
-                '<div style="padding-top: 50px; width: 800px; font-size:16px"><p>Any activity can be described in many ways. We are interested in how you would describe the activity of playing the '+R2Span+'. Below, you will see pairs of descriptions. For each pair, please report the degree to which one description better describes the activity of playing the '+R2Span+'.</p></div>',
-            questions: [
-                {prompt: 'Which of the following better describes the activity of playing the '+R2Span+'.',
-                name: 'R2_Construal1',
-                labels: scale_6},
-                {prompt: 'Which of the following better describes the activity of playing the '+R2Span+'.',
-                name: 'R2_Construal2',
-                labels: scale_7},
-            ],
-            randomize_question_order: false,
-            scale_width: 500
-        };
-
-        var E_ChooseGame = {
-            type: 'html-button-response',
-            stimulus: '<p>If you had to play one game a second time, which would you choose?</p>',
-            choices: [''+R1Span+'', ''+R2Span+''],
-        };
-
-        var E_NFC = {
-            type: 'survey-likert',
-            preamble: 
-                '<div style="padding-top: 50px; width: 850px; font-size:16px">'
-                +'<p>Please indicate how well each of the following statements describes your personality.</p>' 
-                +'<p>Specifically, use the scales to indiciate the degree to which each statement is characteristic of you.</p></div>',
-            questions: [
-                {prompt: '"I like complex problems more than simple problems."',
-                name: 'E_NFC1',
-                labels: scale_NFC},
-                {prompt: '"I like to have the responsibility of handling a situation that requires a lot of thinking."',
-                name: 'E_NFC2',
-                labels: scale_NFC},
-                {prompt: '"Thinking is not my idea of fun."',
-                name: 'E_NFC3reverse',
-                labels: scale_NFC},
-                {prompt: '"I would rather do something that requires little thought<br>than something that is sure to challenge my thinking abilities."',
-                name: 'E_NFC4reverse',
-                labels: scale_NFC},
-                {prompt: '"I try to anticipate and avoid situations where there is a likely chance<br>I will have to think in depth about something."',
-                name: 'E_NFC5reverse',
-                labels: scale_NFC},
-                {prompt: '"I find satisfaction in deliberating hard and for long hours."',
-                name: 'E_NFC6',
-                labels: scale_NFC},
-                {prompt: '"I only think as hard as I have to."',
-                name: 'E_NFC7reverse',
-                labels: scale_NFC},
-                {prompt: '"I prefer to think about small, daily projects to long-term ones."',
-                name: 'E_NFC8reverse',
-                labels: scale_NFC},
-                {prompt: '"I like tasks that require little thought once'+" I've "+'learned them."',
-                name: 'E_NFC9reverse',
-                labels: scale_NFC},
-                {prompt: '"The idea of relying on thought to make my way to the top appeals to me."',
-                name: 'E_NFC10',
-                labels: scale_NFC},
-                {prompt: '"I really enjoy a task that involves coming up with new solutions to problems."',
-                name: 'E_NFC11',
-                labels: scale_NFC},
-                {prompt: '"Learning new ways to think'+" doesn't "+'excite me very much."',
-                name: 'E_NFC12reverse',
-                labels: scale_NFC},
-                {prompt: '"I prefer my life to be filled with puzzles that I must solve."',
-                name: 'E_NFC13',
-                labels: scale_NFC},
-                {prompt: '"The notion of thinking abstractly is appealing to me."',
-                name: 'E_NFC14',
-                labels: scale_NFC},
-                {prompt: '"I would prefer a task that is intellectual, difficult, and important</br>to one that is somewhat important but does not require much thought."',
-                name: 'E_NFC15',
-                labels: scale_NFC},
-                {prompt: '"I feel relief rather than satisfaction after completing<br>a task that required a lot of mental effort."',
-                name: 'E_NFC16reverse',
-                labels: scale_NFC},
-                {prompt: '"'+"It's "+'enough for me that something gets the job done; I '+"don't "+'care how or why it works."',
-                name: 'E_NFC17reverse',
-                labels: scale_NFC},
-                {prompt: '"I usually end up deliberating about issues even when they do not affect me personally."',
-                name: 'E_NFC18',
-                labels: scale_NFC},
-            ],
-            scale_width: 400
-        };
-
-        var test_procedure = {
-            timeline: [
-            T1a, R1_LoopNode, T1c, R1_Procedure, R1_Attention, R1_Time, R1_Valence, R1_CtrlBal, R1_Construal,
-            T2a, R2_LoopNode, T2c, R2_Procedure, R2_Attention, R2_Time, R2_Valence, R2_CtrlBal, R2_Construal,
-            E_ChooseGame, E_NFC],
+        if (GameType == 1) {
+            var test_procedure = {
+                timeline: [T1a, threeStateLoopNode, T1c, Procedure_3State, Attention, Valence, CtrlBal],
+            }
+        } else if (GameType == 2) {
+            var test_procedure = {
+                timeline: [T1a, punishLoopNode, T1c, Procedure_Punish, Attention, Valence, CtrlBal],
+            }
+        } else if (GameType == 3) {
+            var test_procedure = {
+                timeline: [T1a, neutralLoopNode, T1c, Procedure_Neutral, Attention, Valence, CtrlBal],
+            }           
         }
 
         timeline.push(test_procedure)
