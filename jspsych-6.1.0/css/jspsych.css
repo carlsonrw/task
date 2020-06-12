@@ -229,7 +229,7 @@
 
 .parent {
   position: relative;
-  width: 900px;
+  width: 950px;
   height: 390px;
 }
 
@@ -241,4 +241,19 @@
   width: 200px;
   height: 200px;
   margin: -100px 0 0 -100px;
+}
+
+.green-span {
+  font-weight: bold;
+  color: #00aa00;
+}
+
+.blue-span {
+  font-weight: bold;
+  color: #1067e8;
+}
+
+.red-span {
+  font-weight: bold;
+  color: #cf0000;
 }
