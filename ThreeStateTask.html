@@ -235,16 +235,20 @@ var database = firebase.database();
             type: "html-keyboard-response",
             stimulus: "<div class='parent'>"
             +"<p>Welcome!</p>"
-            +"<p>In this survey, you will play a game and answer questions about it.<br>"
+            +"<p>In this survey, you will play games and answer questions about them.<br>"
             +"When you're ready to begin, press your SPACEBAR to proceed to the next screen.</p></div>"
         }
 
         var R1i1 = [
         "<div class='parent' style='text-align: left'>"
-        +'<p>We are designing games that can be used by behavioral scientists to study motivation and decision making. '
-        +'To make the games as engaging as possible, we are getting feedback from people like you.</p>'
-        +'<p>You will play a game called the '+R1Span+'. Then you will tell us how engaging it was.</p>'
-        +'<p>Continue to learn about and play the '+R1Span+'.</p>'
+        +'<p>We are designing games that can be used by behavioral scientists to study motivation and decision making. To '
+        +"make the games as engaging as possible, we are getting feedback from people like you.</p>"
+        +"<p>You will play two different games: "
+        +"the "+R1Span+" and the "+R2Span+". Then you will tell us "
+        +"which you found more engaging.</p>"
+        +"<p>The games are very similar, but their color schemes will help you tell them apart.</p>"
+        +"<p>Continue to learn about and play the "+R1Span+".</p>"
+        +"<p>After you finish, you will learn about and play the "+R2Span+".</p>"
         +"<p>Press your SPACEBAR to progress through each screen.</p></div>"]
 
         var R1i2 = [
