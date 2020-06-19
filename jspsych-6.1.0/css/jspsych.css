@@ -133,12 +133,12 @@
   margin: -50px 0 0 -350px;
   font-weight: bold;
   font-size: 40px;
-  color: #35AA0F;
+  color: #00aa00;
 }
 
 .a-span {
   font-weight: bold;
-  color: #35AA0F;
+  color: #00aa00;
 }
 
 .a-reward {
@@ -149,7 +149,7 @@
   line-height: 80px;
   font-weight: bold;
   font-size: 40px;
-  color: #35AA0F;
+  color: #00aa00;
 }
 
 .b-label {
@@ -161,12 +161,12 @@
   margin: -50px 0 0 -350px;
   font-weight: bold;
   font-size: 40px;
-  color: #339EFF;
+  color: #1067e8;
 }
 
 .b-span {
   font-weight: bold;
-  color: #339EFF;
+  color: #1067e8;
 }
 
 .b-reward {
@@ -177,7 +177,7 @@
   line-height: 80px;
   font-weight: bold;
   font-size: 40px;
-  color: #339EFF;
+  color: #1067e8;
 }
 
 .choices-outer {
@@ -206,7 +206,7 @@
   width: 80px; 
   height: 80px; 
   line-height: 80px;
-  background-color: #35AA0F;
+  background-color: #00aa00;
   font-size:20px;
 }
 
@@ -233,7 +233,6 @@
   height: 390px;
 }
 
-
 .box{
   position: absolute;
   top: 50%;
@@ -248,9 +247,9 @@
   color: #00aa00;
 }
 
-.blue-span {
+.gray-span {
   font-weight: bold;
-  color: #1067e8;
+  color: #444444;
 }
 
 .red-span {
