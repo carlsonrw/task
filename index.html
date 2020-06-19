@@ -19,7 +19,7 @@
   var firebaseConfig = {
     apiKey: "AIzaSyALcyhOcPOEUTgkuAr9tV8fzmOt6eS4mhA",
     authDomain: "mi-game3.firebaseapp.com",
-    databaseURL: "https://mi-game3.firebaseio.com",
+    databaseURL: "https://mi-game3-v4.firebaseio.com",
     projectId: "mi-game3",
     storageBucket: "mi-game3.appspot.com",
     messagingSenderId: "889184952168",
@@ -120,6 +120,7 @@ var database = firebase.database();
         <script src="jspsych-6.1.0/jspsych.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>
+        <script src="jspsych-6.1.0/plugins/jspsych-survey-multi-choice.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-external-html.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-instructions.js"></script>
         <script src="jspsych-6.1.0/plugins/jspsych-html-slider-response.js"></script>
@@ -135,198 +136,70 @@ var database = firebase.database();
 <script>
 
         // Define Stimuli
-        var balance = jsPsych.randomization.sampleWithReplacement([1, 0], 1)
-        var pM = jsPsych.randomization.sampleWithoutReplacement([2, 3, 4, 5, 6, 7, 8], 2)
-        var pEM = jsPsych.randomization.sampleWithoutReplacement([6, 7, 8, 9, 10], 2)
+        var balance = jsPsych.randomization.sampleWithReplacement([0, 1], 1)
+        var GameType = jsPsych.randomization.sampleWithReplacement([0, 1, 2, 3], 1)
         var GetDate = jsPsych.data.getURLVariable('date')
         var GetTime = jsPsych.data.getURLVariable('time')
         jsPsych.data.addProperties({
-            Pr_M: pM,
-            Pr_EM: pEM,
             Color_Order: balance,
+            Condition: GameType,
             StartDate: GetDate,
             StartTime: GetTime,
         });
 
-        if (pEM[0] == 6){
-            pHit_M1   = "60%"
-            pMiss_M1   = "40%"
-        } else if (pEM[0] == 7){
-            pHit_M1   = "70%"
-            pMiss_M1   = "30%"
-        } else if (pEM[0] == 8){
-            pHit_M1   = "80%"
-            pMiss_M1   = "20%"
-        } else if (pEM[0] == 9){
-            pHit_M1   = "90%"
-            pMiss_M1   = "10%"
-        } else if (pEM[0] == 10){
-            pHit_M1   = "100%"
-            pMiss_M1   = "0%"
-        }
-
-        if (pEM[1] == 6){
-            pHit_M2   = "60%"
-            pMiss_M2   = "40%"
-        } else if (pEM[1] == 7){
-            pHit_M2   = "70%"
-            pMiss_M2   = "30%"
-        } else if (pEM[1] == 8){
-            pHit_M2   = "80%"
-            pMiss_M2   = "20%"
-        } else if (pEM[1] == 9){
-            pHit_M2   = "90%"
-            pMiss_M2   = "10%"
-        } else if (pEM[1] == 10){
-            pHit_M2   = "100%"
-            pMiss_M2   = "0%"
-        }
-
         if(balance == 1){
-            R1Color      = "#35AA0F"
+            R1Color      = "#00aa00"
             R1ColorWord  = "<span class='a-span'>green</span>"
             R1Span       = "<span class='a-span'>Green Game</span>"
-            R1BestOdds   = "<span class='a-span'>"+pHit_M1+"</span>"
-            R1WorstOdds  = "<span class='a-span'>"+pMiss_M1+"</span>"
-            R2Color      = "#339EFF"
+            R2Color      = "#1067e8"
             R2ColorWord  = "<span class='b-span'>blue</span>"
             R2Span       = "<span class='b-span'>Blue Game</span>"
-            R2BestOdds   = "<span class='b-span'>"+pHit_M2+"</span>"
-            R2WorstOdds  = "<span class='b-span'>"+pMiss_M2+"</span>"
         } else {
-            R1Color      = "#339EFF"
+            R1Color      = "#1067e8"
             R1ColorWord  = "<span class='b-span'>blue</span>"
             R1Span       = "<span class='b-span'>Blue Game</span>"
-            R1BestOdds   = "<span class='b-span'>"+pHit_M1+"</span>"
-            R1WorstOdds  = "<span class='b-span'>"+pMiss_M1+"</span>"
-            R2Color      = "#35AA0F"
+            R2Color      = "#00aa00"
             R2ColorWord  = "<span class='a-span'>green</span>"
             R2Span       = "<span class='a-span'>Green Game</span>"
-            R2BestOdds   = "<span class='a-span'>"+pHit_M2+"</span>"
-            R2WorstOdds  = "<span class='a-span'>"+pMiss_M2+"</span>"
         }
 
-        if (pM[0] < pM[1]) {
-            SpeedChng1   = "more"
-            SpeedChng2   = "you won't have to respond as fast"
-        } else if (pM[0] > pM[1]) {
-            SpeedChng1  = "less"
-            SpeedChng2  = "you'll have to respond faster"
+        if(GameType == 0 || GameType == 2){
+            WontColor     = "#cf0000"
+            WontColorWord = "<span class='red-span'>red</span>"
+            WontOutcome   = "lose two cents"
+            WontPng       = "lose"
+            WillColor     = "#444444"
+            WillColorWord = "<span class='gray-span'>gray</span>"
+            WillOutcome   = "gain zero cents"
+            WillPng       = "nope"
+        } else if(GameType == 1 || GameType == 3){
+            WontColor     = "#444444"
+            WontColorWord = "<span class='gray-span'>gray</span>"
+            WontOutcome   = "gain zero cents"
+            WontPng       = "nope"
+            WillColor     = "#cf0000"
+            WillColorWord = "<span class='red-span'>red</span>"
+            WillOutcome   = "lose two cents"
+            WillPng       = "lose"
+        } 
+
+        var i;
+        var timing = jsPsych.randomization.shuffle([200, 750]);
+        for (i = 0; i < 100; i++){
+            var couplet = jsPsych.randomization.shuffle([200, 750]);
+            var timing = timing.concat(couplet);
         }
 
-        var hit100_0 = jsPsych.randomization.shuffle([
-            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>"
-            ])
-
-        var hit90_10 = jsPsych.randomization.shuffle([
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>"
-            ])
-
-        var hit80_20 = jsPsych.randomization.shuffle([
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
-            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>"
-            ])
-
-        var hit70_30 = jsPsych.randomization.shuffle([
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>"
-            ])
-
-        var hit60_40 = jsPsych.randomization.shuffle([
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
-            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            "<img src='img/jackpot.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            ])
-
-        var miss100_0 = jsPsych.randomization.shuffle([
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
-            ])
-
-        var miss90_10 = jsPsych.randomization.shuffle([
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            ])
-
-        var miss80_20 = jsPsych.randomization.shuffle([
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            ])
-
-        var miss70_30 = jsPsych.randomization.shuffle([
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            ])
-
-        var miss60_40 = jsPsych.randomization.shuffle([
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/nope.png' class='rewardimg'>",
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            "<img src='img/nope.png' class='rewardimg'>", "<img src='img/jackpot.png' class='rewardimg'>",
-            ])
-
-        var pM80 = jsPsych.randomization.shuffle([
-            200, 200, 750, 750, 750, 750, 750, 750, 750, 750,
-            ])
-
-        var pM70 = jsPsych.randomization.shuffle([
-            200, 200, 200, 750, 750, 750, 750, 750, 750, 750,
-            ])
-
-        var pM60 = jsPsych.randomization.shuffle([
-            200, 252, 200, 200, 750, 750, 750, 750, 750, 750,
-            ])
-
-        var pM50 = jsPsych.randomization.shuffle([
-            200, 200, 200, 200, 200, 750, 750, 750, 750, 750,
-            ])
-
-        var pM40 = jsPsych.randomization.shuffle([
-            200, 200, 200, 200, 200, 200, 750, 750, 750, 750,
-            ])
-
-        var pM30 = jsPsych.randomization.shuffle([
-            200, 200, 200, 200, 200, 200, 200, 750, 750, 750,
-            ])
-
-        var pM20 = jsPsych.randomization.shuffle([
-            200, 200, 200, 200, 200, 200, 200, 200, 750, 750,
-            ])
+        var i;
+        var missoutcome = jsPsych.randomization.shuffle(["#cf0000", "#444444"]);
+        for (i = 0; i < 100; i++) {
+            var couplet = jsPsych.randomization.shuffle(["#cf0000", "#444444"]);
+            var missoutcome = missoutcome.concat(couplet);
+        }
 
         var ITI = [250, 500, 750, 1000, 1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000]
 
-        var hits = -1
-
-        var misses = -1
+        var missNum = 1
 
         var tNum = -1
 
@@ -336,37 +209,37 @@ var database = firebase.database();
         var timeline = []
 
       
-        //Function to check whether consent has been given
-        var check_consent = function(elem) {
-            if (document.getElementById('consent_checkbox').checked) {
-            return true;
-            }
-            else {
-                alert("If you wish to participate, you must check the box next to the statement 'I agree to participate in this study.'");
-                return false;
-            }
-            return false;
-        };
+         //Function to check whether consent has been given
+         var check_consent = function(elem) {
+             if (document.getElementById('consent_checkbox').checked) {
+             return true;
+             }
+             else {
+                 alert("If you wish to participate, you must check the box next to the statement 'I agree to participate in this study.'");
+                 return false;
+             }
+             return false;
+         };
 
-        //Presents external consent page to participants
-        var consent = {
-            type:'external-html',
-            url: "consent.html",
-            cont_btn: "start",
-            check_fn: check_consent
-        };
-        timeline.push(consent);
+         //Presents external consent page to participants
+         var consent = {
+             type:'external-html',
+             url: "consent.html",
+             cont_btn: "start",
+             check_fn: check_consent
+         };
+         timeline.push(consent);
 
         /* define welcome message trial */
         var welcome = {
             type: "html-keyboard-response",
             stimulus: "<div class='parent'>"
-        +"<p>Welcome!</p>"
-        +"<p>In this survey, you will play games and answer questions about them.<br>"
-        +"When you're ready to begin, press your SPACEBAR to proceed to the next screen.</p></div>"
+            +"<p>Welcome!</p>"
+            +"<p>In this survey, you will play games and answer questions about them.<br>"
+            +"When you're ready to begin, press your SPACEBAR to proceed to the next screen.</p></div>"
         }
 
-        var R1Intro_A = [
+        var R1i1 = [
         "<div class='parent' style='text-align: left'>"
         +'<p>We are designing games that can be used by behavioral scientists to study motivation and decision making. To '
         +"make the games as engaging as possible, we are getting feedback from people like you.</p>"
@@ -378,170 +251,205 @@ var database = firebase.database();
         +"<p>After you finish, you will learn about and play the "+R2Span+".</p>"
         +"<p>Press your SPACEBAR to progress through each screen.</p></div>"]
 
-        var R1Intro_B = [
+        var R1i2 = [
         "<div class='parent'>"
         +'<p>The goal of the '+R1Span+' is to win as many "10-cent Jackpots" as possible.</p>'
-        +'<p>For every 10-cent Jackpot you win, you will receive an extra 10 cents. '
-        +'Thus, at the end of the study, you will receive a $5 eGiftcard for your participation, plus an additional 10 cents for each '
-        +'10-cent Jackpot you win.</p></div>',
+        +"<p>For every 10-cent Jackpot you win, you'll receive an extra 10 cents. "
+        +"At the end of the study, you'll receive a $5 eGiftcard for your participation, "
+        +'plus an additional 10 cents for each 10-cent Jackpot you won.</p></div>',
         "<div class='parent'>"
-        +'<br>To win 10-cent Jackpots, you will try to "activate" tiles like this one:</p>'
-        +'<div class="box" style="background-color:gray"></div>'
+        +'<p>To win 10-cent Jackpots, you must stop '+R1ColorWord+' tiles from changing color.</p>'
+        +'<div class="box" style="background-color:'+R1Color+'"></div></div>',
+        "<div class='parent'>"
+        +'<p>To stop a '+R1ColorWord+' tile from changing color, '
+        +'you must press your SPACEBAR as soon as it appears on your screen. '
+        +'Thus, whenever you see a '+R1ColorWord+' tile (like this one), '
+        +'you should press your SPACEBAR as fast as possible.</p>'
+        +'<div class="box" style="background-color:'+R1Color+'"></div></div>',
+        "<div class='parent'>"
+        +'<p>Each time you stop a '+R1ColorWord+' tile from changing color, '
+        +'it will glow, signalling that you won a 10-cent Jackpot.</p>'
+        +'<div class="box" style="background-color:'+R1Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'
         +"</div>",
         "<div class='parent'>"
-        +"<p>The tiles will appear and disappear very quickly. "
-        +"To activate a tile, you must press your SPACE BAR before it disappears. "
-        +"Thus, whenever you see a tile, you should press your SPACE BAR as fast as possible.</p>"
-        +'<div class="box" style="background-color:gray"></div>'
-        +"</div>",
-        "<div class='parent'>"
-        +"<p>In the "+R1Span+", tiles turn "+R1ColorWord+" if activated.</p>"
+        +"<p>Each time you win a 10-cent Jackpot, you will see this image.</p>"
+        +"<img src='img/jackpot.png', style='height: 75%'></div>",
+        '<div class="parent">'
+        +'<p>Please keep in mind that the '+R1ColorWord+' tiles change color very quickly...</p>'
         +'<div class="box" style="background-color:'+R1Color+'"></div>'
+        +"</div>"]
+
+        var R1i3_Punish = [
+        "<div class='parent'>"
+        +"<p>Specifically, they very quickly turn <span class='red-span'>red</span>.</p>"
+        +'<div class="box" style="background-color:#cf0000"></div>'
         +"</div>",
         "<div class='parent'>"
-        +"<p>If you turn a tile "+R1ColorWord+", "
-        +"your odds of winning a 10-cent Jackpot that trial are "+R1BestOdds+".</p>"
-        +'<div class="box" style="background-color:'+R1Color+'"></div>'
+        +"<p>If a tile turns <span class='red-span'>red</span> before you stop it, you will lose two cents...</p>"
+        +'<div class="box" style="background-color:#cf0000"></div>'
         +"</div>",
         "<div class='parent'>"
-        +'<p>If a tile disappears before you turn it '+R1ColorWord+', '
-        +"your odds of winning a 10-cent Jackpot that trial are "+R1WorstOdds+".</p>"
+        +"<p>...and you will see this image.</p>"
+        +"<img src='img/lose.png', style='height: 75%'>"
         +"</div>",
         "<div class='parent'>"
-        +"<p>If you win a 10-cent Jackpot, you'll see this image...</p>"
-        +"<img src='img/jackpot.png', style='height: 75%'>"
+        +"<p>In summary, you will win a 10-cent Jackpot each time you stop a <span class='green-span'>green</span> tile from changing color...</p>"
+        +'<div class="box" style="background-color:#00aa00; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'
         +"</div>",
         "<div class='parent'>"
-        +"<p>...and if you don't win a 10-cent Jackpot, you'll see this image.</p>"
+        +"<p>...but each time a tile turns <span class='red-span'>red</span> before you stop it, you will lose two cents.</p>"
+        +'<div class="box" style="background-color:#cf0000"></div>'
+        +"</div>"]
+
+        var R1i3_Neutral = [
+        "<div class='parent'>"
+        +"<p>Specifically, they very quickly turn <span class='gray-span'>gray</span>.</p>"
+        +'<div class="box" style="background-color:#444444"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>If a tile turns <span class='gray-span'>gray</span> before you stop it, you will gain zero cents...</p>"
+        +'<div class="box" style="background-color:#444444"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...and you will see this image.</p>"
         +"<img src='img/nope.png', style='height: 75%'>"
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>In summary, you will win a 10-cent Jackpot each time you stop a "+R1ColorWord+" tile from changing color...</p>"
+        +'<div class="box" style="background-color:'+R1Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...but each time a tile turns <span class='gray-span'>gray</span> before you stop it, you will gain zero cents.</p>"
+        +'<div class="box" style="background-color:#444444"></div>'
         +"</div>"]
 
-        // LoMI to HiMI Instructions
-        var R2Intro_A = [
+        var R1i3_3State = [
         "<div class='parent'>"
-        +"<p>Thank you for playing the "+R1Span+"!</p>"
-        +"When you're ready, press your SPACEBAR to continue to the "+R2Span+".</p>"
+        +"<p>Half the time they turn <span class='red-span'>red</span>...</p>"
+        +'<div class="box" style="background-color:#cf0000"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...and half the time they turn <span class='gray-span'>gray</span>.</p>"
+        +'<div class="box" style="background-color:#444444"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>If a tile turns <span class='gray-span'>gray</span> before you stop it, you will gain zero cents...</p>"
+        +'<div class="box" style="background-color:#444444"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...and you will see this image.</p>"
+        +"<img src='img/nope.png', style='height: 75%'>"
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>If a tile turns <span class='red-span'>red</span> before you stop it, you will lose two cents...</p>"
+        +'<div class="box" style="background-color:#cf0000"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...and you will see this image.</p>"
+        +"<img src='img/lose.png', style='height: 75%'>"
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>In summary, you will win a 10-cent Jackpot each time you stop a "+R1ColorWord+" tile from changing color...</p>"
+        +'<div class="box" style="background-color:'+R1Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...but each time a tile turns <span class='gray-span'>gray</span> before you stop it, you will gain zero cents...</p>"
+        +'<div class="box" style="background-color:#444444"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...and each time a tile turns <span class='red-span'>red</span> before you stop it, you will lose two cents.</p>"
+        +'<div class="box" style="background-color:#cf0000"></div>'
         +"</div>"]
-
-        var R2Intro_B = [
-        "<div class='parent'>"
-        +"<p>The "+R2Span+" is identical to the "+R1Span+" with three exceptions.</p>"
-        +"</div>",
-        "<div class='parent'>"
-        +"<p>First, in the "+R2Span+", tiles turn "+R2ColorWord+" if activated.</p>"
-        +'<div class="box" style="background-color:'+R2Color+'"></div>'
-        +"</div>",
-        "<div class='parent'>"
-        +"<p>Second, in the "+R2Span+", if you turn a tile "+R2ColorWord+", "
-        +"<br>your odds of winning a 10-cent Jackpot that trial are "+R2BestOdds+" (instead of "+R1BestOdds+")...</p>"
-        +'<div class="box" style="background-color:'+R2Color+'"></div>'
-        +"</div>",
-        "<div class='parent'>"
-        +'<p>...and if a tile disappears before you turn it '+R2ColorWord+', '
-        +"<br>your odds of winning a 10-cent Jackpot that trial are "+R2WorstOdds+" (instead of "+R1WorstOdds+").</p>"
-        +"</div>",
-         "<div class='parent'>"
-        +"<p>Finally, in the "+R2Span+", you'll have "+SpeedChng1+" time to activate the tiles."
-        +"<br>Thus, in the "+R2Span+", "+SpeedChng2+".</p>"
-        +'<div class="box" style="background-color:'+R2Color+'"></div>'
-        +"</div>",
-        "<div class='parent'>"
-        +"<p>If you have read and understood the instructions, please continue to play the "+R2Span+"."
-        +"<br>To re-read any of the instructions, press the 'previous' button to navigate back.</p>"
-        +"</div>"]
-
-        var scale_4 = [
-            "0%", "10%", "20%", "30%", "40%", "50%",
-            "60%", "70%", "80%", "90%", "100%",
-        ];
-
-        var R1_CompChk1 = {
-            type: 'survey-likert',
-            preamble:
-                '<div style="padding-top: 50px; width: 800px; font-size:16px">'
-                +'<p>To make sure you understand the rules of the '+R1Span+', '
-                +'please answer the following question.</p></div>',
-            questions: [
-                {prompt: 'If you turn a tile '+R1ColorWord+', what are your chances '
-                +'of winning a 10-cent Jackpot on that trial?',
-                name: 'R1_PrcntChk1',
-                labels: scale_4},
-            ],
-            randomize_question_order: true,
-            scale_width: 500,
-            on_finish: function(data){
-                compchk1 = data.responses;
-            },
-        };
-
-        var R1_CompChk2 = {
-            type: 'survey-likert',
-            preamble:
-                '<div style="padding-top: 50px; width: 800px; font-size:16px">'
-                +'<p>To make sure you understand the rules of the '+R1Span+', '
-                +'please answer the following question.</p></div>',
-            questions: [
-                {prompt: 'If the tile disappears before you turn it '+R1ColorWord+', what are your chances '
-                +'of winning a 10-cent Jackpot on that trial?',
-                name: 'R1_PrcntChk2',
-                labels: scale_4},
-            ],
-            randomize_question_order: true,
-            scale_width: 500,
-            on_finish: function(data){
-                compchk2 = data.responses;
-            },
-        };
-
-        var R2_CompChk1 = {
-            type: 'survey-likert',
-            preamble:
-                '<div style="padding-top: 50px; width: 800px; font-size:16px">'
-                +'<p>To make sure you understand the rules of the '+R2Span+', '
-                +'please answer the following question.</p></div>',
-            questions: [
-                {prompt: 'If you turn a tile '+R2ColorWord+', what are your chances '
-                +'of winning a 10-cent Jackpot on that trial?',
-                name: 'R2_PrcntChk1',
-                labels: scale_4},
-            ],
-            randomize_question_order: true,
-            scale_width: 500,
-            on_finish: function(data){
-                compchk3 = data.responses;
-            },
-        };
-
-        var R2_CompChk2 = {
-            type: 'survey-likert',
-            preamble:
-                '<div style="padding-top: 50px; width: 800px; font-size:16px">'
-                +'<p>To make sure you understand the rules of the '+R2Span+', '
-                +'please answer the following question.</p></div>',
-            questions: [
-                {prompt: 'If the tile disappears before you turn it '+R2ColorWord+', what are your chances '
-                +'of winning a 10-cent Jackpot on that trial?',
-                name: 'R2_PrcntChk2',
-                labels: scale_4},
-            ],
-            randomize_question_order: true,
-            scale_width: 500,
-            on_finish: function(data){
-                compchk4 = data.responses;
-            },
-        };
 
         var T1a = {
             type: "instructions",
-            pages: R1Intro_A,
+            pages: R1i1,
             key_forward: 32,
+            on_finish: function(data){
+                console.log(timing);
+                console.log(missoutcome);
+            },
         }
 
         var T1b = {
             type: "instructions",
-            pages: R1Intro_B,
+            pages: R1i2,
             key_forward: 32,
         }
+        var T1c_3State = {
+            type: "instructions",
+            pages: R1i3_3State,
+            key_forward: 32,
+        }
+
+        var T1c_Punish = {
+            type: "instructions",
+            pages: R1i3_Punish,
+            key_forward: 32,
+        }
+
+        var T1c_Neutral = {
+            type: "instructions",
+            pages: R1i3_Neutral,
+            key_forward: 32,
+        }
+
+        var T1d = {
+            type: "instructions",
+            pages: ["<div class='parent'>"
+            +"<p>You are now ready to play the "+R1Span+".</p>"
+            +"<p>Once you proceed, the "+R1Span+" will start immediately, "
+            +"so get ready to press your SPACEBAR.</p>"
+            +"<p>Continue to to begin.</p>"
+            +"</div>"],
+            key_forward: 32,
+            post_trial_gap: 500,
+        }
+
+        // Round 1 Comp Check
+        var CompChk_Hit = {
+            type: 'html-button-response',
+            stimulus:'<p>To make sure you understand the rules of the '+R1Span+', '
+            +'please answer the following question:</p>'
+            +'<p>What happens each time you stop a '+R1ColorWord+' tile from changing color?</p>',
+            choices: ["I win a 10-cent Jackpot", "I gain zero cents", "I lose two cents"],
+            on_finish: function(data){
+                compchk_g = data.button_pressed;
+            },
+        };
+
+        var CompChk_Gray = {
+            type: 'html-button-response',
+            stimulus:'<p>To make sure you understand the rules of the '+R1Span+', '
+            +'please answer the following question:</p>'
+            +'<p>What happens each time a tile turns <span class="gray-span">gray</span> before you stop it?</p>',
+            choices: ["I win a 10-cent Jackpot", "I gain zero cents", "I lose two cents"],
+            on_finish: function(data){
+                compchk_b = data.button_pressed;
+            },
+        };
+
+        var CompChk_Red = {
+            type: 'html-button-response',
+            stimulus:'<p>To make sure you understand the rules of the '+R1Span+', '
+            +'please answer the following question:</p>'
+            +'<p>What happens each time a tile turns <span class="red-span">red</span> before you stop it?</p>',
+            choices: ["I win a 10-cent Jackpot", "I gain zero cents", "I lose two cents"],
+            on_finish: function(data){
+                compchk_r = data.button_pressed;
+            },
+        };
+
+        var CompChk_Button = {
+            type: 'html-button-response',
+            stimulus:'<p>To make sure you understand the rules of the '+R1Span+', '
+            +'please answer the following question:</p>'
+            +'<p>What button must you press to stop '+R1ColorWord+' tiles from changing color?</p>',
+            choices: ["ENTER", "SPACEBAR", "TAB"],
+            on_finish: function(data){
+                compchk_button = data.button_pressed;
+            },
+        };
 
         var ErrorMessage = {
             type: "instructions",
@@ -551,12 +459,10 @@ var database = firebase.database();
             key_forward: 32,
         }
 
-        var R1_ConditionalNode = {
+        var T1Error_3State = {
             timeline: [ErrorMessage],
             conditional_function: function(){
-                pFM = 10 - pEM[0];
-                if(compchk1[16] == pEM[0] && compchk2[16] == pFM ||
-                    compchk1[17] == 0 && pEM[0] == 10 && compchk2[16] == pFM){
+                if(compchk_g == 0 && compchk_b == 1 && compchk_r == 2 && compchk_button == 1){
                     return false;
                 } else {
                     return true;
@@ -564,12 +470,32 @@ var database = firebase.database();
             }
         }
 
-        var R1_LoopNode = {
-            timeline: [T1b, R1_CompChk1, R1_CompChk2, R1_ConditionalNode],
+        var T1Error_Neutral = {
+            timeline: [ErrorMessage],
+            conditional_function: function(){
+                if(compchk_g == 0 && compchk_b == 1 && compchk_button == 1){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        var T1Error_Punish = {
+            timeline: [ErrorMessage],
+            conditional_function: function(){
+                if(compchk_g == 0 && compchk_r == 2 && compchk_button == 1){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        var T1Loop_3State = {
+            timeline: [T1b, T1c_3State, CompChk_Hit, CompChk_Gray, CompChk_Red, CompChk_Button, T1Error_3State],
             loop_function: function(){
-                pFM = 10 - pEM[0];
-                if(compchk1[16] == pEM[0] && compchk2[16] == pFM ||
-                    compchk1[17] == 0 && pEM[0] == 10 && compchk2[16] == pFM){
+                if(compchk_g == 0 && compchk_b == 1 && compchk_r == 2 && compchk_button == 1){
                     return false;
                 } else {
                     return true;
@@ -577,73 +503,309 @@ var database = firebase.database();
             }
         }
 
-        var T1c = {
-            type: "instructions",
-            pages: ["<div class='parent'>"
-            +"<p>You are now ready to play the "+R1Span+".</p>"
-            +"<p>Once you proceed, the "+R1Span+" will start immediately, "
-            +"so get ready to press your SPACEBAR.</p>"
-            +"<p>Continue to the next screen to begin.</p>"
-            +"</div>"],
-            key_forward: 32,
-            post_trial_gap: 500,
+        var T1Loop_Neutral = {
+            timeline: [T1b, T1c_Neutral, CompChk_Hit, CompChk_Gray, CompChk_Button, T1Error_Neutral],
+            loop_function: function(){
+                if(compchk_g == 0 && compchk_b == 1 && compchk_button == 1){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
         }
+
+        var T1Loop_Punish = {
+            timeline: [T1b, T1c_Punish, CompChk_Hit, CompChk_Red, CompChk_Button, T1Error_Punish],
+            loop_function: function(){
+                if(compchk_g == 0 && compchk_r == 2 && compchk_button == 1){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        // Round 2 Instructions
+        var R2i1 = [
+        "<div class='parent'>"
+        +"<p>Thank you for playing the "+R1Span+"!</p>"
+        +"When you're ready, press your SPACEBAR to continue to the "+R2Span+".</p>"
+        +"</div>"]
+
+        var R2i2_ThreeToNeutral = [
+        "<div class='parent'>"
+        +"<p>The "+R2Span+" is like the "+R1Span+", but with two changes.</p>"
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>First, in the "+R2Span+", you must try to stop "+R2ColorWord+" tiles "
+        +"(instead of "+R1ColorWord+" tiles) from changing color.</p>"
+        +'<div class="box" style="background-color:'+R2Color+'"></div>'
+        +"</div>",
+        '<div class="parent">'
+        +'<p>Second, '+R2ColorWord+' tiles only turn one color (instead of two different colors)...</p>'
+        +'<div class="box" style="background-color:'+R2Color+'"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>Specifically, they only turn <span class='gray-span'>gray</span>.</p>"
+        +'<div class="box" style="background-color:#444444"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>Everything else is the same: If a tile turns <span class='gray-span'>gray</span> before you stop it, you will gain zero cents...</p>"
+        +'<div class="box" style="background-color:#444444"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...and you will see this image.</p>"
+        +"<img src='img/nope.png', style='height: 75%'>"
+        +"</div>",
+        "<div class='parent'>"
+        +'<p>In summary, you will win a 10-cent Jackpot each time '
+        +'you stop a '+R2ColorWord+' tile from changing color...</p>'
+        +'<div class="box" style="background-color:'+R2Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...but each time a tile turns <span class='gray-span'>gray</span> before you stop it, "
+        +"you will gain zero cents.</p>"
+        +'<div class="box" style="background-color:#444444"></div>'
+        +"</div>"]
+
+        var R2i2_ThreeToPunish = [
+        "<div class='parent'>"
+        +"<p>The "+R2Span+" is like the "+R1Span+", but with two changes.</p>"
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>First, in the "+R2Span+", you must try to stop "+R2ColorWord+" tiles "
+        +"(instead of "+R1ColorWord+" tiles) from changing color.</p>"
+        +'<div class="box" style="background-color:'+R2Color+'"></div>'
+        +"</div>",
+        '<div class="parent">'
+        +'<p>Second, '+R2ColorWord+' tiles only turn one color (instead of two different colors)...</p>'
+        +'<div class="box" style="background-color:'+R2Color+'"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>Specifically, they only turn <span class='red-span'>red</span>.</p>"
+        +'<div class="box" style="background-color:#cf0000"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>Everything else is the same: If a tile turns <span class='red-span'>red</span> before you stop it, you will lose two cents...</p>"
+        +'<div class="box" style="background-color:#cf0000"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...and you will see this image.</p>"
+        +"<img src='img/lose.png', style='height: 75%'>"
+        +"</div>",
+        "<div class='parent'>"
+        +'<p>In summary, you will win a 10-cent Jackpot each time '
+        +'you stop a '+R2ColorWord+' tile from changing color...</p>'
+        +'<div class="box" style="background-color:'+R2Color+'; '
+        +'box-shadow: 0px 0px 40px 20px #FFDF00"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...but each time a tile turns <span class='red-span'>red</span> before you stop it, you will lose two cents.</p>"
+        +'<div class="box" style="background-color:#cf0000"></div>'
+        +"</div>"]
+
+        var R2i2_TwoToThree = [
+        "<div class='parent'>"
+        +"<p>The "+R2Span+" is like the "+R1Span+", but with two changes.</p>"
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>First, in the "+R2Span+", you must try to stop "+R2ColorWord+" tiles "
+        +"(instead of "+R1ColorWord+" tiles) from changing color.</p>"
+        +'<div class="box" style="background-color:'+R2Color+'"></div>'
+        +"</div>",
+        '<div class="parent">'
+        +'<p>Second, '+R2ColorWord+' tiles can change into two different colors (instead of just one)...</p>'
+        +'<div class="box" style="background-color:'+R2Color+'"></div>'
+        +"</div>",
+        '<div class="parent">'
+        +"<p>Half the time they turn "+WontColorWord+"...</p>"
+        +'<div class="box" style="background-color:'+WontColor+'"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...and half the time they turn "+WillColorWord+".</p>"
+        +'<div class="box" style="background-color:'+WillColor+'"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>If a tile turns "+WillColorWord+" before you stop it, you will "+WillOutcome+"...</p>"
+        +'<div class="box" style="background-color:'+WillColor+'"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...and you will see this image.</p>"
+        +"<img src='img/"+WillPng+".png', style='height: 75%'>"
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>If a tile turns "+WontColorWord+" before you stop it, you will "+WontOutcome+"...</p>"
+        +'<div class="box" style="background-color:'+WontColor+'"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...and you will see this image.</p>"
+        +"<img src='img/"+WontPng+".png', style='height: 75%'>"
+        +"</div>",
+        "<div class='parent'>"
+        +'<p>In summary, you will win a 10-cent Jackpot each time '
+        +'you stop a '+R2ColorWord+' tile from changing color...</p>'
+        +'<div class="box" style="background-color:'+R2Color+'; '
+        +'box-shadow: 0px 0px 40px 20px #FFDF00"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...but each time a tile turns "+WillColorWord+" before you stop it, "
+        +"you will "+WillOutcome+"...</p>"
+        +'<div class="box" style="background-color:'+WillColor+'"></div>'
+        +"</div>",
+        "<div class='parent'>"
+        +"<p>...and each time a tile turns "+WontColorWord+" before you stop it, "
+        +"you will "+WontOutcome+".</p>"
+        +'<div class="box" style="background-color:'+WontColor+'"></div>'
+        +"</div>"]
 
         var T2a = {
             type: "instructions",
-            pages: R2Intro_A,
+            pages: R2i1,
             key_forward: 32,
         }
 
-        var T2b = {
+        var T2b_TwoToThree = {
             type: "instructions",
-            pages: R2Intro_B,
+            pages: R2i2_TwoToThree,
             key_forward: 32,
         }
 
-        var R2_ConditionalNode = {
-            timeline: [ErrorMessage],
-            conditional_function: function(){
-                pFM = 10 - pEM[1];
-                if(compchk3[16] == pEM[1] && compchk4[16] == pFM ||
-                    compchk3[17] == 0 && pEM[1] == 10 && compchk4[16] == pFM){
-                    return false;
-                } else {
-                    return true;
-                }
-            }
+        var T2b_ThreeToNeutral = {
+            type: "instructions",
+            pages: R2i2_ThreeToNeutral,
+            key_forward: 32,
         }
 
-        var R2_LoopNode = {
-            timeline: [T2b, R2_CompChk1, R2_CompChk2, R2_ConditionalNode],
-            loop_function: function(){
-                pFM = 10 - pEM[1];
-                if(compchk3[16] == pEM[1] && compchk4[16] == pFM ||
-                    compchk3[17] == 0 && pEM[1] == 10 && compchk4[16] == pFM){
-                    return false;
-                } else {
-                    return true;
-                }
-            }
+        var T2b_ThreeToPunish = {
+            type: "instructions",
+            pages: R2i2_ThreeToPunish,
+            key_forward: 32,
         }
 
         var T2c = {
             type: "instructions",
-            pages: ["<div class='parent'>" 
+            pages: ["<div class='parent'>"
             +"<p>You are now ready to play the "+R2Span+".</p>"
             +"<p>Once you proceed, the "+R2Span+" will start immediately, "
             +"so get ready to press your SPACEBAR.</p>"
-            +"<p>Continue to the next screen to begin.</p>"
+            +"<p>Continue to to begin.</p>"
             +"</div>"],
             key_forward: 32,
             post_trial_gap: 500,
-            on_finish: function(){
-                hits = -1;
-                misses = -1;
-                tNum = -1;
-            },
         }
 
+        // Round 2 Comp Check
+        var T2CompChk_Hit = {
+            type: 'html-button-response',
+            stimulus:'<p>To make sure you understand the rules of the '+R2Span+', '
+            +'please answer the following question:</p>'
+            +'<p>What happens each time you stop a '+R2ColorWord+' tile from changing color?</p>',
+            choices: ["I win a 10-cent Jackpot", "I gain zero cents", "I lose two cents"],
+            on_finish: function(data){
+                compchk_g2 = data.button_pressed;
+            },
+        };
+
+        var T2CompChk_Gray = {
+            type: 'html-button-response',
+            stimulus:'<p>To make sure you understand the rules of the '+R2Span+', '
+            +'please answer the following question:</p>'
+            +'<p>What happens each time a tile turns <span class="gray-span">gray</span> before you stop it?</p>',
+            choices: ["I win a 10-cent Jackpot", "I gain zero cents", "I lose two cents"],
+            on_finish: function(data){
+                compchk_b2 = data.button_pressed;
+            },
+        };
+
+        var T2CompChk_Red = {
+            type: 'html-button-response',
+            stimulus:'<p>To make sure you understand the rules of the '+R2Span+', '
+            +'please answer the following question:</p>'
+            +'<p>What happens each time a tile turns <span class="red-span">red</span> before you stop it?</p>',
+            choices: ["I win a 10-cent Jackpot", "I gain zero cents", "I lose two cents"],
+            on_finish: function(data){
+                compchk_r2 = data.button_pressed;
+            },
+        };
+
+        var T2CompChk_States = {
+            type: 'html-button-response',
+            stimulus:'<p>To make sure you understand the rules of the '+R2Span+', '
+            +'please answer the following question:</p>'
+            +'<p>If you fail to stop a '+R2ColorWord+' tile, what color will it become?</p>',
+            choices: ['<span class="red-span">red</span>', 
+            '<span class="red-span">red</span> or <span class="gray-span">gray</span>', 
+            '<span class="gray-span">gray</span>'],
+            on_finish: function(data){
+                compchk_states = data.button_pressed;
+            },
+        };
+
+        var T2Error_3State = {
+            timeline: [ErrorMessage],
+            conditional_function: function(){
+                if(compchk_g2 == 0 && compchk_b2 == 1 && compchk_r2 == 2 && compchk_states == 1){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        var T2Error_Neutral = {
+            timeline: [ErrorMessage],
+            conditional_function: function(){
+                if(compchk_g2 == 0 && compchk_b2 == 1 && compchk_states == 2){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        var T2Error_Punish = {
+            timeline: [ErrorMessage],
+            conditional_function: function(){
+                if(compchk_g2 == 0 && compchk_r2 == 2 && compchk_states == 0){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        var T2Loop_3State = {
+            timeline: [T2b_TwoToThree, T2CompChk_States, T2CompChk_Hit, T2CompChk_Red, T2CompChk_Gray, T2Error_3State],
+            loop_function: function(){
+                if(compchk_g2 == 0 && compchk_b2 == 1 && compchk_r2 == 2 && compchk_states == 1){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        var T2Loop_Neutral = {
+            timeline: [T2b_ThreeToNeutral, T2CompChk_States, T2CompChk_Hit, T2CompChk_Gray, T2Error_Neutral],
+            loop_function: function(){
+                if(compchk_g2 == 0 && compchk_b2 == 1 && compchk_states == 2){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        var T2Loop_Punish = {
+            timeline: [T2b_ThreeToPunish, T2CompChk_States, T2CompChk_Hit, T2CompChk_Red, T2Error_Punish],
+            loop_function: function(){
+                if(compchk_g2 == 0 && compchk_r2 == 2 && compchk_states == 0){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
         timeline.push(welcome)
 
 
@@ -652,7 +814,7 @@ var database = firebase.database();
         var Delay = {
             type: 'html-keyboard-response',
             data: {Trial_Type: 'ITI'},
-            stimulus: "",
+            stimulus: '<div class="box" style="background-color:white"></div>',
             choices: [32],
             trial_duration: function(){
                 return jsPsych.randomization.sampleWithoutReplacement(ITI, 1)[0];
@@ -660,8 +822,7 @@ var database = firebase.database();
             on_finish: function(data){
                 if(data.key_press == 32){
                     data.TooFast = 1;
-                    tNum = tNum + 1;
-                } else {
+                } else if(data.key_press != 32){
                     data.TooFast = 0;
                     tNum = tNum + 1;
                 }
@@ -674,7 +835,7 @@ var database = firebase.database();
             stimulus: function(){
                 if(jsPsych.data.get().last(1).values()[0].key_press == 32){
                     return "<div style='font-size: 20px'><p>Too Fast!</p>"+
-                    "<p>Please wait for the tile to appear before pressing your SPACEBAR</p></div>"
+                    "<p>Please wait for the tile to turn green before pressing your SPACEBAR</p></div>"
                 } else {
                     return ""
                 }
@@ -696,262 +857,152 @@ var database = firebase.database();
             choices: jsPsych.NO_KEYS,
         }
 
-        var R1_Probe = {
+        var TaskLoop = {
+            timeline: [Delay, TooFast],
+            loop_function: function(){
+                if(jsPsych.data.get().last(2).values()[0].key_press != 32){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+
+        var Probe = {
             type: 'html-keyboard-response',
             data: {Trial_Type: 'Probe'},
-            stimulus: '<div class="box" style="background-color:gray"></div>',
+            stimulus: jsPsych.timelineVariable('prime'),
             choices: [32],
             trial_duration: function(){
-                if(pM[0] == 8){
-                    return pM80[tNum];
-                } else if(pM[0] == 7){
-                    return pM70[tNum];
-                } else if(pM[0] == 6){
-                    return pM60[tNum];
-                } else if(pM[0] == 5){
-                    return pM50[tNum];
-                } else if(pM[0] == 4){
-                    return pM40[tNum];
-                } else if(pM[0] == 3){
-                    return pM30[tNum];
-                } else if(pM[0] == 2){
-                    return pM20[tNum];
-                }
+                return timing[tNum];
             },
             on_finish: function(data){
-                if(data.key_press == 32 && tNum < 9){
+                if(data.key_press == 32){
                     data.TooSlow = 0;
-                } else if(data.key_press != 32 && tNum < 9){
+                } else if(data.key_press != 32){
                     data.TooSlow = 1;
-                } else if(data.key_press == 32 && tNum == 9){
-                    data.TooSlow = 0;
-                    tNum = -1;
-                    pM80 = jsPsych.randomization.shuffle(pM80);
-                    pM70 = jsPsych.randomization.shuffle(pM70);
-                    pM60 = jsPsych.randomization.shuffle(pM60);
-                    pM50 = jsPsych.randomization.shuffle(pM50);
-                    pM40 = jsPsych.randomization.shuffle(pM40);
-                    pM30 = jsPsych.randomization.shuffle(pM30);
-                    pM20 = jsPsych.randomization.shuffle(pM20);
-                } else if(data.key_press != 32 && tNum == 9){
-                    data.TooSlow = 1;
-                    tNum = -1;
-                    pM80 = jsPsych.randomization.shuffle(pM80);
-                    pM70 = jsPsych.randomization.shuffle(pM70);
-                    pM60 = jsPsych.randomization.shuffle(pM60);
-                    pM50 = jsPsych.randomization.shuffle(pM50);
-                    pM40 = jsPsych.randomization.shuffle(pM40);
-                    pM30 = jsPsych.randomization.shuffle(pM30);
-                    pM20 = jsPsych.randomization.shuffle(pM20);
                 }
             },
         }
 
-        var R2_Probe = {
+        var Response_3State = {
             type: 'html-keyboard-response',
-            data: {Trial_Type: 'Probe'},
-            stimulus: '<div class="box" style="background-color:gray"></div>',
-            choices: [32],
-            trial_duration: function(){
-                if(pM[1] == 8){
-                    return pM80[tNum];
-                } else if(pM[1] == 7){
-                    return pM70[tNum];
-                } else if(pM[1] == 6){
-                    return pM60[tNum];
-                } else if(pM[1] == 5){
-                    return pM50[tNum];
-                } else if(pM[1] == 4){
-                    return pM40[tNum];
-                } else if(pM[1] == 3){
-                    return pM30[tNum];
-                } else if(pM[1] == 2){
-                    return pM20[tNum];
-                }
-            },
-            on_finish: function(data){
-                if(data.key_press == 32 && tNum < 9){
-                    data.TooSlow = 0;
-                } else if(data.key_press != 32 && tNum < 9){
-                    data.TooSlow = 1;
-                } else if (data.key_press == 32 && tNum == 9){
-                    data.TooSlow = 0;
-                    tNum = -1;
-                    pM80 = jsPsych.randomization.shuffle(pM80);
-                    pM70 = jsPsych.randomization.shuffle(pM70);
-                    pM60 = jsPsych.randomization.shuffle(pM60);
-                    pM50 = jsPsych.randomization.shuffle(pM50);
-                    pM40 = jsPsych.randomization.shuffle(pM40);
-                    pM30 = jsPsych.randomization.shuffle(pM30);
-                    pM20 = jsPsych.randomization.shuffle(pM20);
-                } else if (data.key_press != 32 && tNum == 9){
-                    data.TooSlow = 1;
-                    tNum = -1;
-                    pM80 = jsPsych.randomization.shuffle(pM80);
-                    pM70 = jsPsych.randomization.shuffle(pM70);
-                    pM60 = jsPsych.randomization.shuffle(pM60);
-                    pM50 = jsPsych.randomization.shuffle(pM50);
-                    pM40 = jsPsych.randomization.shuffle(pM40);
-                    pM30 = jsPsych.randomization.shuffle(pM30);
-                    pM20 = jsPsych.randomization.shuffle(pM20);
-                }
-            },
-        }
-
-        var Response_R1 = {
-            type: 'html-keyboard-response',
-            data: {Trial_Type: 'Activation_R1'},
+            data: {Trial_Type: 'Response_3State'},
             stimulus: function(){
                 if(jsPsych.data.get().last(1).values()[0].key_press == 32){
-                    return '<div class="box" style="background-color:'+R1Color+'"> </div>'
+                    return jsPsych.timelineVariable('hit', true);
                 } else {
-                    return '<div class="box" style="background-color:white"> </div>'
+                    return '<div class="box" style="background-color:'+missoutcome[missNum]+'"></div>';
                 }
             },
             choices: [32],
             response_ends_trial: false,
             trial_duration: 1000,
-            on_finish: function(){
-                if (jsPsych.data.get().last(2).values()[0].key_press != 32 && misses < 9){
-                    misses = misses + 1;
-                } else if (jsPsych.data.get().last(2).values()[0].key_press == 32 && hits < 9){
-                    hits = hits + 1;
-                } else if (jsPsych.data.get().last(2).values()[0].key_press == 32){
-                    hits = 0;
-                    hit100_0 = jsPsych.randomization.shuffle(hit100_0);
-                    hit90_10 = jsPsych.randomization.shuffle(hit90_10);
-                    hit80_20 = jsPsych.randomization.shuffle(hit80_20);
-                    hit70_30 = jsPsych.randomization.shuffle(hit70_30);
-                    hit60_40 = jsPsych.randomization.shuffle(hit60_40);
-                } else {
-                    misses = 0;
-                    miss100_0 = jsPsych.randomization.shuffle(miss100_0);
-                    miss90_10 = jsPsych.randomization.shuffle(miss90_10);
-                    miss80_20 = jsPsych.randomization.shuffle(miss80_20);
-                    miss70_30 = jsPsych.randomization.shuffle(miss70_30);
-                    miss60_40 = jsPsych.randomization.shuffle(miss60_40);
-                }
-            },
         }
 
-        var Response_R2 = {
+        var Response_Neutral = {
             type: 'html-keyboard-response',
-            data: {Trial_Type: 'Activation_R2'},
+            data: {Trial_Type: 'Response_Neutral'},
             stimulus: function(){
                 if(jsPsych.data.get().last(1).values()[0].key_press == 32){
-                    return '<div class="box" style="background-color:'+R2Color+'"> </div>'
+                    return jsPsych.timelineVariable('hit', true);
                 } else {
-                    return '<div class="box" style="background-color:white"> </div>'
+                    return '<div class="box" style="background-color:#444444"></div>';
                 }
             },
             choices: [32],
             response_ends_trial: false,
             trial_duration: 1000,
-            on_finish: function(){
-                if (jsPsych.data.get().last(2).values()[0].key_press != 32 && misses < 9){
-                    misses = misses + 1;
-                } else if (jsPsych.data.get().last(2).values()[0].key_press == 32 && hits < 9){
-                    hits = hits + 1;
-                } else if (jsPsych.data.get().last(2).values()[0].key_press == 32){
-                    hits = 0;
-                    hit100_0 = jsPsych.randomization.shuffle(hit100_0);
-                    hit90_10 = jsPsych.randomization.shuffle(hit90_10);
-                    hit80_20 = jsPsych.randomization.shuffle(hit80_20);
-                    hit70_30 = jsPsych.randomization.shuffle(hit70_30);
-                    hit60_40 = jsPsych.randomization.shuffle(hit60_40);
-                } else {
-                    misses = 0;
-                    miss100_0 = jsPsych.randomization.shuffle(miss100_0);
-                    miss90_10 = jsPsych.randomization.shuffle(miss90_10);
-                    miss80_20 = jsPsych.randomization.shuffle(miss80_20);
-                    miss70_30 = jsPsych.randomization.shuffle(miss70_30);
-                    miss60_40 = jsPsych.randomization.shuffle(miss60_40);
-                }
-            },
         }
 
-        var Feedback_R1 = {
+        var Response_Punish = {
             type: 'html-keyboard-response',
-            data: {Trial_Type: 'Feedback_R1'},
+            data: {Trial_Type: 'Response_Punish'},
             stimulus: function(){
-                if(jsPsych.data.get().last(2).values()[0].key_press == 32 && pEM[0] == 10){
-                    return hit100_0[hits];
-                } else if (jsPsych.data.get().last(2).values()[0].key_press != 32 && pEM[0] == 10){
-                    return miss100_0[misses];
-                } else if (jsPsych.data.get().last(2).values()[0].key_press == 32 && pEM[0] == 9){
-                    return hit90_10[hits];
-                } else if (jsPsych.data.get().last(2).values()[0].key_press != 32 && pEM[0] == 9){
-                    return miss90_10[misses];
-                } else if (jsPsych.data.get().last(2).values()[0].key_press == 32 && pEM[0] == 8){
-                    return hit80_20[hits];
-                } else if (jsPsych.data.get().last(2).values()[0].key_press != 32 && pEM[0] == 8){
-                    return miss80_20[misses];
-                } else if (jsPsych.data.get().last(2).values()[0].key_press == 32 && pEM[0] == 7){
-                    return hit70_30[hits];
-                } else if (jsPsych.data.get().last(2).values()[0].key_press != 32 && pEM[0] == 7){
-                    return miss70_30[misses];
-                } else if (jsPsych.data.get().last(2).values()[0].key_press == 32 && pEM[0] == 6){
-                    return hit60_40[hits];
-                } else if (jsPsych.data.get().last(2).values()[0].key_press != 32 && pEM[0] == 6){
-                    return miss60_40[misses];
+                if(jsPsych.data.get().last(1).values()[0].key_press == 32){
+                    return jsPsych.timelineVariable('hit', true);
+                } else {
+                    return '<div class="box" style="background-color:#cf0000"></div>';
+                }
+            },
+            choices: [32],
+            response_ends_trial: false,
+            trial_duration: 1000,
+        }
+
+        var Feedback = {
+            type: 'html-keyboard-response',
+            data: {Trial_Type: 'Feedback'},
+            stimulus: function(){
+                if(jsPsych.data.get().last(1).values()[0].stimulus == jsPsych.timelineVariable('hit', true)){
+                    return "<img src='img/jackpot.png' class='rewardimg'>";
+                } else if (jsPsych.data.get().last(1).values()[0].stimulus == '<div class="box" style="background-color:#444444"></div>'){
+                    return "<img src='img/nope.png' class='rewardimg'>";
+                } else if (jsPsych.data.get().last(1).values()[0].stimulus == '<div class="box" style="background-color:#cf0000"></div>'){
+                    return "<img src='img/lose.png' class='rewardimg'>";
                 }
             },
             on_finish: function(data){
                 if(data.stimulus == "<img src='img/jackpot.png' class='rewardimg'>"){
-                    data.Jackpot = true;
+                    data.outcome = "jackpot";
                 } else if (data.stimulus == "<img src='img/nope.png' class='rewardimg'>"){
-                    data.Jackpot = false;
+                    data.outcome = "neutral";
+                    missNum = missNum + 1;
+                } else if (data.stimulus == "<img src='img/lose.png' class='rewardimg'>"){
+                    data.outcome = "punish";
+                    missNum = missNum + 1;
                 }
             },
             choices: jsPsych.NO_KEYS,
             trial_duration: 1500,
         }
 
-        var Feedback_R2 = {
-            type: 'html-keyboard-response',
-            data: {Trial_Type: 'Feedback_R2'},
-            stimulus: function(){
-                if(jsPsych.data.get().last(2).values()[0].key_press == 32 && pEM[1] == 10){
-                    return hit100_0[hits];
-                } else if (jsPsych.data.get().last(2).values()[0].key_press != 32 && pEM[1] == 10){
-                    return miss100_0[misses];
-                } else if (jsPsych.data.get().last(2).values()[0].key_press == 32 && pEM[1] == 9){
-                    return hit90_10[hits];
-                } else if (jsPsych.data.get().last(2).values()[0].key_press != 32 && pEM[1] == 9){
-                    return miss90_10[misses];
-                } else if (jsPsych.data.get().last(2).values()[0].key_press == 32 && pEM[1] == 8){
-                    return hit80_20[hits];
-                } else if (jsPsych.data.get().last(2).values()[0].key_press != 32 && pEM[1] == 8){
-                    return miss80_20[misses];
-                } else if (jsPsych.data.get().last(2).values()[0].key_press == 32 && pEM[1] == 7){
-                    return hit70_30[hits];
-                } else if (jsPsych.data.get().last(2).values()[0].key_press != 32 && pEM[1] == 7){
-                    return miss70_30[misses];
-                } else if (jsPsych.data.get().last(2).values()[0].key_press == 32 && pEM[1] == 6){
-                    return hit60_40[hits];
-                } else if (jsPsych.data.get().last(2).values()[0].key_press != 32 && pEM[1] == 6){
-                    return miss60_40[misses];
-                }
-            },
-            on_finish: function(data){
-                if(data.stimulus == "<img src='img/jackpot.png' class='rewardimg'>"){
-                    data.Jackpot = true;
-                } else if (data.stimulus == "<img src='img/nope.png' class='rewardimg'>"){
-                    data.Jackpot = false;
-                }
-            },
-            choices: jsPsych.NO_KEYS,
-            trial_duration: 1500,
+        var P1_3State = {
+            timeline: [TaskLoop, Probe, Response_3State, Feedback],
+            repetitions: 50,
+            timeline_variables: [
+                {prime: '<div class="box" style="background-color:'+R1Color+'"></div>', hit: '<div class="box" style="background-color:'+R1Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'}
+            ]
         }
 
-        var R1_Procedure = {
-            timeline: [Delay, TooFast, R1_Probe, Response_R1, Feedback_R1],
+        var P1_Neutral = {
+            timeline: [TaskLoop, Probe, Response_Neutral, Feedback],
             repetitions: 50,
+            timeline_variables: [
+                {prime: '<div class="box" style="background-color:'+R1Color+'"></div>', hit: '<div class="box" style="background-color:'+R1Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'}
+            ]
         }
 
-        var R2_Procedure = {
-            timeline: [Delay, TooFast, R2_Probe, Response_R2, Feedback_R2],
+        var P1_Punish = {
+            timeline: [TaskLoop, Probe, Response_Punish, Feedback],
             repetitions: 50,
+            timeline_variables: [
+                {prime: '<div class="box" style="background-color:'+R1Color+'"></div>', hit: '<div class="box" style="background-color:'+R1Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'}
+            ]
+        }
+
+        var P2_3State = {
+            timeline: [TaskLoop, Probe, Response_3State, Feedback],
+            repetitions: 50,
+            timeline_variables: [
+                {prime: '<div class="box" style="background-color:'+R2Color+'"></div>', hit: '<div class="box" style="background-color:'+R2Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'}
+            ]
+        }
+
+        var P2_Neutral = {
+            timeline: [TaskLoop, Probe, Response_Neutral, Feedback],
+            repetitions: 50,
+            timeline_variables: [
+                {prime: '<div class="box" style="background-color:'+R2Color+'"></div>', hit: '<div class="box" style="background-color:'+R2Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'}
+            ]
+        }
+
+        var P2_Punish = {
+            timeline: [TaskLoop, Probe, Response_Punish, Feedback],
+            repetitions: 50,
+            timeline_variables: [
+                {prime: '<div class="box" style="background-color:'+R2Color+'"></div>', hit: '<div class="box" style="background-color:'+R2Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'}
+            ]
         }
 
         var scale_1 = [
@@ -978,33 +1029,13 @@ var database = firebase.database();
             '4<br><div style="font-size:12px">Way<br>Too<br>Hard</div>',
         ];
 
-
-
         var scale_5 = [
             "0<br>Not<br>at all",
             "1", "2", "3", "4", "5", "6", "7",
             "8<br>A lot",
         ];
 
-        var scale_6 = [
-            "Activating<br>Tiles",
-            "", "", "", "", "",
-            "Winning<br>Jackpots",
-        ];
-
-        var scale_7 = [
-            "Pressing My<br>SPACEBAR",
-            "", "", "", "", "",
-            "Earning<br>Money",
-        ];
-
-        var scale_NFC = [
-            '1<br><div style="font-size:12px">Extremely Uncharacteristic of Me</div>',
-            "2", "3", "4",
-            '5<br><div style="font-size:12px">Extremely Characteristic of Me</div>',
-        ];
-
-        var R1_Attention = {
+        var R1Attention = {
             type: 'survey-likert',
             preamble: 
                 '<div style="padding-top: 50px; width: 850px; font-size:16px">'
@@ -1029,22 +1060,32 @@ var database = firebase.database();
             scale_width: 500
         };
 
-        var R1_Time = {
-            type: 'html-slider-response',
-            stimulus: 
-                '<p>How long did it feel like the '+R1Span+' lasted?</p>'
-                +'<p>Use the slider to indicate how long the '+R1Span+' seemed to last (in minutes).</p>',
-            labels: ['0<br>min.', '1<br>min.', '2<br>min.', '3<br>min.', '4<br>min.', 
-            '5<br>min.', '6<br>min.', '7<br>min.', '8<br>min.'],
-            min: 0,
-            max: 48,
-            start: 0,
-            step: 1,
-            slider_width: 500,
-            require_movement: true,
+        var R2Attention = {
+            type: 'survey-likert',
+            preamble: 
+                '<div style="padding-top: 50px; width: 850px; font-size:16px">'
+                +'<p>Thank you for playing the '+R2Span+'!</p>'
+                +'<p>Now, please provide your honest assessment of the '+R2Span
+                +' by answering each of the following questions.</div>',
+            questions: [
+                {prompt: 'How engaging was the '+R2Span+'?',
+                name: 'R1_Engaging',
+                labels: scale_1},
+                {prompt: 'How engrossing was the '+R2Span+'?',
+                name: 'R1_Engrossing',
+                labels: scale_1},
+                {prompt: 'How immersive was the '+R2Span+'?',
+                name: 'R1_Immersive',
+                labels: scale_1},
+                {prompt: 'How addictive was the '+R2Span+'?',
+                name: 'R1_Addictive',
+                labels: scale_1},
+            ],
+            randomize_question_order: false,
+            scale_width: 500
         };
 
-        var R1_Valence = {
+        var R1Valence = {
             type: 'survey-likert',
             preamble: 
                 '<div style="padding-top: 50px; width: 850px; font-size:16px"><p></p></div>',
@@ -1069,7 +1110,32 @@ var database = firebase.database();
             scale_width: 500
         };
 
-        var R1_CtrlBal = {
+        var R2Valence = {
+            type: 'survey-likert',
+            preamble: 
+                '<div style="padding-top: 50px; width: 850px; font-size:16px"><p></p></div>',
+            questions: [
+                {prompt: 'How much did you like the '+R2Span+'?',
+                name: 'R1_Like',
+                labels: scale_5},
+                {prompt: 'How much did you dislike the '+R2Span+'?',
+                name: 'R1_Dislike',
+                labels: scale_5},
+                {prompt: 'How enjoyable was the '+R2Span+'?',
+                name: 'R1_Enjoyable',
+                labels: scale_1},
+                {prompt: 'How fun was the '+R2Span+'?',
+                name: 'R1_Fun',
+                labels: scale_1},
+                {prompt: 'How entertaining was the '+R2Span+'?',
+                name: 'R1_Entertaining',
+                labels: scale_1},
+            ],
+            randomize_question_order: false,
+            scale_width: 500
+        };
+
+        var R1CtrlBal = {
             type: 'survey-likert',
             preamble:
                 '<div style="padding-top: 50px; width: 800px; font-size:16px"><p></p></div>',
@@ -1085,197 +1151,50 @@ var database = firebase.database();
             scale_width: 500
         };
 
-        var R1_Construal = {
-            type: 'survey-likert',
-            preamble:
-                '<div style="padding-top: 50px; width: 800px; font-size:16px"><p>Any activity can be described in many ways. We are interested in how you would describe the activity of playing the '+R1Span+'. Below, you will see pairs of descriptions. For each pair, please report the degree to which one description better describes the activity of playing the '+R1Span+'.</p></div>',
-            questions: [
-                {prompt: 'Which of the following better describes the activity of playing the '+R1Span+'.',
-                name: 'R1_Construal1',
-                labels: scale_6},
-                {prompt: 'Which of the following better describes the activity of playing the '+R1Span+'.',
-                name: 'R1_Construal2',
-                labels: scale_7},
-            ],
-            randomize_question_order: false,
-            scale_width: 500
-        };
-
-
-
-        var R2_Attention = {
-            type: 'survey-likert',
-            preamble:
-                '<div style="padding-top: 50px; width: 850px; font-size:16px">'
-                +'<p>Thank you for playing the '+R2Span+'!</p>'
-                +'<p>Now, please provide your honest assessment of the '+R2Span+' by answering each of the following questions.</div>',
-            questions: [
-                {prompt: 'How engaging was the '+R2Span+'?',
-                name: 'R2_Engaging',
-                labels: scale_1},
-                {prompt: 'How engrossing was the '+R2Span+'?',
-                name: 'R2_Engrossing',
-                labels: scale_1},
-                {prompt: 'How immersive was the '+R2Span+'?',
-                name: 'R2_Immersive',
-                labels: scale_1},
-                {prompt: 'How addictive was the '+R2Span+'?',
-                name: 'R2_Addictive',
-                labels: scale_1},
-            ],
-            randomize_question_order: false,
-            scale_width: 500
-        };
-
-        var R2_Time = {
-            type: 'html-slider-response',
-            stimulus: 
-                '<div style="padding-top: 50px; width: 700px; font-size:16px">'
-                +'<p>How long did it feel like the '+R2Span+' lasted?</p>'
-                +'<p>Use the slider to indicate how long the '+R2Span+' seemed to last (in minutes).</div>',
-            labels: ['0<br>min.', '1<br>min.', '2<br>min.', '3<br>min.', '4<br>min.', 
-            '5<br>min.', '6<br>min.', '7<br>min.', '8<br>min.'],
-            min: 0,
-            max: 48,
-            start: 0,
-            step: 1,
-            slider_width: 500,
-            require_movement: true,
-        };
-
-        var R2_Valence = {
-            type: 'survey-likert',
-            preamble: 
-                '<div style="padding-top: 50px; width: 850px; font-size:16px"><p></p></div>',
-            questions: [
-                {prompt: 'How much did you like the '+R2Span+'?',
-                name: 'R2_Like',
-                labels: scale_5},
-                {prompt: 'How much did you dislike the '+R2Span+'?',
-                name: 'R2_Dislike',
-                labels: scale_5},
-                {prompt: 'How enjoyable was the '+R2Span+'?',
-                name: 'R2_Enjoyable',
-                labels: scale_1},
-                {prompt: 'How fun was the '+R2Span+'?',
-                name: 'R2_Fun',
-                labels: scale_1},
-                {prompt: 'How entertaining was the '+R2Span+'?',
-                name: 'R2_Entertaining',
-                labels: scale_1},
-            ],
-            randomize_question_order: false,
-            scale_width: 500
-        };
-
-        var R2_CtrlBal = {
+        var R2CtrlBal = {
             type: 'survey-likert',
             preamble:
                 '<div style="padding-top: 50px; width: 800px; font-size:16px"><p></p></div>',
             questions: [
                 {prompt: 'While playing the '+R2Span+', how much control did you feel you had over the outcome of each trial?',
-                name: 'R2_Control',
+                name: 'R1_Control',
                 labels: scale_2},
                 {prompt: 'Was the '+R2Span+' too easy, too hard, or just the right level of difficulty?',
-                name: 'R2_Balance',
+                name: 'R1_Balance',
                 labels: scale_3},
             ],
             randomize_question_order: false,
             scale_width: 500
         };
 
-        var R2_Construal = {
-            type: 'survey-likert',
-            preamble:
-                '<div style="padding-top: 50px; width: 800px; font-size:16px"><p>Any activity can be described in many ways. We are interested in how you would describe the activity of playing the '+R2Span+'. Below, you will see pairs of descriptions. For each pair, please report the degree to which one description better describes the activity of playing the '+R2Span+'.</p></div>',
-            questions: [
-                {prompt: 'Which of the following better describes the activity of playing the '+R2Span+'.',
-                name: 'R2_Construal1',
-                labels: scale_6},
-                {prompt: 'Which of the following better describes the activity of playing the '+R2Span+'.',
-                name: 'R2_Construal2',
-                labels: scale_7},
-            ],
-            randomize_question_order: false,
-            scale_width: 500
-        };
-
-        var E_ChooseGame = {
-            type: 'html-button-response',
-            stimulus: '<p>If you had to play one game a second time, which would you choose?</p>',
-            choices: [''+R1Span+'', ''+R2Span+''],
-        };
-
-        var E_NFC = {
-            type: 'survey-likert',
-            preamble: 
-                '<div style="padding-top: 50px; width: 850px; font-size:16px">'
-                +'<p>Please indicate how well each of the following statements describes your personality.</p>' 
-                +'<p>Specifically, use the scales to indiciate the degree to which each statement is characteristic of you.</p></div>',
-            questions: [
-                {prompt: '"I like complex problems more than simple problems."',
-                name: 'E_NFC1',
-                labels: scale_NFC},
-                {prompt: '"I like to have the responsibility of handling a situation that requires a lot of thinking."',
-                name: 'E_NFC2',
-                labels: scale_NFC},
-                {prompt: '"Thinking is not my idea of fun."',
-                name: 'E_NFC3reverse',
-                labels: scale_NFC},
-                {prompt: '"I would rather do something that requires little thought<br>than something that is sure to challenge my thinking abilities."',
-                name: 'E_NFC4reverse',
-                labels: scale_NFC},
-                {prompt: '"I try to anticipate and avoid situations where there is a likely chance<br>I will have to think in depth about something."',
-                name: 'E_NFC5reverse',
-                labels: scale_NFC},
-                {prompt: '"I find satisfaction in deliberating hard and for long hours."',
-                name: 'E_NFC6',
-                labels: scale_NFC},
-                {prompt: '"I only think as hard as I have to."',
-                name: 'E_NFC7reverse',
-                labels: scale_NFC},
-                {prompt: '"I prefer to think about small, daily projects to long-term ones."',
-                name: 'E_NFC8reverse',
-                labels: scale_NFC},
-                {prompt: '"I like tasks that require little thought once'+" I've "+'learned them."',
-                name: 'E_NFC9reverse',
-                labels: scale_NFC},
-                {prompt: '"The idea of relying on thought to make my way to the top appeals to me."',
-                name: 'E_NFC10',
-                labels: scale_NFC},
-                {prompt: '"I really enjoy a task that involves coming up with new solutions to problems."',
-                name: 'E_NFC11',
-                labels: scale_NFC},
-                {prompt: '"Learning new ways to think'+" doesn't "+'excite me very much."',
-                name: 'E_NFC12reverse',
-                labels: scale_NFC},
-                {prompt: '"I prefer my life to be filled with puzzles that I must solve."',
-                name: 'E_NFC13',
-                labels: scale_NFC},
-                {prompt: '"The notion of thinking abstractly is appealing to me."',
-                name: 'E_NFC14',
-                labels: scale_NFC},
-                {prompt: '"I would prefer a task that is intellectual, difficult, and important</br>to one that is somewhat important but does not require much thought."',
-                name: 'E_NFC15',
-                labels: scale_NFC},
-                {prompt: '"I feel relief rather than satisfaction after completing<br>a task that required a lot of mental effort."',
-                name: 'E_NFC16reverse',
-                labels: scale_NFC},
-                {prompt: '"'+"It's "+'enough for me that something gets the job done; I '+"don't "+'care how or why it works."',
-                name: 'E_NFC17reverse',
-                labels: scale_NFC},
-                {prompt: '"I usually end up deliberating about issues even when they do not affect me personally."',
-                name: 'E_NFC18',
-                labels: scale_NFC},
-            ],
-            scale_width: 400
-        };
-
-        var test_procedure = {
-            timeline: [
-            T1a, R1_LoopNode, T1c, R1_Procedure, R1_Attention, R1_Time, R1_Valence, R1_CtrlBal, R1_Construal,
-            T2a, R2_LoopNode, T2c, R2_Procedure, R2_Attention, R2_Time, R2_Valence, R2_CtrlBal, R2_Construal,
-            E_ChooseGame, E_NFC],
+        if (GameType == 0) {
+            var test_procedure = {
+                timeline: [
+                T1a, T1Loop_Punish, T1d, P1_Punish, R1Attention, R1Valence, R1CtrlBal,
+                T2a, T2Loop_3State, T2c, P2_3State, R2Attention, R2Valence, R2CtrlBal,
+                ],
+            }
+        } else if (GameType == 1) {
+            var test_procedure = {
+                timeline: [
+                T1a, T1Loop_Neutral, T1d, P1_Neutral, R1Attention, R1Valence, R1CtrlBal,
+                T2a, T2Loop_3State, T2c, P2_3State, R2Attention, R2Valence, R2CtrlBal,
+                ],
+            }
+        } else if (GameType == 2) {
+            var test_procedure = {
+                timeline: [
+                T1a, T1Loop_3State, T1d, P1_3State, R1Attention, R1Valence, R1CtrlBal, 
+                T2a, T2Loop_Punish, T2c, P2_Punish, R2Attention, R2Valence, R2CtrlBal,
+                ],
+            }           
+        } else if (GameType == 3) {
+            var test_procedure = {
+                timeline: [
+                T1a, T1Loop_3State, T1d, P1_3State, R1Attention, R1Valence, R1CtrlBal,
+                T2a, T2Loop_Neutral, T2c, P2_Neutral, R2Attention, R2Valence, R2CtrlBal,
+                ],
+            }               
         }
 
         timeline.push(test_procedure)
