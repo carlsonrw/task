@@ -1256,15 +1256,14 @@ var database = firebase.database();
             required: true}
         ],
         preamble: function(){
-            var R1_JackPotTrials = jsPsych.data.get().filter({Trial_Type: 'Feedback_R1', Jackpot: true});
-            var R2_JackPotTrials = jsPsych.data.get().filter({Trial_Type: 'Feedback_R2', Jackpot: true});
-            var R1_TotalJackpots = R1_JackPotTrials.count();
-            var R2_TotalJackpots = R2_JackPotTrials.count();
-            var totaljackpots = R1_TotalJackpots + R2_TotalJackpots;         
-            var totalbonus = totaljackpots/10;
-            var totaldollars = (Math.round(totalbonus * 100) / 100).toFixed(2)         
+            var JackPotTrials = jsPsych.data.get().filter({Trial_Type: 'Feedback', outcome: "jackpot"});
+            var PunishTrials = jsPsych.data.get().filter({Trial_Type: 'Feedback', outcome: "punish"});
+            var TotalJackpots = JackPotTrials.count();
+            var TotalPunish = PunishTrials.count();
+            var TotalEarnings = (TotalJackpots*10) - (TotalPunish*2);         
+            var TotalDollars = (Math.round(TotalEarnings/100)).toFixed(2)         
 
-            return '<p>Thank you for participating!</p><p>In total, you got <b>'+totaljackpots+' Jackpots</b>, which is worth <b>$'+totaldollars+'</b> in bonus money!<br>Within one week, you will receive your bonus money, plus $5 for your participation.</p><p>To receive payment, enter your email address in the space below. If you with to forgo payment, type NA. <b>After you submit, you will see a blank screen, which indicates that your submission was successful</b>.</p>'
+            return '<p>Thank you for participating!</p><p>In total, you got <b>'+TotalJackpots+' Jackpots</b>, and the tile turned red '+TotalPunish+' times, which means you won <b>$'+TotalDollars+'</b> in bonus money!<br>Within one week, you will receive your bonus money, plus $5 for your participation.</p><p>To receive payment, enter your email address in the space below. If you with to forgo payment, type NA. <b>After you submit, you will see a blank screen, which indicates that your submission was successful</b>.</p>'
         },
         button_label: ['CLICK HERE TO FINISH']
     };
