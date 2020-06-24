@@ -1241,25 +1241,26 @@ var database = firebase.database();
     
     
     var E_finalword = {
-          type: 'survey-text',
-          questions: [
-            {prompt: "Questions? Comments? Complains? Provide your feedback here!",
-            rows: 10,
-            columns: 100,
-            name: "E_finalword"},
-          ],
+            type: 'survey-text',
+            questions: [
+                {prompt: "Questions? Comments? Complains? Provide your feedback here!",
+                rows: 10,
+                columns: 100,
+                name: "E_finalword"},
+            ],
+            on_finish: function(){
+                var JackpotTrials = jsPsych.data.get().filter({Trial_Type: 'Feedback', outcome: "jackpot"});
+                var PunishTrials = jsPsych.data.get().filter({Trial_Type: 'Feedback', outcome: "punish"});
+                data.TotalJackpots = JackpotTrials.count();
+                data.TotalPunish = PunishTrials.count();
+                data.TotalPoints = (TotalJackpots*10) - (TotalPunish*2);         
+                data.TotalDollars = roundHalf(TotalPoints/400);
+                console.log(TotalPoints)
+            },
         }; 
     timeline.push(E_finalword);
         
     var E_email = {
-        on_start: function(){
-            var JackpotTrials = jsPsych.data.get().filter({Trial_Type: 'Feedback', outcome: "jackpot"});
-            var PunishTrials = jsPsych.data.get().filter({Trial_Type: 'Feedback', outcome: "punish"});
-            data.TotalJackpots = JackpotTrials.count();
-            data.TotalPunish = PunishTrials.count();
-            data.TotalPoints = (TotalJackpots*10) - (TotalPunish*2);         
-            data.TotalDollars = roundHalf(TotalPoints/400);
-        },
         type: 'survey-text',
         questions: [
             {prompt: "",
@@ -1268,7 +1269,7 @@ var database = firebase.database();
             columns: 50,
             required: true}
         ],
-        preamble: function(){      
+        preamble: function(data){      
             return '<p>Thank you for participating!</p><p>In total, you got <b>'+TotalPoints+' points</b>, which means you won <b>$'+TotalDollars+'</b> in bonus money!<br>Within one week, you will receive your bonus money, plus $5 for your participation.</p><p>To receive payment, enter your email address in the space below. If you with to forgo payment, type NA. <b>After you submit, you will see a blank screen, which indicates that your submission was successful</b>.</p>'
         },
         button_label: ['CLICK HERE TO FINISH'], 
