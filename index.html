@@ -1283,13 +1283,11 @@ var database = firebase.database();
         jsPsych.init({
             timeline: timeline, 
             on_finish: function(){
-                window.location.replace("https://app.prolific.co/submissions/complete?cc=5C9164BA");
-            },
-            on_close: function() {
                 firebase.database().ref(firebase.auth().currentUser.uid).set({
                     data: jsPsych.data.get().values()
-                })
-            }
+                });
+                window.location.replace("https://app.prolific.co/submissions/complete?cc=5C9164BA");
+            },
         });
     
     
