@@ -1251,11 +1251,14 @@ var database = firebase.database();
             on_finish: function(data){
                 var JackpotTrials = jsPsych.data.get().filter({Trial_Type: 'Feedback', outcome: "jackpot"});
                 var PunishTrials = jsPsych.data.get().filter({Trial_Type: 'Feedback', outcome: "punish"});
-                data.TotalJackpots = JackpotTrials.count();
-                data.TotalPunish = PunishTrials.count();
-                data.TotalPoints = (TotalJackpots*10) - (TotalPunish*2);         
-                data.TotalDollars = roundHalf(TotalPoints/400);
-                console.log(TotalPoints)
+                var TotalJackpots = JackpotTrials.count();
+                var TotalPunish = PunishTrials.count();
+                var TotalPoints = (TotalJackpots*10) - (TotalPunish*2);         
+                var TotalDollars = roundHalf(TotalPoints/400);
+                data.NumJackpots = TotalJackpots;
+                data.NumPunish = TotalPunish;
+                data.NumDollars = TotalDollars;
+                console.log(TotalPoints);
             },
         }; 
     timeline.push(E_finalword);
