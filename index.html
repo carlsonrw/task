@@ -1248,7 +1248,7 @@ var database = firebase.database();
                 columns: 100,
                 name: "E_finalword"},
             ],
-            on_finish: function(){
+            on_finish: function(data){
                 var JackpotTrials = jsPsych.data.get().filter({Trial_Type: 'Feedback', outcome: "jackpot"});
                 var PunishTrials = jsPsych.data.get().filter({Trial_Type: 'Feedback', outcome: "punish"});
                 data.TotalJackpots = JackpotTrials.count();
