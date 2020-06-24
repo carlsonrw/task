@@ -138,11 +138,11 @@ var database = firebase.database();
         // Define Stimuli
         var balance = jsPsych.randomization.sampleWithReplacement([0, 1], 1)
         var GameType = jsPsych.randomization.sampleWithReplacement([0, 1, 2, 3], 1)
-        var GetDate = jsPsych.data.getURLVariable('PID')
+        var GetPID = jsPsych.data.getURLVariable('PID')
         var GetDate = jsPsych.data.getURLVariable('date')
         var GetTime = jsPsych.data.getURLVariable('time')
         jsPsych.data.addProperties({
-            SubjectID: PID,
+            SubjectID: GetPID,
             Color_Order: balance,
             Condition: GameType,
             StartDate: GetDate,
