@@ -166,20 +166,20 @@ var database = firebase.database();
         if(GameType == 0 || GameType == 2){
             WontColor     = "#cf0000"
             WontColorWord = "<span class='red-span'>red</span>"
-            WontOutcome   = "lose two cents"
+            WontOutcome   = "lose two points"
             WontPng       = "lose"
             WillColor     = "#444444"
             WillColorWord = "<span class='gray-span'>gray</span>"
-            WillOutcome   = "gain zero cents"
+            WillOutcome   = "gain zero points"
             WillPng       = "nope"
         } else if(GameType == 1 || GameType == 3){
             WontColor     = "#444444"
             WontColorWord = "<span class='gray-span'>gray</span>"
-            WontOutcome   = "gain zero cents"
+            WontOutcome   = "gain zero points"
             WontPng       = "nope"
             WillColor     = "#cf0000"
             WillColorWord = "<span class='red-span'>red</span>"
-            WillOutcome   = "lose two cents"
+            WillOutcome   = "lose two points"
             WillPng       = "lose"
         } 
 
@@ -253,12 +253,12 @@ var database = firebase.database();
 
         var R1i2 = [
         "<div class='parent'>"
-        +'<p>The goal of the '+R1Span+' is to win as many "10-cent Jackpots" as possible.</p>'
-        +"<p>For every 10-cent Jackpot you win, you'll receive an extra 10 cents. "
+        +'<p>The goal of the '+R1Span+' is to win as many "10-point Jackpots" as possible.</p>'
+        +"<p>For every 10-point Jackpot you win, you'll receive an extra 10 points. "
         +"At the end of the study, you'll receive a $5 eGiftcard for your participation, "
-        +'plus an additional 10 cents for each 10-cent Jackpot you won.</p></div>',
+        +'plus an additional bonus depending on how many points you win.</p></div>',
         "<div class='parent'>"
-        +'<p>To win 10-cent Jackpots, you must stop '+R1ColorWord+' tiles from changing color.</p>'
+        +'<p>To win 10-point Jackpots, you must stop '+R1ColorWord+' tiles from changing color.</p>'
         +'<div class="box" style="background-color:'+R1Color+'"></div></div>',
         "<div class='parent'>"
         +'<p>To stop a '+R1ColorWord+' tile from changing color, '
@@ -268,11 +268,11 @@ var database = firebase.database();
         +'<div class="box" style="background-color:'+R1Color+'"></div></div>',
         "<div class='parent'>"
         +'<p>Each time you stop a '+R1ColorWord+' tile from changing color, '
-        +'it will glow, signalling that you won a 10-cent Jackpot.</p>'
+        +'it will glow, signalling that you won a 10-point Jackpot.</p>'
         +'<div class="box" style="background-color:'+R1Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'
         +"</div>",
         "<div class='parent'>"
-        +"<p>Each time you win a 10-cent Jackpot, you will see this image.</p>"
+        +"<p>Each time you win a 10-point Jackpot, you will see this image.</p>"
         +"<img src='img/jackpot.png', style='height: 75%'></div>",
         '<div class="parent">'
         +'<p>Please keep in mind that the '+R1ColorWord+' tiles change color very quickly...</p>'
@@ -285,7 +285,7 @@ var database = firebase.database();
         +'<div class="box" style="background-color:#cf0000"></div>'
         +"</div>",
         "<div class='parent'>"
-        +"<p>If a tile turns <span class='red-span'>red</span> before you stop it, you will lose two cents...</p>"
+        +"<p>If a tile turns <span class='red-span'>red</span> before you stop it, you will lose two points...</p>"
         +'<div class="box" style="background-color:#cf0000"></div>'
         +"</div>",
         "<div class='parent'>"
@@ -293,11 +293,11 @@ var database = firebase.database();
         +"<img src='img/lose.png', style='height: 75%'>"
         +"</div>",
         "<div class='parent'>"
-        +"<p>In summary, you will win a 10-cent Jackpot each time you stop a <span class='green-span'>green</span> tile from changing color...</p>"
+        +"<p>In summary, you will win a 10-point Jackpot each time you stop a <span class='green-span'>green</span> tile from changing color...</p>"
         +'<div class="box" style="background-color:#00aa00; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'
         +"</div>",
         "<div class='parent'>"
-        +"<p>...but each time a tile turns <span class='red-span'>red</span> before you stop it, you will lose two cents.</p>"
+        +"<p>...but each time a tile turns <span class='red-span'>red</span> before you stop it, you will lose two points.</p>"
         +'<div class="box" style="background-color:#cf0000"></div>'
         +"</div>"]
 
@@ -307,7 +307,7 @@ var database = firebase.database();
         +'<div class="box" style="background-color:#444444"></div>'
         +"</div>",
         "<div class='parent'>"
-        +"<p>If a tile turns <span class='gray-span'>gray</span> before you stop it, you will gain zero cents...</p>"
+        +"<p>If a tile turns <span class='gray-span'>gray</span> before you stop it, you will gain zero points...</p>"
         +'<div class="box" style="background-color:#444444"></div>'
         +"</div>",
         "<div class='parent'>"
@@ -315,11 +315,11 @@ var database = firebase.database();
         +"<img src='img/nope.png', style='height: 75%'>"
         +"</div>",
         "<div class='parent'>"
-        +"<p>In summary, you will win a 10-cent Jackpot each time you stop a "+R1ColorWord+" tile from changing color...</p>"
+        +"<p>In summary, you will win a 10-point Jackpot each time you stop a "+R1ColorWord+" tile from changing color...</p>"
         +'<div class="box" style="background-color:'+R1Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'
         +"</div>",
         "<div class='parent'>"
-        +"<p>...but each time a tile turns <span class='gray-span'>gray</span> before you stop it, you will gain zero cents.</p>"
+        +"<p>...but each time a tile turns <span class='gray-span'>gray</span> before you stop it, you will gain zero points.</p>"
         +'<div class="box" style="background-color:#444444"></div>'
         +"</div>"]
 
@@ -333,7 +333,7 @@ var database = firebase.database();
         +'<div class="box" style="background-color:#444444"></div>'
         +"</div>",
         "<div class='parent'>"
-        +"<p>If a tile turns <span class='gray-span'>gray</span> before you stop it, you will gain zero cents...</p>"
+        +"<p>If a tile turns <span class='gray-span'>gray</span> before you stop it, you will gain zero points...</p>"
         +'<div class="box" style="background-color:#444444"></div>'
         +"</div>",
         "<div class='parent'>"
@@ -341,7 +341,7 @@ var database = firebase.database();
         +"<img src='img/nope.png', style='height: 75%'>"
         +"</div>",
         "<div class='parent'>"
-        +"<p>If a tile turns <span class='red-span'>red</span> before you stop it, you will lose two cents...</p>"
+        +"<p>If a tile turns <span class='red-span'>red</span> before you stop it, you will lose two points...</p>"
         +'<div class="box" style="background-color:#cf0000"></div>'
         +"</div>",
         "<div class='parent'>"
@@ -349,15 +349,15 @@ var database = firebase.database();
         +"<img src='img/lose.png', style='height: 75%'>"
         +"</div>",
         "<div class='parent'>"
-        +"<p>In summary, you will win a 10-cent Jackpot each time you stop a "+R1ColorWord+" tile from changing color...</p>"
+        +"<p>In summary, you will win a 10-point Jackpot each time you stop a "+R1ColorWord+" tile from changing color...</p>"
         +'<div class="box" style="background-color:'+R1Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'
         +"</div>",
         "<div class='parent'>"
-        +"<p>...but each time a tile turns <span class='gray-span'>gray</span> before you stop it, you will gain zero cents...</p>"
+        +"<p>...but each time a tile turns <span class='gray-span'>gray</span> before you stop it, you will gain zero points...</p>"
         +'<div class="box" style="background-color:#444444"></div>'
         +"</div>",
         "<div class='parent'>"
-        +"<p>...and each time a tile turns <span class='red-span'>red</span> before you stop it, you will lose two cents.</p>"
+        +"<p>...and each time a tile turns <span class='red-span'>red</span> before you stop it, you will lose two points.</p>"
         +'<div class="box" style="background-color:#cf0000"></div>'
         +"</div>"]
 
@@ -412,7 +412,7 @@ var database = firebase.database();
             stimulus:'<p>To make sure you understand the rules of the '+R1Span+', '
             +'please answer the following question:</p>'
             +'<p>What happens each time you stop a '+R1ColorWord+' tile from changing color?</p>',
-            choices: ["I win a 10-cent Jackpot", "I gain zero cents", "I lose two cents"],
+            choices: ["I win a 10-point Jackpot", "I gain zero points", "I lose two points"],
             on_finish: function(data){
                 compchk_g = data.button_pressed;
             },
@@ -423,7 +423,7 @@ var database = firebase.database();
             stimulus:'<p>To make sure you understand the rules of the '+R1Span+', '
             +'please answer the following question:</p>'
             +'<p>What happens each time a tile turns <span class="gray-span">gray</span> before you stop it?</p>',
-            choices: ["I win a 10-cent Jackpot", "I gain zero cents", "I lose two cents"],
+            choices: ["I win a 10-point Jackpot", "I gain zero points", "I lose two points"],
             on_finish: function(data){
                 compchk_b = data.button_pressed;
             },
@@ -434,7 +434,7 @@ var database = firebase.database();
             stimulus:'<p>To make sure you understand the rules of the '+R1Span+', '
             +'please answer the following question:</p>'
             +'<p>What happens each time a tile turns <span class="red-span">red</span> before you stop it?</p>',
-            choices: ["I win a 10-cent Jackpot", "I gain zero cents", "I lose two cents"],
+            choices: ["I win a 10-point Jackpot", "I gain zero points", "I lose two points"],
             on_finish: function(data){
                 compchk_r = data.button_pressed;
             },
@@ -453,6 +453,7 @@ var database = firebase.database();
 
         var ErrorMessage = {
             type: "instructions",
+            data: {Trial_Type: 'Error_Message'},
             pages: ["<div class='parent'>"
             +"<p>You provided the wrong answer.<br>To make sure you understand how to play, please continue to re-read the instructions.</p>"
             +"</div>"],
@@ -550,7 +551,7 @@ var database = firebase.database();
         +'<div class="box" style="background-color:#444444"></div>'
         +"</div>",
         "<div class='parent'>"
-        +"<p>Everything else is the same: If a tile turns <span class='gray-span'>gray</span> before you stop it, you will gain zero cents...</p>"
+        +"<p>Everything else is the same: If a tile turns <span class='gray-span'>gray</span> before you stop it, you will gain zero points...</p>"
         +'<div class="box" style="background-color:#444444"></div>'
         +"</div>",
         "<div class='parent'>"
@@ -558,13 +559,13 @@ var database = firebase.database();
         +"<img src='img/nope.png', style='height: 75%'>"
         +"</div>",
         "<div class='parent'>"
-        +'<p>In summary, you will win a 10-cent Jackpot each time '
+        +'<p>In summary, you will win a 10-point Jackpot each time '
         +'you stop a '+R2ColorWord+' tile from changing color...</p>'
         +'<div class="box" style="background-color:'+R2Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'
         +"</div>",
         "<div class='parent'>"
         +"<p>...but each time a tile turns <span class='gray-span'>gray</span> before you stop it, "
-        +"you will gain zero cents.</p>"
+        +"you will gain zero points.</p>"
         +'<div class="box" style="background-color:#444444"></div>'
         +"</div>"]
 
@@ -586,7 +587,7 @@ var database = firebase.database();
         +'<div class="box" style="background-color:#cf0000"></div>'
         +"</div>",
         "<div class='parent'>"
-        +"<p>Everything else is the same: If a tile turns <span class='red-span'>red</span> before you stop it, you will lose two cents...</p>"
+        +"<p>Everything else is the same: If a tile turns <span class='red-span'>red</span> before you stop it, you will lose two points...</p>"
         +'<div class="box" style="background-color:#cf0000"></div>'
         +"</div>",
         "<div class='parent'>"
@@ -594,13 +595,13 @@ var database = firebase.database();
         +"<img src='img/lose.png', style='height: 75%'>"
         +"</div>",
         "<div class='parent'>"
-        +'<p>In summary, you will win a 10-cent Jackpot each time '
+        +'<p>In summary, you will win a 10-point Jackpot each time '
         +'you stop a '+R2ColorWord+' tile from changing color...</p>'
         +'<div class="box" style="background-color:'+R2Color+'; '
         +'box-shadow: 0px 0px 40px 20px #FFDF00"></div>'
         +"</div>",
         "<div class='parent'>"
-        +"<p>...but each time a tile turns <span class='red-span'>red</span> before you stop it, you will lose two cents.</p>"
+        +"<p>...but each time a tile turns <span class='red-span'>red</span> before you stop it, you will lose two points.</p>"
         +'<div class="box" style="background-color:#cf0000"></div>'
         +"</div>"]
 
@@ -642,7 +643,7 @@ var database = firebase.database();
         +"<img src='img/"+WontPng+".png', style='height: 75%'>"
         +"</div>",
         "<div class='parent'>"
-        +'<p>In summary, you will win a 10-cent Jackpot each time '
+        +'<p>In summary, you will win a 10-point Jackpot each time '
         +'you stop a '+R2ColorWord+' tile from changing color...</p>'
         +'<div class="box" style="background-color:'+R2Color+'; '
         +'box-shadow: 0px 0px 40px 20px #FFDF00"></div>'
@@ -700,7 +701,7 @@ var database = firebase.database();
             stimulus:'<p>To make sure you understand the rules of the '+R2Span+', '
             +'please answer the following question:</p>'
             +'<p>What happens each time you stop a '+R2ColorWord+' tile from changing color?</p>',
-            choices: ["I win a 10-cent Jackpot", "I gain zero cents", "I lose two cents"],
+            choices: ["I win a 10-point Jackpot", "I gain zero points", "I lose two points"],
             on_finish: function(data){
                 compchk_g2 = data.button_pressed;
             },
@@ -711,7 +712,7 @@ var database = firebase.database();
             stimulus:'<p>To make sure you understand the rules of the '+R2Span+', '
             +'please answer the following question:</p>'
             +'<p>What happens each time a tile turns <span class="gray-span">gray</span> before you stop it?</p>',
-            choices: ["I win a 10-cent Jackpot", "I gain zero cents", "I lose two cents"],
+            choices: ["I win a 10-point Jackpot", "I gain zero points", "I lose two points"],
             on_finish: function(data){
                 compchk_b2 = data.button_pressed;
             },
@@ -722,7 +723,7 @@ var database = firebase.database();
             stimulus:'<p>To make sure you understand the rules of the '+R2Span+', '
             +'please answer the following question:</p>'
             +'<p>What happens each time a tile turns <span class="red-span">red</span> before you stop it?</p>',
-            choices: ["I win a 10-cent Jackpot", "I gain zero cents", "I lose two cents"],
+            choices: ["I win a 10-point Jackpot", "I gain zero points", "I lose two points"],
             on_finish: function(data){
                 compchk_r2 = data.button_pressed;
             },
