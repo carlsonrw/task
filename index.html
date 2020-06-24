@@ -1267,13 +1267,20 @@ var database = firebase.database();
     timeline.push(E_finalword);
         
     var E_email = {
-        type: 'instructions',
-        pages: function(data){
+        type: 'survey-text',
+        questions: [
+            {prompt: "",
+            placeholder: "Email Address", 
+            name: "E_email", 
+            columns: 50,
+            required: true}
+        ],
+        preamble: function(data){
             var NumPoints = jsPsych.data.get().last(1).values()[0].NumPoints;
             var NumDollars = jsPsych.data.get().last(1).values()[0].NumDollars;
-            return ['<p>Thank you for participating!</p><p>In total, you got <b>'+NumPoints+' points</b>, which means you won <b>$'+NumDollars+'</b> in bonus money!<br>Within one week, you will receive your bonus money, plus $1 for your participation.</p><p>Press your SPACEBAR to finish.</p>']
+            return '<p>Thank you for participating!</p><p>In total, you got <b>'+NumPoints+' points</b>, which means you won <b>$'+NumDollars+'</b> in bonus money!<br>Within one week, you will receive your bonus money, plus $1 for your participation.</p><p>Press your SPACEBAR to finish.</p>'
         },
-        key_forward: 32,
+        button_label: ['CLICK HERE TO FINISH'], 
     };
     timeline.push(E_email);
     
