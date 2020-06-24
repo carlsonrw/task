@@ -138,11 +138,9 @@ var database = firebase.database();
         // Define Stimuli
         var balance = jsPsych.randomization.sampleWithReplacement([0, 1], 1)
         var GameType = jsPsych.randomization.sampleWithReplacement([0, 1, 2, 3], 1)
-        var GetPID = jsPsych.data.getURLVariable('PID')
         var GetDate = jsPsych.data.getURLVariable('date')
         var GetTime = jsPsych.data.getURLVariable('time')
         jsPsych.data.addProperties({
-            SubjectID: GetPID,
             Color_Order: balance,
             Condition: GameType,
             StartDate: GetDate,
@@ -1270,15 +1268,15 @@ var database = firebase.database();
         type: 'survey-text',
         questions: [
             {prompt: "",
-            placeholder: "Email Address", 
-            name: "E_email", 
+            placeholder: "Prolific ID", 
+            name: "PID", 
             columns: 50,
             required: true}
         ],
         preamble: function(data){
             var NumPoints = jsPsych.data.get().last(1).values()[0].NumPoints;
             var NumDollars = jsPsych.data.get().last(1).values()[0].NumDollars;
-            return '<p>Thank you for participating!</p><p>In total, you got <b>'+NumPoints+' points</b>, which means you won <b>$'+NumDollars+'</b> in bonus money!<br>Within one week, you will receive your bonus money, plus $1 for your participation.</p><p>Press your SPACEBAR to finish.</p>'
+            return '<p>Thank you for participating!</p><p>In total, you got <b>'+NumPoints+' points</b>, which means you won <b>$'+NumDollars+'</b> in bonus money!<br>Within one week, you will receive your bonus money, plus $1 for your participation.</p><p>To receive payment, enter your Prolific ID in the space below.</p>'
         },
         button_label: ['CLICK HERE TO FINISH'], 
     };
