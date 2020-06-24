@@ -1262,7 +1262,7 @@ var database = firebase.database();
             var TotalJackpots = JackPotTrials.count();
             var TotalPunish = PunishTrials.count();
             var TotalPoints = (TotalJackpots*10) - (TotalPunish*2);         
-            var TotalDollars = (Math.round(TotalEarnings/400)).toFixed(2)         
+            var TotalDollars = (Math.round(TotalPoints/400)).toFixed(2)         
 
             return '<p>Thank you for participating!</p><p>In total, you got <b>'+TotalPoints+' points</b>, which means you won <b>$'+TotalDollars+'</b> in bonus money!<br>Within one week, you will receive your bonus money, plus $5 for your participation.</p><p>To receive payment, enter your email address in the space below. If you with to forgo payment, type NA. <b>After you submit, you will see a blank screen, which indicates that your submission was successful</b>.</p>'
         },
