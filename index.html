@@ -1257,6 +1257,7 @@ var database = firebase.database();
                 var TotalDollars = roundHalf(TotalPoints/400);
                 data.NumJackpots = TotalJackpots;
                 data.NumPunish = TotalPunish;
+                data.NumPoints = TotalPoints;
                 data.NumDollars = TotalDollars;
                 console.log(TotalPoints);
             },
@@ -1273,7 +1274,7 @@ var database = firebase.database();
             required: true}
         ],
         preamble: function(data){      
-            return '<p>Thank you for participating!</p><p>In total, you got <b>'+TotalPoints+' points</b>, which means you won <b>$'+TotalDollars+'</b> in bonus money!<br>Within one week, you will receive your bonus money, plus $5 for your participation.</p><p>To receive payment, enter your email address in the space below. If you with to forgo payment, type NA. <b>After you submit, you will see a blank screen, which indicates that your submission was successful</b>.</p>'
+            return '<p>Thank you for participating!</p><p>In total, you got <b>'+NumPoints+' points</b>, which means you won <b>$'+NumDollars+'</b> in bonus money!<br>Within one week, you will receive your bonus money, plus $5 for your participation.</p><p>To receive payment, enter your email address in the space below. If you with to forgo payment, type NA. <b>After you submit, you will see a blank screen, which indicates that your submission was successful</b>.</p>'
         },
         button_label: ['CLICK HERE TO FINISH'], 
     };
