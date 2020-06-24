@@ -964,7 +964,7 @@ var database = firebase.database();
 
         var P1_3State = {
             timeline: [TaskLoop, Probe, Response_3State, Feedback],
-            repetitions: 50,
+            repetitions: 60,
             timeline_variables: [
                 {prime: '<div class="box" style="background-color:'+R1Color+'"></div>', hit: '<div class="box" style="background-color:'+R1Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'}
             ]
@@ -972,7 +972,7 @@ var database = firebase.database();
 
         var P1_Neutral = {
             timeline: [TaskLoop, Probe, Response_Neutral, Feedback],
-            repetitions: 50,
+            repetitions: 60,
             timeline_variables: [
                 {prime: '<div class="box" style="background-color:'+R1Color+'"></div>', hit: '<div class="box" style="background-color:'+R1Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'}
             ]
@@ -980,7 +980,7 @@ var database = firebase.database();
 
         var P1_Punish = {
             timeline: [TaskLoop, Probe, Response_Punish, Feedback],
-            repetitions: 50,
+            repetitions: 60,
             timeline_variables: [
                 {prime: '<div class="box" style="background-color:'+R1Color+'"></div>', hit: '<div class="box" style="background-color:'+R1Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'}
             ]
@@ -988,7 +988,7 @@ var database = firebase.database();
 
         var P2_3State = {
             timeline: [TaskLoop, Probe, Response_3State, Feedback],
-            repetitions: 50,
+            repetitions: 60,
             timeline_variables: [
                 {prime: '<div class="box" style="background-color:'+R2Color+'"></div>', hit: '<div class="box" style="background-color:'+R2Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'}
             ]
@@ -996,7 +996,7 @@ var database = firebase.database();
 
         var P2_Neutral = {
             timeline: [TaskLoop, Probe, Response_Neutral, Feedback],
-            repetitions: 50,
+            repetitions: 60,
             timeline_variables: [
                 {prime: '<div class="box" style="background-color:'+R2Color+'"></div>', hit: '<div class="box" style="background-color:'+R2Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'}
             ]
@@ -1004,7 +1004,7 @@ var database = firebase.database();
 
         var P2_Punish = {
             timeline: [TaskLoop, Probe, Response_Punish, Feedback],
-            repetitions: 50,
+            repetitions: 60,
             timeline_variables: [
                 {prime: '<div class="box" style="background-color:'+R2Color+'"></div>', hit: '<div class="box" style="background-color:'+R2Color+'; box-shadow: 0px 0px 40px 20px #FFDF00"></div>'}
             ]
@@ -1269,7 +1269,7 @@ var database = firebase.database();
         pages: function(data){
             var NumPoints = jsPsych.data.get().last(1).values()[0].NumPoints;
             var NumDollars = jsPsych.data.get().last(1).values()[0].NumDollars;
-            return '<p>Thank you for participating!</p><p>In total, you got <b>'+NumPoints+' points</b>, which means you won <b>$'+NumDollars+'</b> in bonus money!<br>Within one week, you will receive your bonus money, plus $5 for your participation.</p><p>Press your SPACEBAR to finish.</p>'
+            return ['<p>Thank you for participating!</p><p>In total, you got <b>'+NumPoints+' points</b>, which means you won <b>$'+NumDollars+'</b> in bonus money!<br>Within one week, you will receive your bonus money, plus $1 for your participation.</p><p>Press your SPACEBAR to finish.</p>']
         },
         key_forward: 32,
     };
