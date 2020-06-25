@@ -259,7 +259,7 @@ var database = firebase.database();
         "<div class='parent'>"
         +'<p>The goal of the '+R1Span+' is to win as many "10-point Jackpots" as possible.</p>'
         +"<p>For every 10-point Jackpot you win, you'll receive an extra 10 points. "
-        +"At the end of the study, you'll receive a $5 eGiftcard for your participation, "
+        +"At the end of the study, you'll receive $1.30 for your participation, "
         +'plus additional bonus money depending on how many points you win. Specifically, you will receive an extra $0.25 for every 100 points you win.</p></div>',
         "<div class='parent'>"
         +'<p>To win 10-point Jackpots, you must stop '+R1ColorWord+' tiles from changing color.</p>'
@@ -1276,7 +1276,7 @@ var database = firebase.database();
         preamble: function(data){
             var NumPoints = jsPsych.data.get().last(1).values()[0].NumPoints;
             var NumDollars = jsPsych.data.get().last(1).values()[0].NumDollars;
-            return '<p>Thank you for participating!</p><p>In total, you got <b>'+NumPoints+' points</b>, which means you won <b>$'+NumDollars+'</b> in bonus money!<br>Within one week, you will receive your bonus money, plus $1 for your participation.</p><p>To receive payment, enter your Prolific ID in the space below.</p>'
+            return '<p>Thank you for participating!</p><p>In total, you got <b>'+NumPoints+' points</b>, which means you won <b>$'+NumDollars+'</b> in bonus money!<br>Within one week, you will receive your bonus money, plus $1.30 for your participation.</p><p>To receive payment, enter your Prolific ID in the space below.</p>'
         },
         button_label: ['CLICK HERE TO FINISH'], 
     };
